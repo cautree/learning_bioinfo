@@ -46,3 +46,43 @@ reads_ch = Channel
      .fromPath("bam/*.bam", checkIfExists: true)
 ```
 
+
+
+#### not have enough memory for a process
+```
+Caused by:
+  Process `GLIMPSE_PHASE (SEQW102S013.A11.chr22.01)` terminated with an error exit status (125)
+Command executed:
+
+  while read index input output; do 
+  
+  GLIMPSE_phase  --input SEQW102S013.A11.chr22.01.mpileup  --reference 1000GP.chr22.noNA12878.bcf  --map chr22.b38.gmap.gz  --input-region $input  --output-region $output  --output SEQW102S013.A11.chr22.01_${index}_imputed.bcf  --thread 4
+   
+   done < chunk.txt
+
+Command exit status:
+  125
+
+Command output:
+  (empty)
+
+Command error:
+  docker: Error response from daemon: Range of CPUs is from 0.01 to 6.00, as there are only 6 CPUs available.
+  See 'docker run --help'.
+
+Work dir:
+  /Users/yanyan/Documents/projects/20241008_eremid/imputation/glimpse_1_nextflow/work/5a/f9b9da999c255957a720c8771e18ef
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+```
+
+## solution, change the setting in nextflow.config
+```
+withName: GLIMPSE_CHUNK {
+      memory = '15.0G'
+      cpus = 6
+      container = 'quay.io/biocontainers/glimpse-bio:1.1.1--h0303221_3'
+      } 
+      
+
+```
