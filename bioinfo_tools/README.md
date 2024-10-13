@@ -41,3 +41,21 @@ bcftools index
 bcftools view file.vcf -Oz -o file.vcf.gz
 bcftools index file.vcf.gz
 ```
+
+
+## gatk
+```
+[October 12, 2024 at 11:46:13 PM GMT] org.broadinstitute.hellbender.tools.walkers.validation.Concordance done. Elapsed time: 0.01 minutes.
+Runtime.totalMemory()=98566144
+***********************************************************************
+
+A USER ERROR has occurred: Cannot read file:///Users/yanyan/Documents/projects/20241008_eremid/imputation/glimpse_1_nextflow/glimpse_sample_out/115M_zac_E02.chr22.01_sampled.bcf because no suitable codecs found
+
+***********************************************************************
+
+```
+
+## correction: change bcf files to vcf
+```
+bcftools view sample.bcf > sample.vcf
+```
