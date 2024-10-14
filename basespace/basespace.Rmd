@@ -1,0 +1,33 @@
+
+##delelte_failed
+
+```
+#bs list runs --filter-field Status --filter-term "Failed" --format 'csv'
+
+bs list runs --filter-field Status --filter-term "Failed" --terse \
+| xargs -n1 bs delete run --id 
+bs list runs --filter-field Status --filter-term "Stopped" --terse \
+| xargs -n1 bs delete run --id
+bs list runs --filter-field Status --filter-term "Stopped" --terse \
+| xargs -n1 bs delete run --id
+
+```
+
+
+##delete_by_date
+```
+#https://developer.basespace.illumina.com/docs/content/documentation/cli/cli-examples#Advancedfiltering
+days=95d
+bs list runs --older-than=$days --terse | xargs -n1 bs delete run --id
+     
+bs list projects --older-than=${days} --terse |  xargs -n1 bs delete project --id
+
+```
+
+
+## delete by name
+```
+service_run_samplesheet="../monthly_automate/samplesheet/samplesheet.txt"
+cat $service_run_samplesheet | xargs -n1 bs delete run --name
+
+```
