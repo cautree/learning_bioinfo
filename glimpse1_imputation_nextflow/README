@@ -1,0 +1,2 @@
+run mpileup.nf first
+then run glimpse_phase_ligate_sample.nf
