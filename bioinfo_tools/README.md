@@ -76,3 +76,11 @@ bcftools reheader -s ${sample_id}.txt -o  bcf_w_sample_id/${sample_id}.bcf  samp
 done < file
 
 ```
+
+
+
+##subset chromosome from vcf files
+```
+bcftools view HG001_GRCh38_1_22_v4.2.1_benchmark.vcf.gz --regions chr22  -Oz > test.vcf.gz
+
+```
