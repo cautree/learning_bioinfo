@@ -84,3 +84,18 @@ done < file
 bcftools view HG001_GRCh38_1_22_v4.2.1_benchmark.vcf.gz --regions chr22  -Oz > test.vcf.gz
 
 ```
+
+
+##bcf file view, once find the file was empty!!
+```
+bcffile=~/Documents/projects/20241008_eremid/imputation/glimpse_1_nextflow_working_retry/glimpse_ligate_out/221017-purePlex24-A10.chr22_merge.bcf
+bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%ID]\n' $bcffile -o output.txt
+
+
+truth=../truth_vcf/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz
+bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%ID]\n' $truth -o truth_output.txt
+
+
+bcftools view $truth
+
+```
