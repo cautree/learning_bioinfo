@@ -7,6 +7,9 @@ samtools view -s 0.01 -bh  SEQW102S013.H11.bam > SEQW102S013.H11.01.bam
 
 ## get sepcific chromosome from bam files
 ```
+ls | parallel 'samtools index {}'
+ls | grep -v bai | sed 's|.md.bam||' | parallel ' samtools view -b {}.md.bam > {}.chr22.bam'
+
 samtools view -b input.bam chr22 >output.bam
 ```
 
