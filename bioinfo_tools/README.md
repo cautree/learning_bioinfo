@@ -59,3 +59,17 @@ A USER ERROR has occurred: Cannot read file:///Users/yanyan/Documents/projects/2
 ```
 bcftools view sample.bcf > sample.vcf
 ```
+
+
+## give bcf file names
+
+```
+ls sampled_bcf > file
+while read line; do
+sample_id=$(basename $line .bcf ) 
+echo $sample_id > ${sample_id}.txt
+bcftools reheader -s ${sample_id}.txt -o  bcf_w_sample_id/${sample_id}.bcf  sampled_bcf/$line
+
+done < file
+
+```
