@@ -99,3 +99,14 @@ bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%ID]\n' $truth -o truth_output.txt
 bcftools view $truth
 
 ```
+
+
+## filter the vcf files and keep the sites that has snps
+```
+bcftools view -c 1 -v snps 221017-purePlex24-F10.chr22_sampled.vcf.gz | grep -v "^#" | cut -f2 | sort -u | wc -l
+44635
+
+bcftools view -c 1 -v snps 221017-purePlex24-F10.chr22_sampled.vcf.gz  > 221017-purePlex24-F10.chr22_sampled.c1.vcf.gz
+44635
+
+```
