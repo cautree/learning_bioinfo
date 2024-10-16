@@ -86,3 +86,25 @@ withName: GLIMPSE_CHUNK {
       
 
 ```
+
+## complain fusion in batch run
+```
+WARN: Local executor only supports default file system (unless Fusion is enabled) -- Check work directory: s3://seqwell-dev/work/eremid_pacbio_20241008/hg38_40k/work
+Uploading local `bin` scripts folder to s3://seqwell-dev/work/eremid_pacbio_20241008/hg38_40k/work/tmp/8c/95ffb315357ccc69dde201aa2e403d/bin
+Error executing process > 'downsample (7)'
+
+Caused by:
+  java.lang.UnsupportedOperationException
+
+
+
+WARN: There's no process matching config selector: MULTIQC
+
+```
+
+
+## solution
+```
+add the downsample docker image to the nextflow.config file
+
+```
