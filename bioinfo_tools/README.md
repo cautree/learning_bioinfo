@@ -115,4 +115,6 @@ bcftools view -c 1 -v snps 221017-purePlex24-F10.chr22_sampled.vcf.gz  > 221017-
 ##snpsift environ
 ```
 mamba activate myenvname
+
+snpeff is in ec2 instance deepvar env
 ```
