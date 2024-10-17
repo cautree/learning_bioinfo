@@ -95,3 +95,9 @@ When the container starts up, I will conveniently be in my current directory.
 ##inside nextflow_and_docker folder
 docker run --rm -it -u $(stat -f "%u:%g" ${HOME}) -v $(pwd):$(pwd) -w $(pwd) davetang/bwa:0.7.17 bwa index data/pUC19_2.fa
 ```
+
+
+##snpeff
+```
+java -Xmx40G -jar  /home/ec2-user/software/snpEff/snpEff.jar -v  GRCh38.86 221017-purePlex24-F10.chr22_sampled.vcf > test.chr22.ann.vcf
+```
