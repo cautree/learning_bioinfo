@@ -31,3 +31,10 @@ service_run_samplesheet="../monthly_automate/samplesheet/samplesheet.txt"
 cat $service_run_samplesheet | xargs -n1 bs delete run --name
 
 ```
+
+
+## list the most recent 10 runs
+```
+bs list runs | tail -n 10 | cut -d "|" -f4 | grep -v "+" | tac -  | tr -d " "
+
+```
