@@ -101,3 +101,4 @@ docker run --rm -it -u $(stat -f "%u:%g" ${HOME}) -v $(pwd):$(pwd) -w $(pwd) dav
 ```
 java -Xmx40G -jar  /home/ec2-user/software/snpEff/snpEff.jar -v  GRCh38.86 221017-purePlex24-F10.chr22_sampled.vcf > test.chr22.ann.vcf
 ```
+
