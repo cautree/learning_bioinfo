@@ -108,3 +108,36 @@ WARN: There's no process matching config selector: MULTIQC
 add the downsample docker image to the nextflow.config file
 
 ```
+
+
+
+#### when change from local to aws batch
+
+```
+Oct-21 16:48:21.574 [PathVisitor-1] DEBUG nextflow.file.FileHelper - AWS S3 config details: {secret_key=5WgiGB.., region=us-east-1, max_error_retry=5, access_key=AKIAXO..}
+Oct-21 16:48:21.711 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:downsample` matches process downsample
+Oct-21 16:48:21.713 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: awsbatch
+Oct-21 16:48:21.713 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'awsbatch'
+Oct-21 16:48:21.715 [main] DEBUG nextflow.Session - Session aborted -- Cause: Unknown executor name: awsbatch
+Oct-21 16:48:21.743 [main] DEBUG nextflow.Session - The following nodes are still active:
+  [operator] collect
+  [operator] take
+  [operator] map
+  [operator] into
+  [operator] view
+
+Oct-21 16:48:21.756 [main] ERROR nextflow.cli.Launcher - Unknown executor name: awsbatch
+java.lang.IllegalArgumentException: Unknown executor name: awsbatch
+        at nextflow.executor.ExecutorFactory.getExecutorClass(ExecutorFactory.groovy:143)
+        at nextflow.executor.ExecutorFactory.getExecutor(ExecutorFactory.groovy:187)
+        at nextflow.script.ProcessFactory.createProcessor(ProcessFactory.groovy:104)
+        at nextflow.script.ProcessFactory$createProcessor.call(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:148)
+
+```
+
+### solution
+the work directory for awsbatch should be an s3 bucket
+
