@@ -9,8 +9,8 @@ refs = "ref/" + params.ref
 
 
 bam_ch = Channel
-        .fromPath("bam/*.md.bam")
-        .map{ it -> tuple(   it.baseName.tokenize(".")[0], it.baseName.tokenize(".")[1..2].join("."),  it)}
+        .fromPath("bam/*.bam")
+        .map{ it -> tuple(   it.baseName.tokenize(".")[2], it.baseName.tokenize(".")[0..2].join("."),  it)}
 
 
 
@@ -92,7 +92,7 @@ tuple val(ref_name), val(sample_id), path(sample_mdbam)
 
 
 output:
-path("*.md.bam.bai")
+path("*.bam.bai")
 
 """
 samtools index ${sample_mdbam}
@@ -136,7 +136,7 @@ ref_ch = Channel
 
         
 bam_indx_ch = index_mdbam(bam_ch)
-        .map{ it -> tuple(   it.baseName.tokenize(".")[0], it.baseName.tokenize(".")[1..2].join("."),  it)}
+        .map{ it -> tuple(   it.baseName.tokenize(".")[2], it.baseName.tokenize(".")[0..2].join("."),  it)}
 
 
 
