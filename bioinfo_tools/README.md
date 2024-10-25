@@ -79,14 +79,16 @@ done < file
 
 
 
-##subset chromosome from vcf files
+## subset chromosome from vcf files
 ```
 bcftools view HG001_GRCh38_1_22_v4.2.1_benchmark.vcf.gz --regions chr22  -Oz > test.vcf.gz
 
+
+
 ```
 
 
-##bcf file view, once find the file was empty!!
+## bcf file view, once find the file was empty!!
 ```
 bcffile=~/Documents/projects/20241008_eremid/imputation/glimpse_1_nextflow_working_retry/glimpse_ligate_out/221017-purePlex24-A10.chr22_merge.bcf
 bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%ID]\n' $bcffile -o output.txt
@@ -108,6 +110,15 @@ bcftools view -c 1 -v snps 221017-purePlex24-F10.chr22_sampled.vcf.gz | grep -v 
 
 bcftools view -c 1 -v snps 221017-purePlex24-F10.chr22_sampled.vcf.gz  > 221017-purePlex24-F10.chr22_sampled.c1.vcf.gz
 44635
+
+
+
+
+
+ls | grep .bcf | grep -v csi | sed 's|.bcf||g' | parallel 'bcftools view  {}.bcf > {}.vcf'
+ls | grep .vcf|   sed 's|.vcf||g' | parallel 'bcftools view  -c 1 -v snps {}.vcf > {}.c1.vcf'
+
+ls | grep .c1.vcf | sed 's|.c1.vcf||g'| parallel 'bcftools sort -Oz {}.c1.vcf -o {}.c1.sorted.vcf.gz'
 
 ```
 
