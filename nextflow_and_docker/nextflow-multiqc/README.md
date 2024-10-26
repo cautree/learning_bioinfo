@@ -20,4 +20,7 @@ m5.xlarge, m5.2xlarge
 
 for 223G bam file, 
 wgs metrics collection uses 30 min with m5.2xlarge, can not use m5.xlarge, it will break due to lack of enough memory
-mos depth use 55min with m5.2xlarge, 
+mos depth use 55min with m5.2xlarge
+
+
+collect multiple metrics m5.2xlarge, 3 hours
