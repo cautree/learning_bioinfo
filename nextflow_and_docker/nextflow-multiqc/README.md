@@ -23,4 +23,4 @@ wgs metrics collection uses 30 min with m5.2xlarge, can not use m5.xlarge, it wi
 mos depth use 55min with m5.2xlarge
 
 
-collect multiple metrics m5.2xlarge, 3 hours
+collect multiple metrics m5.2xlarge, 4 hours
