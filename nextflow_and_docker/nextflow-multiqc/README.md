@@ -7,6 +7,7 @@ largest one end reads size 82.3G
 after alignment,  BAM file is 223G
 markduplicates need RAM as big as the BAM file
 markduplates aws using m5a.16xlarge, and run for 5 hours
+m5a.16xlarge has 256G memory
 
 
 ##computer enviroment change
