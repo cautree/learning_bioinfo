@@ -1,0 +1,66 @@
+
+
+```{r}
+
+library(dplyr)
+
+```
+
+total positions  929834
+
+##
+```{r}
+
+list.files("../concordance_out", pattern = "^(A||D|E|F|G|H)11")
+
+df = readr::read_tsv( "../concordance_out/A11_HG001_NA12878_summary.tsv")
+df
+
+read_data = function(x){
+  
+  df = readr::read_tsv(x)
+  df = df %>% 
+    dplyr::filter( type == "SNP") %>% 
+    dplyr::mutate( TN = 929834 -TP - FP - FN) %>% 
+    dplyr::mutate( accuracy = round(100*(TP+TN)/929834 ,2) ) %>% 
+    dplyr::mutate( sample_id = stringr::str_extract_all(x, "[A-H][0-9]{2}_HG00[1-9]_NA[0-9]{5}")) %>% 
+    dplyr::mutate( sample_id = as.character(sample_id)) %>% 
+    dplyr::select( sample_id, everything())
+   
+  return(df)
+}
+
+file_list = list.files("../concordance_out", pattern = "^(A||D|E|F|G|H)11", full.names = T)
+
+pacbio = purrr::map_df( file_list, read_data)
+readr::write_csv( pacbio, "pacbio_snp_accuracy.csv")
+
+```
+
+
+
+##
+```{r}
+
+list.files("../concordance_out", pattern = "PP")
+
+
+read_data = function(x){
+  
+  df = readr::read_tsv(x)
+  df = df %>% 
+    dplyr::filter( type == "SNP") %>% 
+    dplyr::mutate( TN = 929834 -TP - FP - FN) %>% 
+    dplyr::mutate( accuracy = round(100*(TP+TN)/929834 ,2) ) %>% 
+    dplyr::mutate( sample_id = stringr::str_extract_all(x, "PP_[A-H][0-9]{2}_HG00[1-9]_NA[0-9]{5}")) %>% 
+    dplyr::mutate( sample_id = as.character(sample_id)) %>% 
+    dplyr::select( sample_id, everything())
+  return(df)
+}
+
+file_list = list.files("../concordance_out", pattern = "PP", full.names = T)
+
+illumina = purrr::map_df( file_list, read_data)
+readr::write_csv( illumina, "illumina_snp_accuracy.csv")
+
+```
