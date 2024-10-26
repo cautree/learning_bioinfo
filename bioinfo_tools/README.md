@@ -120,6 +120,8 @@ ls | grep .vcf|   sed 's|.vcf||g' | parallel 'bcftools view  -c 1 -v snps {}.vcf
 
 ls | grep .c1.vcf | sed 's|.c1.vcf||g'| parallel 'bcftools sort -Oz {}.c1.vcf -o {}.c1.sorted.vcf.gz'
 
+ls | grep gz | paralle "tabix -f -p vcf {}"
+
 ```
 
 
