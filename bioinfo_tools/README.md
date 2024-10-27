@@ -116,6 +116,7 @@ bcftools view -c 1 -v snps 221017-purePlex24-F10.chr22_sampled.vcf.gz  > 221017-
 
 
 ls | grep .bcf | grep -v csi | sed 's|.bcf||g' | parallel 'bcftools view  {}.bcf > {}.vcf'
+#https://www.biostars.org/p/224919/
 ls | grep .vcf|   sed 's|.vcf||g' | parallel 'bcftools view  -c 1 -v snps {}.vcf > {}.c1.vcf'
 
 ls | grep .c1.vcf | sed 's|.c1.vcf||g'| parallel 'bcftools sort -Oz {}.c1.vcf -o {}.c1.sorted.vcf.gz'
