@@ -28,3 +28,21 @@ bedtools jaccard -a $sample1a -b $sample2a
 ### https://www.reddit.com/r/bioinformatics/comments/5jqqsj/comparing_variants_from_two_vcfs/
 ### https://davetang.org/muse/2019/09/02/comparing-vcf-files/
 
+
+bcftools isec $sample1a $sample2a -p isec
+
+# no private variants for sample1a
+cat isec/0000.vcf | grep -v "^#" | wc -l
+8031
+ 
+# no private variants for sample2a
+cat isec/0001.vcf | grep -v "^#" | wc -l
+4194
+ 
+# shared variants by both
+cat isec/0002.vcf | grep -v "^#" | wc -l
+37488
+ 
+# shared variants by both
+cat isec/0003.vcf | grep -v "^#" | wc -l
+37488
