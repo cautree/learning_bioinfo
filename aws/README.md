@@ -23,3 +23,10 @@ mkdir ~/.ssh
 cp somebody.pem ~/.ssh
 chmod 400 ~/.ssh/somebody.pem
 ```
+
+
+## download only data ends with txt
+```
+aws s3 cp s3://seqwell-projects/Azenta_20241023/fulcrum/  . --exclude="*"  --include="*/*.txt" --recursive
+
+```
