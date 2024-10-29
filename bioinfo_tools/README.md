@@ -126,9 +126,18 @@ ls | grep gz | parallel "tabix -f -p vcf {}"
 ```
 
 
-##snpsift environ
+## snpsift environ
 ```
 mamba activate myenvname
 
 snpeff is in ec2 instance deepvar env
+```
+
+
+## get reads based on the name list
+```
+cat problematic_reads_readname.txt | grep -v readname | sed 's|@||g'  > clean_problematic_reads_readname.txt
+
+samtools view -N  clean_problematic_reads_readname.txt -o problem_subsample_bc1001.hifi.bam subsample_bc1001.hifi.bam
+
 ```
