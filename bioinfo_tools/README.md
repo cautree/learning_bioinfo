@@ -141,3 +141,9 @@ cat problematic_reads_readname.txt | grep -v readname | sed 's|@||g'  > clean_pr
 samtools view -N  clean_problematic_reads_readname.txt -o problem_subsample_bc1001.hifi.bam subsample_bc1001.hifi.bam
 
 ```
+
+## remove a list of reads
+```
+#https://www.biostars.org/p/172737/
+samtools view -h subsample_bc1001.hifi.bam | grep -vf clean_problematic_reads_readname.txt | samtools view -bS -o filtered_subsample_bc1001.hifi.bam -
+```
