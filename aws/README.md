@@ -22,6 +22,8 @@ aws configure
 mkdir ~/.ssh
 cp somebody.pem ~/.ssh
 chmod 400 ~/.ssh/somebody.pem
+#400 permission means owner has read access. 
+#600 means, that the owner has read + write access.
 ```
 
 
