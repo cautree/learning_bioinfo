@@ -1,0 +1,25 @@
+s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/
+
+aws s3 ls s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/ | grep fastq.gz | grep -v md5 | awk '{$1=$1}1' OFS="," | cut -f 4 -d "," > file
+
+cat file | cut -d. -f1 | uniq > sample_ID
+
+
+while read line; do
+
+echo s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/${line} >> path
+
+done < file
+
+
+cat path | grep R1 > R1 
+cat path | grep R2 > R2
+
+paste sample_ID  R1  R2  | tr '\t', ',' > Azenta_20241023_trim75_temp.csv
+
+echo "sample_id,fastq_1,fastq_2" > head
+cat head Azenta_20241023_trim75_temp.csv > Azenta_20241023_trim75.csv
+
+rm file path R1 R2 sample_ID *temp* head
+
+

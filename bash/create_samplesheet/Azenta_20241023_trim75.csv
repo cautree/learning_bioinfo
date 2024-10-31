@@ -1,0 +1,5 @@
+sample_id,fastq_1,fastq_2
+IDP-E01,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/IDP-E01.trimmed.R1.fastq.gz,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/IDP-E01.trimmed.R2.fastq.gz
+IDP-F01,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/IDP-F01.trimmed.R1.fastq.gz,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/IDP-F01.trimmed.R2.fastq.gz
+TnX-G02,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/TnX-G02.trimmed.R1.fastq.gz,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/TnX-G02.trimmed.R2.fastq.gz
+TnX-H02,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/TnX-H02.trimmed.R1.fastq.gz,s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/TnX-H02.trimmed.R2.fastq.gz
