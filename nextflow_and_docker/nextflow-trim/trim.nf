@@ -4,7 +4,7 @@ process trim_reads {
 
 container "quay.io/biocontainers/trimmomatic:0.36--3"
 
-publishDir path: "s3://seqwell-projects/Azenta_20240814/fulcrum_75bp/fastq/"
+publishDir path: "s3://seqwell-projects/Azenta_20241023/fulcrum_75bp/fastq/"
 
 input:
 
@@ -27,7 +27,7 @@ trimmomatic PE -threads 12 $fastq1 $fastq2  \
 
 
 workflow {
-params.fastq_path="s3://seqwell-fastq/20210510_MiSeq-Appa/ARTIC-8-20210510_FASTQ/" 
+params.fastq_path="fastq/" 
 fq = Channel
      .fromFilePairs(params.fastq_path + "*_R{1,2}_001.fastq.gz", flat: true)
      
