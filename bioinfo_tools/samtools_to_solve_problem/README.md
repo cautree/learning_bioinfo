@@ -32,4 +32,17 @@ https://timd.one/blog/genomics/cigar.php
 m84092_240608_002438_s3/213847574/ccs   4       *       0       255     *       *       0       0       GATCTACACCAAGGACATTTCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCGATAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGGGATAAACCTCAATTTCAGGGTGAAACGTTTATCCACAATCTCAAAAAAGTAGATAAGCTGAAAGCAGTAGCGGAGGAAAAACAAGCGGATACGGCACATGTCGCCTTGGCGTGGCTGTTAACGAGACCGGCGATTGATGCCATTATTCCAGGAGCTAAACGACCGGAGCAATTACAGGATAACCTGAAAACCTTGAACATTGAACTGACCGAAGATGAAGTGAATTTCATCAGCGACAT
 
 
- 
+ samtools fixmate – fills in mate coordinates and insert size fields.
+ ```
+samtools fixmate \\
+        -@ ${task.cpus} \\
+        -O BAM \\
+        -m \\
+        in.bam \\
+        out.bam"
+
+#-r option
+#-r           Remove unmapped reads and secondary alignments
+
+
+ ```
