@@ -14,9 +14,13 @@ rm Miniconda3-latest-Linux-x86_64.sh
 ##verify it is successful
 
 ./miniconda/bin/aws --version
+./miniconda/bin/aws configure 
 ```
 5.Under the Instances menu in the EC2 console select your relevant instance and click Actions, 
 then Images and Templates, then Create Imag.
 Give your new image a name e.g. nextflow-30GiB-ecs-ami and click Create image
 6)ake note of the AMI ID (not the name) that you just generated as you will need this later
 ami-0f8cf0d083b1831ce
+
+
+6 in the computing env, also have to use the correct credentials
