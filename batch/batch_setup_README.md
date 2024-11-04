@@ -1,7 +1,7 @@
 https://lpembleton.rbind.io/posts/nextflow-on-aws-batch/
 1) create a new user 
 2) user name "Nextflow-access", give admin access
-3) create instance in AWS Marketplace AMIs: amzn2-ami-ecs-hvm-2.0.20241023-x86_64-ebs
+3) create instance in AWS Marketplace AMIs: amzn2-ami-ecs-hvm-2.0.20241023-x86_64-ebs, the login credential should be the the same as the user
 4) launch instance, and install aws cli
 ```
 cd $HOME
