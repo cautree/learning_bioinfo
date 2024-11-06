@@ -16,3 +16,22 @@ pbcopy < ~/.ssh/id_ed25519.pub
 
 ## need to use authentication token, not passwd
 https://stackoverflow.com/questions/68775869/message-support-for-password-authentication-was-removed
+
+
+## clone a repo and contribute to it from aother branch
+```
+
+git clone git@gitlab.com:seqwell/nextflow-demux.git
+
+cd nextflow-demux
+
+
+git branch 'dev-2024'
+git checkout 'dev-2024'
+git status
+git add .
+git commit -m 'from dev-2024'
+
+git push --set-upstream origin 'dev-2024'
+
+```
