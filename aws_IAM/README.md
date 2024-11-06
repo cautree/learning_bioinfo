@@ -68,3 +68,10 @@
 
 
 ```
+
+
+## IAM roles
+
+every IAM roles have an assigned ID, if same IAM is recreated, the previous env will not work, need to update that info.
+
+when creating a new IAM roles, make sure if no such role exist, otherwise, the previous one will be covered by the new one. 
