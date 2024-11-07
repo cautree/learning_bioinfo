@@ -20,6 +20,7 @@ https://stackoverflow.com/questions/68775869/message-support-for-password-authen
 
 ## clone a repo and contribute to it from aother branch
 ```
+https://medium.com/@akshaysen/clone-a-repository-create-a-branch-and-pull-new-changes-1bd732a812fb
 
 git clone git@gitlab.com:seqwell/nextflow-demux.git
 
