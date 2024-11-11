@@ -18,3 +18,11 @@ poetry new phone-number-validator
 
 ## Understanding the pyproject.toml File
 
+## How to Create a New Virtual Environment
+
+```
+poetry env use /Users/yanyan/anaconda3/bin/python3
+
+```
+
+## How to Configure Project Dependencies
