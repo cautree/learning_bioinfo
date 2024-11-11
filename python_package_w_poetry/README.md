@@ -6,3 +6,15 @@ To get started you need Poetry's bin directory (/Users/yanyan/.local/bin) in you
 environment variable.
 
 Add `export PATH="/Users/yanyan/.local/bin:$PATH"` to your shell configuration file. (.zprofile)
+
+poetry --version
+
+## how to create a new project
+```
+
+poetry new phone-number-validator
+```
+
+
+## Understanding the pyproject.toml File
+
