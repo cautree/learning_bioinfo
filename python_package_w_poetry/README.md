@@ -26,3 +26,6 @@ poetry env use /Users/yanyan/anaconda3/bin/python3
 ```
 
 ## How to Configure Project Dependencies
+
+
+## The poetry.lock file
