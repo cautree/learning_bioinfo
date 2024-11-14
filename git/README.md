@@ -38,3 +38,10 @@ git commit -m 'from dev-2024'
 git push --set-upstream origin 'dev-2024'
 
 ```
+
+
+## git hub having a new release
+```
+https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+
+```
