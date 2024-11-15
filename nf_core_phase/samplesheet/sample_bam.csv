@@ -1,0 +1,9 @@
+sample,file,index
+SEQW102S013A11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.A11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.A11.chr22.bam.bai
+SEQW102S013B11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.B11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.B11.chr22.bam.bai
+SEQW102S013C11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.C11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.C11.chr22.bam.bai
+SEQW102S013D11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.D11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.D11.chr22.bam.bai
+SEQW102S013E11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.E11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.E11.chr22.bam.bai
+SEQW102S013F11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.F11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.F11.chr22.bam.bai
+SEQW102S013G11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.G11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.G11.chr22.bam.bai
+SEQW102S013H11chr22,/home/ec2-user/test_nf_impute/bam/SEQW102S013.H11.chr22.bam,/home/ec2-user/test_nf_impute/bam/SEQW102S013.H11.chr22.bam.bai
