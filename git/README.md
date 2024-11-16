@@ -7,6 +7,7 @@ git config --global user.email "aaa@gmail.com"
 git config --global color.ui true
 
 ssh-keygen -t ed25519 -C "aaas@gmail.com"
+
 ```
 
 
