@@ -16,6 +16,17 @@ Your public key has been saved in /Users/yanyan/.ssh/id_ed25519.pub
 pbcopy < ~/.ssh/id_ed25519.pub
 add the ssh key to gitlab or github
 
+## After you've set up your SSH key and added it to GitHub, you can test your connection.
+```
+ssh -T git@github.com
+sh-add -l -E sha256
+
+# trouble shoot
+# https://github.com/orgs/community/discussions/33982
+# https://gist.github.com/bsara/5c4d90db3016814a3d2fe38d314f9c23
+
+```
+
 ## need to use authentication token, not passwd
 https://stackoverflow.com/questions/68775869/message-support-for-password-authentication-was-removed
 
