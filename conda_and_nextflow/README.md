@@ -1,0 +1,1 @@
+https://www.solshenker.com/packaging-conda-environments-for-nextflow-and-aws-batch/
