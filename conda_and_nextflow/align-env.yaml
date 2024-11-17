@@ -1,0 +1,8 @@
+name: my-env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - star=2.5.4a
+  - bwa=0.7.15
