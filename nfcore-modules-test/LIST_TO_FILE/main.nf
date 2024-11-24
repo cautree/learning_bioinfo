@@ -40,6 +40,8 @@ process LIST_TO_FILE {
 
 workflow {
 
+    
+
 input_ch = Channel.of([
                     [id: "all"],
                     [file("file1.txt"), file("file2.txt")],
