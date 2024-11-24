@@ -1,0 +1,2 @@
+file2.txt B
+file1.txt A
