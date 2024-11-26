@@ -70,3 +70,8 @@ awk 'BEGIN { OFS = "\t" } { $1 = $1; print }' a.txt
 awk 'BEGIN { FS = "  "; OFS = "\t" } { $1=$1; gsub(/\t/, "\t"); print }' data_file
 
 ```
+
+## remove all punctuation
+```
+awk  'gsub(/[^a-zA-Z0-9_ \t]/, " ", $0)'  punc.txt
+```
