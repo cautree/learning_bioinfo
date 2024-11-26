@@ -64,3 +64,9 @@ rm ${ find . -name '*.class'}
 awk 'BEGIN { OFS = "\t" } { $1 = $1; print }' a.txt
 
 ```
+
+## use gsub in awk to squash the tabs
+```
+awk 'BEGIN { FS = "  "; OFS = "\t" } { $1=$1; gsub(/\t/, "\t"); print }' data_file
+
+```
