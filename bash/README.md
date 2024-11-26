@@ -34,3 +34,27 @@ ls | grep gz | parallel 'zcat <{} | wc -l ' > line_count
 cat line_count | tr -d ' ' | awk '{print $1/4}' > read_count
 awk '{s+=$1} END {print s}' read_count
 ```
+
+
+## standard out and standard error together
+```
+both >& outfile
+```
+
+### skipping a header in a file
+```
+tail +2 file
+```
+
+
+### throw output away
+```
+noisy >/dev/null  2>&1
+
+```
+
+## rm can not take standard input, only take its filename as argument
+```
+rm ${ find . -name '*.class'}
+
+```
