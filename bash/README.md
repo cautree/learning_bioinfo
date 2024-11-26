@@ -58,3 +58,9 @@ noisy >/dev/null  2>&1
 rm ${ find . -name '*.class'}
 
 ```
+
+## $1=$1 trick, make FS same as OFS
+```
+awk 'BEGIN { OFS = "\t" } { $1 = $1; print }' a.txt
+
+```
