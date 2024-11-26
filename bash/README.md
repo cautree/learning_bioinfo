@@ -75,3 +75,10 @@ awk 'BEGIN { FS = "  "; OFS = "\t" } { $1=$1; gsub(/\t/, "\t"); print }' data_fi
 ```
 awk  'gsub(/[^a-zA-Z0-9_ \t]/, " ", $0)'  punc.txt
 ```
+
+
+## remove whitespace and also speciciy input seperator as space
+```
+awk '{ $1=$1; print }'   white_space
+
+```
