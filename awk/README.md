@@ -22,3 +22,10 @@ tail -n +$HEADER_START $input |  tr ',' '\t' | awk -v id=$id 'NR==1{$(NF+1)="ID"
 echo "12|23|11" | awk '{split($0,a,"|"); print a[3],a[2],a[1]}'
 
 ```
+
+
+## awk print with decimal places
+```
+awk '{sum+=$1}  END {print sum} '  mtcars.txt
+awk '{s+=$1} END {printf "%.3f", s}' mtcars.txt
+```
