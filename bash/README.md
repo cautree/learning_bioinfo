@@ -82,3 +82,13 @@ awk  'gsub(/[^a-zA-Z0-9_ \t]/, " ", $0)'  punc.txt
 awk '{ $1=$1; print }'   white_space
 
 ```
+
+## test $1=$1 on csv files, the trick will not work, but there are some effects
+```
+#awk -v OFS="," '{$1=S1}' mtcars.csv
+awk -F,  '{$1=S1; print $0}' mtcars.csv  #outfile is seperated by empty space
+# awk -F,  '{ print $0}  END {print $NF}' mtcars.csv  # there are only 2 fields?
+# awk -F, -v OFS="\t" '{ print $0} END {print $NF}' mtcars.csv # there are only 2 fields?
+
+awk -F, -v OFS="\t" '{$1=S1; print $0}' mtcars.csv
+```
