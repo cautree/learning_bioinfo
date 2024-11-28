@@ -111,3 +111,11 @@ grep -x "boo" a_file
 
 
 ```
+
+
+##
+-A allows you to specify additional lines of context file, 
+so you get the search string plus a number of additional lines, 
+```
+grep -A2 "mach" a_file
+```
