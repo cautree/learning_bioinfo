@@ -102,3 +102,12 @@ tail -n 2 mtcars.csv | wc -l   #2
 tail -n -2 mtcars.csv | wc -l   #2
 tail -2 mtcars.csv | wc -l   #2
 ```
+
+
+## grep 
+```
+#eXact match
+grep -x "boo" a_file
+
+
+```
