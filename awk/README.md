@@ -29,3 +29,9 @@ echo "12|23|11" | awk '{split($0,a,"|"); print a[3],a[2],a[1]}'
 awk '{sum+=$1}  END {print sum} '  mtcars.txt
 awk '{s+=$1} END {printf "%.3f\n", s}' mtcars.txt
 ```
+
+
+##
+```
+cat file.txt | awk 'BEGIN {sum=0} {sum=sum+$5} END {print sum}'
+```

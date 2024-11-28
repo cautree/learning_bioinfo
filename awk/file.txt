@@ -1,0 +1,7 @@
+-rw------- 1 mijp1 mijp1 12817 Oct 22 00:13 normal_rand.agr
+-rw------- 1 mijp1 mijp1  6948 Oct 22 00:17 random_numbers.f90
+-rw------- 1 mijp1 mijp1 470428 Oct 21 11:56 uniform_rand_231.agr
+-rw------- 1 mijp1 mijp1 385482 Oct 21 11:54 uniform_rand_232.agr
+-rw------- 1 mijp1 mijp1 289936 Oct 21 11:59 uniform_rand_period_1.agr
+-rw------- 1 mijp1 mijp1 255510 Oct 21 12:07 uniform_rand_period_2.agr
+-rw------- 1 mijp1 mijp1 376196 Oct 21 12:07 uniform_rand_period_3.agr
