@@ -99,5 +99,6 @@ awk -F, -v OFS="\t" '{$1=S1; print $0}' mtcars.csv
 cat mtcars.csv | wc -l         #33
 tail -n +2 mtcars.csv | wc -l  #32
 tail -n 2 mtcars.csv | wc -l   #2
-
+tail -n -2 mtcars.csv | wc -l   #2
+tail -2 mtcars.csv | wc -l   #2
 ```
