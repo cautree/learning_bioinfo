@@ -119,3 +119,12 @@ so you get the search string plus a number of additional lines,
 ```
 grep -A2 "mach" a_file
 ```
+
+
+## use regular expression in grep, these three are the same
+```
+grep -E "boots?" a_file
+grep -E "boot|boots" a_file
+grep -E "(boot|boots)" a_file
+
+```
