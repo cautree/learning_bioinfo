@@ -128,3 +128,9 @@ grep -E "boot|boots" a_file
 grep -E "(boot|boots)" a_file
 
 ```
+
+
+## grep special characters
+```
+grep '\$' a_file
+```
