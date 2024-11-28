@@ -31,7 +31,8 @@ awk '{s+=$1} END {printf "%.3f\n", s}' mtcars.txt
 ```
 
 
-##
+## get a sum for a column, notice there is no punctuation in btw {}
 ```
 cat file.txt | awk 'BEGIN {sum=0} {sum=sum+$5} END {print sum}'
+cat file.txt | awk 'BEGIN {sum=0} {sum+=$5} END {print sum}'
 ```
