@@ -92,3 +92,12 @@ awk -F,  '{$1=S1; print $0}' mtcars.csv  #outfile is seperated by empty space
 
 awk -F, -v OFS="\t" '{$1=S1; print $0}' mtcars.csv
 ```
+
+
+## tail to exclude the first row
+```
+cat mtcars.csv | wc -l         #33
+tail -n +2 mtcars.csv | wc -l  #32
+tail -n 2 mtcars.csv | wc -l   #2
+
+```
