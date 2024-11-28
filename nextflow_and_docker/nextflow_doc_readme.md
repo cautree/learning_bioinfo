@@ -18,3 +18,5 @@ process {
 
 ## channel.fromPath 
 channel.fromPath does not check whether the file exists
+when there are multiple path
+channel.fromPath( ['/some/path/*.fq', '/other/path/*.fastq'] )
