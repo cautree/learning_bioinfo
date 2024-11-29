@@ -49,3 +49,9 @@ cat file.txt | awk '{for (i=1;i<3;i++) {getline}; print NR,$0}'
 #7 -rw------- 1 mijp1 mijp1 376196 Oct 21 12:07 uniform_rand_period_3.agr
 
 ```
+
+## print 5 to 10
+```
+awk ’NR == 5, NR == 10 { print }’ text1
+
+```
