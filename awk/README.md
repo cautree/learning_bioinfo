@@ -60,6 +60,8 @@ awk  ' NR >4 &&  NR < 11  { print }'  text1
 
 ```
 
+
+## awk filtering
 ```
 awk '$1 != "And"' text1 | wc -l
 
