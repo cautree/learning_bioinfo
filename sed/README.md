@@ -34,3 +34,19 @@ sed '2,$ s/unix/linux/' geekfile.txt
 
 sed '3d' filename.txt
 ```
+
+## To Delete line from range x to y
+```
+sed '1,2d' geekfile.txt
+
+```
+
+## to Delete pattern matching line
+```
+sed '/abc/d' filename.txt
+```
+
+## To Delete from nth to last line
+```
+sed '12,$d' filename.txt
+```
