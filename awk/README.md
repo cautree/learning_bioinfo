@@ -59,3 +59,14 @@ awk  '{ if( NR >4 &&  NR < 11)  print }' text1
 awk  ' NR >4 &&  NR < 11  { print }'  text1
 
 ```
+
+```
+awk '$1 != "And"' text1 | wc -l
+
+awk '{print}' text1 | wc -l
+
+
+awk '/and/ && /or/' text1
+
+awk '/[A-E]/' text1
+```
