@@ -41,5 +41,11 @@ $$ getline
 ```
 seq 10 | awk '/5/{getline; print $1}'
 
+## print line 3, 6, and 7
 cat file.txt | awk '{for (i=1;i<3;i++) {getline}; print NR,$0}'
+
+#3 -rw------- 1 mijp1 mijp1 470428 Oct 21 11:56 uniform_rand_231.agr
+#6 -rw------- 1 mijp1 mijp1 255510 Oct 21 12:07 uniform_rand_period_2.agr
+#7 -rw------- 1 mijp1 mijp1 376196 Oct 21 12:07 uniform_rand_period_3.agr
+
 ```
