@@ -12,3 +12,13 @@ sed -nr '/mpg/p' mtcars.csv
 sed -e '11,$ d' mtcars.csv ## with only 10 lines left
 
 ```
+
+
+## p flag
+```
+# the replaced line will show twice
+sed 's/unix/linux/p' geekfile.txt
+
+sed 's/unix/linux/' geekfile.txt
+
+```
