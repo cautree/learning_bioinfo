@@ -88,3 +88,10 @@ awk '$4!~/^9/ {print $1, $4}' table1
 awk '/1925/,/1929/ { print }' table1
 awk 'NR == 5, NR == 10 { print }' table1
 ```
+
+## awk print right adjust and left adjust
+```
+#awk right-justifies its output by default. To left-justify the second column, use the following program:
+awk '/1920/,/1925/ { printf("%d %3d\n", $1, $5) }' table1
+
+```
