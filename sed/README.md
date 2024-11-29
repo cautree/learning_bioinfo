@@ -22,3 +22,15 @@ sed 's/unix/linux/p' geekfile.txt
 sed 's/unix/linux/' geekfile.txt
 
 ```
+
+## change from line 2 to the end
+```
+sed '2,$ s/unix/linux/' geekfile.txt
+
+```
+
+## Deleting lines from a particular file
+```
+
+sed '3d' filename.txt
+```
