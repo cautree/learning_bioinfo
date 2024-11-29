@@ -36,3 +36,10 @@ awk '{s+=$1} END {printf "%.3f\n", s}' mtcars.txt
 cat file.txt | awk 'BEGIN {sum=0} {sum=sum+$5} END {print sum}'
 cat file.txt | awk 'BEGIN {sum=0} {sum+=$5} END {print sum}'
 ```
+
+$$ getline
+```
+seq 10 | awk '/5/{getline; print $1}'
+
+cat file.txt | awk '{for (i=1;i<3;i++) {getline}; print NR,$0}'
+```
