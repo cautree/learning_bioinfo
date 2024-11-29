@@ -72,3 +72,19 @@ awk '/and/ && /or/' text1
 
 awk '/[A-E]/' text1
 ```
+
+
+## awk filtering
+```
+# cololumn 4 starts with 9
+awk '$4~/^9/ {print $1, $4}' table1
+# column 4 not starts with 9
+awk '$4!~/^9/ {print $1, $4}' table1
+
+```
+
+## awk filtering using ranges of patterns, the first column 1925 to 1929
+```
+awk '/1925/,/1929/ { print }' table1
+awk 'NR == 5, NR == 10 { print }' table1
+```
