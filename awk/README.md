@@ -95,3 +95,8 @@ awk 'NR == 5, NR == 10 { print }' table1
 awk '/1920/,/1925/ { printf("%d %3d\n", $1, $5) }' table1
 
 ```
+
+## print float point numbers
+```
+awk '/1920/,/1925/ { printf("%d %1.2f\n", $1, $5/154.0) }' table1
+```
