@@ -52,6 +52,10 @@ cat file.txt | awk '{for (i=1;i<3;i++) {getline}; print NR,$0}'
 
 ## print 5 to 10
 ```
-awk ’NR == 5, NR == 10 { print }’ text1
+awk 'NR == 5, NR == 10 { print }' text1
+
+awk  '{ if( NR >4 &&  NR < 11)  print }' text1
+
+awk  ' NR >4 &&  NR < 11  { print }'  text1
 
 ```
