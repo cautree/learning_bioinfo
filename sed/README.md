@@ -50,3 +50,16 @@ sed '/abc/d' filename.txt
 ```
 sed '12,$d' filename.txt
 ```
+
+
+
+## change d to p, but also using -n to aovid double print
+```
+
+sed -n '3p' mtcars.csv
+sed -n '1,2p' mtcars.csv
+sed -n '/mpg/p' mtcars.csv
+sed -n '12,$p' mtcars.csv
+```
+
+
