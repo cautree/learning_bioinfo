@@ -100,3 +100,42 @@ awk '/1920/,/1925/ { printf("%d %3d\n", $1, $5) }' table1
 ```
 awk '/1920/,/1925/ { printf("%d %1.2f\n", $1, $5/154.0) }' table1
 ```
+
+
+
+## awk varible
+```
+variable="line one\nline two"
+awk -v var="$variable" 'BEGIN {print var}'
+
+```
+
+## use sub in the awk
+```
+awk '{ sub("1", "-9", $9); print $0 }' mtcars.txt
+
+```
+
+
+## Multi-File Processing
+
+```
+awk 'FNR == 1 { close(prev); prev = FILENAME }{ print FILENAME, $0 }' mtcars.txt mtcars2.txt
+```
+
+## Complex Data Transformations, change to upper case
+```
+awk 'BEGIN { OFS="," }{ $2 = toupper($2); print $1, $2, $3 }' file.txt
+
+```
+
+## Use awk with shell loops for batch processing:
+```
+for file in *.txt; do awk '{ print $1 }' $file; done
+```
+
+## awk and sort
+```
+
+awk '{ print $2 }' file.txt | sort
+```
