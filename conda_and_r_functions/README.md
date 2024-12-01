@@ -31,3 +31,10 @@ conda remove --prefix /path/to/conda-env/ --all --yes
 
 ### install packages 
 You install packages into environments using conda install; you install packages into an active environment using pip install
+
+
+### export env
+```
+conda env export --name machine-learning-env --from-history --file environment.yml
+
+```
