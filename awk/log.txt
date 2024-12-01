@@ -1,0 +1,4 @@
+INFO Start
+ERROR Disk full
+WARN Low memory
+INFO Stop
