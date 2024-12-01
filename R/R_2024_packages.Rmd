@@ -1,0 +1,12 @@
+## useful packages to used in 2024
+
+https://www.r-bloggers.com/2024/08/top-25-r-packages-you-need-to-learn-in-2024/
+
+## tidytable
+
+## furrr: 
+Parallelized Iterative Processing
+
+## tidylog
+
+https://cran.r-project.org/web/packages/tidylog/readme/README.html
