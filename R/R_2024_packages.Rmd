@@ -10,3 +10,7 @@ Parallelized Iterative Processing
 ## tidylog
 
 https://cran.r-project.org/web/packages/tidylog/readme/README.html
+
+
+## quicklist of r packages
+https://support.posit.co/hc/en-us/articles/201057987-Quick-list-of-useful-R-packages
