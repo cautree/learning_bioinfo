@@ -38,3 +38,10 @@ You install packages into environments using conda install; you install packages
 conda env export --name machine-learning-env --from-history --file environment.yml
 
 ```
+
+## conda and r
+```
+https://stackoverflow.com/questions/51841845/include-requirements-txt-file-inside-yml
+
+https://stackoverflow.com/questions/73545753/how-can-i-install-specific-bioconductor-package-versions-using-a-conda-yaml-file
+```
