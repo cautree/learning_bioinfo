@@ -1,0 +1,66 @@
+# Bash Commands and Tips for Efficient Scripting
+https://medium.com/geekculture/bash-commands-and-tips-for-efficient-scripting-ee6d9b7b4ae4
+
+
+## Parameter Expansion:
+
+```
+# Check if a variable is set or use a default value
+${variable:-default_value}
+
+# Replace a string in a variable with another string
+${variable/search_string/replace_string}
+
+# Get the base name of a file path
+${file_path##*/}
+
+```
+
+## Regular Expressions:
+```
+# Check if a string matches a regular expression
+if [[ $string =~ ^[0-9]+$ ]]; then
+  echo "String is a number"
+fi
+
+```
+
+
+## xargs: This command is used to read items from standard input (stdin) and execute a command for each item.
+```
+#!/bin/bash
+
+# delete all files in a directory
+ls | xargs grep "a"
+
+```
+
+
+## Debug mode: -x
+
+```
+#!/bin/bash -x
+
+echo "Starting script..."
+my_var="Hello World!"
+echo "The value of my_var is: $my_var"
+
+result=$((10 / 0))
+echo "The result is: $result"
+echo "Script finished."
+
+```
+
+
+## Process Substitution:
+```
+## example1
+diff <(sort file1) <(sort file2)
+
+## example2
+while read -r line; do
+  echo "$line"
+done < <(curl -s http://example.com/data.txt)
+
+
+```
