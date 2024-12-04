@@ -15,3 +15,16 @@ prename -v 's/.txt/.log/' *.txt
 
 
 ```
+
+## copy a file, and create one with similar name
+```
+cp /etc/sysconfig/network-scripts/ifcfg-eth0{,.back}
+
+```
+
+## generate random password
+
+```
+openssl rand -base64 12
+
+```
