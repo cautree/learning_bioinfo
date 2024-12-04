@@ -148,3 +148,10 @@ awk '{ count[$1]++ } END { for (type in count) print type, count[type] }' log.tx
 awk '{ split($2, time, ":"); count[time[1]]++ } END { for (hour in count) print hour, count[hour] }' log.txt
 
 ```
+
+
+## commands on a lot of files
+```
+ls   -1 *txt | awk '{print "grep 1 " $1 }' | sh
+
+```
