@@ -74,3 +74,8 @@ ls -d */
 ```
 ls -thor
 ```
+
+## use xargs to remove empty space in argument
+```
+echo "   lol  " | xargs 
+```
