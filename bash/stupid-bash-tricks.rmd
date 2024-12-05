@@ -28,3 +28,12 @@ cp /etc/sysconfig/network-scripts/ifcfg-eth0{,.back}
 openssl rand -base64 12
 
 ```
+
+## shellcheck
+https://levelup.gitconnected.com/my-tips-and-tricks-for-bash-scripting-after-writing-hundreds-of-scripts-59987855b20a
+
+```
+sudo apt install shellcheck
+shellcheck script.sh
+
+```
