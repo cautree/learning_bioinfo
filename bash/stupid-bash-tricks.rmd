@@ -62,3 +62,15 @@ this_has_been_renamed_4.txt
 
 
 ```
+
+
+## list only subdirectories in the current one
+```
+ls -d */
+
+```
+
+## list the most recently modified files in a conveniently readable format.
+```
+ls -thor
+```
