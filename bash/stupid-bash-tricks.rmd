@@ -37,3 +37,28 @@ sudo apt install shellcheck
 shellcheck script.sh
 
 ```
+
+
+## '^string^string2' which takes the last command, replaces string with string2 and executes it
+```
+ehco foo bar baz
+^ehco^echo
+```
+
+## rename
+```
+$ ls
+this_has_text_to_find_1.txt
+this_has_text_to_find_2.txt
+this_has_text_to_find_3.txt
+this_has_text_to_find_4.txt
+
+$ rename 's/text_to_find/been_renamed/' *.txt
+$ ls
+this_has_been_renamed_1.txt
+this_has_been_renamed_2.txt
+this_has_been_renamed_3.txt
+this_has_been_renamed_4.txt
+
+
+```
