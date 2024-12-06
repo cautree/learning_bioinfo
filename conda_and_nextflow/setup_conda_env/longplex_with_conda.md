@@ -54,3 +54,8 @@ main.nf \
 ## note
 
 Suggest using fresh linux instance and set up the env accordingly.  
+
+
+## note: conda can not work with aws batch
+https://www.nextflow.io/docs/latest/conda.html#use-existing-conda-environments
+The Conda environment feature is not supported by executors that use remote object storage as a work directory. For example, AWS Batch.
