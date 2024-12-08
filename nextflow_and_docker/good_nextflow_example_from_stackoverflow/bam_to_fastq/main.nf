@@ -11,6 +11,9 @@ process bam2fastq {
     output:
     tuple val(library), path("${library}.{1,2}.fastq.gz")
 
+    //samtools fastq arguments: -o FILE      write reads designated READ1 or READ2 to FILE
+    //samtools fastq arguments: -s FILE      write singleton reads designated READ1 or READ2 to FILE
+    //samtools fastq arguments: -n           don't append /1 and /2 to the read name
     """
     samtools fastq \\
         -1 "${library}.1.fastq.gz" \\
