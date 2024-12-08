@@ -57,3 +57,17 @@ git push --set-upstream origin 'dev-2024'
 https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
 
 ```
+
+
+## undiverge
+master branch and 'origin/master' have diverged, how to 'undiverge' branches'?
+https://stackoverflow.com/questions/2452226/master-branch-and-origin-master-have-diverged-how-to-undiverge-branches
+
+```
+git add .
+git commit -m "a commit before merge"
+git merge origin/main
+git push
+
+
+```
