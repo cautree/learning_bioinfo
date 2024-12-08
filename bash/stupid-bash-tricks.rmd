@@ -70,6 +70,7 @@ ls -d */
 
 ```
 
+https://stackoverflow.com/questions/68372/what-is-your-single-most-favorite-command-line-trick-using-bash?page=2&tab=scoredesc#tab-top
 ## list the most recently modified files in a conveniently readable format.
 ```
 ls -thor
