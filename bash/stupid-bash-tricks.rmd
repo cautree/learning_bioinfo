@@ -75,3 +75,8 @@ https://stackoverflow.com/questions/68372/what-is-your-single-most-favorite-comm
 ```
 ls -thor
 ```
+
+## use xargs to remove empty space in argument
+```
+echo "   lol  " | xargs 
+```
