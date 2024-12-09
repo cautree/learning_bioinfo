@@ -113,3 +113,6 @@ workflow {
         } \
         | samtools_merge
 }
+
+
+//https://stackoverflow.com/questions/69702077/nextflow-how-to-process-multiple-samples
