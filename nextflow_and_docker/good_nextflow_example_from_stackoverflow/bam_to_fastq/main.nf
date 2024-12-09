@@ -27,6 +27,7 @@ process bam2fastq {
 
 workflow {
 
+    //smart way to get file name
     input_ch = Channel.fromFilePairs( params.input_files, size: 1 )
 
     bam2fastq( input_ch )
