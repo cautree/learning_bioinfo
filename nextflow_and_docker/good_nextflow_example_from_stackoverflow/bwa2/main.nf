@@ -71,7 +71,7 @@ process samtools_merge {
     def input_bam_files = indexed_bam_files
         .findAll { it.name.endsWith('.bam') }
         .collect { /"${it}"/ }
-        .join(' \\\n'+' '*8)
+        .join(' \\\n'+' '*8)     //each input bam file occupy a line in the command below
 
     """
     samtools merge \\
