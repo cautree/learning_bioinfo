@@ -34,7 +34,8 @@ process bwa_mem2 {
     tuple val(sample), val(readgroup), path("${readgroup}.bam{,.bai}")
 
     script:
-    def idxbase = bwa_index.first().baseName
+    def idxbase = bwa_index.first().baseName   //use first to get the first from a list
+    //https://github.com/samtools/samtools/issues/1568, ##idx## to control index type
     def out_files = [ "${readgroup}.bam", "${readgroup}.bam.bai" ].join('##idx##')
     def (r1, r2) = reads
 
