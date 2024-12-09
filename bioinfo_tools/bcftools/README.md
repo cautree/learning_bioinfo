@@ -1,4 +1,7 @@
 
+Note that BCFtools is actively maintained and is intended as a replacement for VCFtools. In a production pipeline, BCFtools should be preferred.
+
+
 ### AC field stands for "Allele Count"
 
 ### AN fis "Allele Number"
