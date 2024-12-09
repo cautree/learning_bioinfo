@@ -134,3 +134,9 @@ grep -E "(boot|boots)" a_file
 ```
 grep '\$' a_file
 ```
+
+
+##  about zcat and gunzip -c
+
+On most systems, you could also just use zcat for this. The zcat command is identical to gunzip -c.
+https://stackoverflow.com/questions/74622467/nextflow-unzip-gz-file-error-not-a-regular-file
