@@ -29,6 +29,8 @@ process bwa_mem {
     script:
     def task_cpus = task.cpus > 1 ? task.cpus - 1 : task.cpus
 
+    //samtools view -1, --fast    Use fast BAM compression (and default to --bam)
+    
     """
     bwa mem \\
         -t ${task_cpus} \\
