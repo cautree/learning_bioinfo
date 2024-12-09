@@ -13,3 +13,5 @@ workflow {
     .HDL
     .collectFile(name: 'HDL.txt', storeDir: '/Users/mribeirodantas/sandbox')
 }
+
+//https://stackoverflow.com/questions/74280156/merge-multiple-output-chunks-to-one-file-in-nextflow
