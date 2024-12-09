@@ -6,6 +6,9 @@ process bwa_index {
 
     output:
     tuple val(prefix), path("${prefix}.{ann,amb,sa,bwt,pac}")
+    
+    //bwa index -p STR    prefix of the index [same as fasta name]
+
 
     """
     bwa index \\
