@@ -75,3 +75,6 @@ workflow {
     final_output.view()
 }
 
+
+//https://stackoverflow.com/questions/76169440/manipulating-with-input-output-jacks-in-nextflow
+
