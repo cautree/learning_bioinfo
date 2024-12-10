@@ -64,14 +64,17 @@ workflow {
         .map { vehicle_type, vehicle_list ->
             def vehicles = vehicle_list.readLines()
             def group_key =  groupKey( vehicle_type, vehicles.size() )
-
+            println group_key
             tuple( group_key, vehicles )
         }
-        .transpose()
-        .set { vehicles }
+      //  .transpose()
+      //  .set { vehicles }
 
-    step2( vehicles )
+    //step2( vehicles )
     
-    step3( step2.out.hacky_output.groupTuple() )
+    //step3( step2.out.hacky_output.groupTuple() )
+
+    step1.out.vehicles.view()
+    
 }
 
