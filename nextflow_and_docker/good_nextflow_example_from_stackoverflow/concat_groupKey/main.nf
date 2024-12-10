@@ -67,14 +67,16 @@ workflow {
             println group_key
             tuple( group_key, vehicles )
         }
-      //  .transpose()
-      //  .set { vehicles }
+        .transpose()
+        .set { vehicles }
 
-    //step2( vehicles )
+    step2( vehicles )
     
-    //step3( step2.out.hacky_output.groupTuple() )
+    step3( step2.out.hacky_output.groupTuple() )
 
-    step1.out.vehicles.view()
+     step1.out.vehicles.view()
+
+   //vehicles.view()
     
 }
 
