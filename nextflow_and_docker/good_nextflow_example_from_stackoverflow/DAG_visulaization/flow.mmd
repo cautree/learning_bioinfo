@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["Channel.of"]
+    end
+    v1([process_A])
+    v2([process_B])
+    v3([process_C])
+    v4([process_D])
+    subgraph " "
+    v6[" "]
+    end
+    v5(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v3
+    v2 --> v4
+    v3 --> v4
+    v4 --> v5
+    v5 --> v6

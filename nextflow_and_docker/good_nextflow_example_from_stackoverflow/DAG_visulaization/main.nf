@@ -77,4 +77,4 @@ workflow {
 
 
 //https://stackoverflow.com/questions/76169440/manipulating-with-input-output-jacks-in-nextflow
-
+//https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNptkN9uwiAUh1-FnKua6OK0etELE_-8wXZlMctZORVjgYbCzGJ89-GQNmYjXPB9HDg_uEJlBEEBdWMulUTr2PuGaxZG5z-PFlvJOIQZ3de05LCVqDU1L6bmcIietHgUvGZla01FXfexPowecjbITS_ng9z2Mh_kLsl_gyzLX_rTf5FlbJRum7LJZBUypWwRZ884TyEj5ineM-YRF6lNxCWMQZFVeBLhD6_3TQ5OkiIORVgKtOd75FuoQ-_M27euoHDW0xis8UcJRY1NF8i3Ah3tThieqnrbot4bo-KR2w_RHX2N
