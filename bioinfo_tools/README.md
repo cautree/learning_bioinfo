@@ -147,3 +147,7 @@ samtools view -N  clean_problematic_reads_readname.txt -o problem_subsample_bc10
 #https://www.biostars.org/p/172737/
 samtools view -h subsample_bc1001.hifi.bam | grep -vf clean_problematic_reads_readname.txt | samtools view -bS -o filtered_subsample_bc1001.hifi.bam -
 ```
+
+## bbtools reformat below error shoud be ignored
+[W::bgzf_read_block] EOF marker is absent. The input is probably truncated
+https://www.biostars.org/p/9527286/
