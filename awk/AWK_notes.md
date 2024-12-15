@@ -208,4 +208,9 @@ awk 'BEGIN{
     for(i=1;i<=5;i++)
 printf "%d\t", i }'
 
+
+awk -F"|" '{count[$3]++}
+END {for (desig in count)
+print desig, count[desig]}' emp.lst
+
 ```
