@@ -54,3 +54,12 @@ done
 
 
 ```
+
+
+## $@ $*
+## when sure there is no blank in the argment, $* is good enough
+```
+sh sum.sh 10 20 30
+
+
+```
