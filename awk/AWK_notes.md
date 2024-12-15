@@ -87,7 +87,8 @@ awk –F “|” –f newPayroll.awk emp.lst
 
 ## NF, FILENAME
 ```
-awk 'BEGIN { FS="|"} NF !=6 { print "Record No ", NR, "has ", NF, " fields"}' errEmp.lst 
+awk 'BEGIN { FS="|"} NF !=6 { print "Record No ", NR, "has ", NF, " fields"}' emp.lst 
+awk '$6<4000 {print FILENAME, $0}' emp.lst
 
 ```
 
