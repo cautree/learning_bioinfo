@@ -174,3 +174,38 @@ awk 'BEGIN{ x=substr("hello how are you?", 7,3)
  print x}'
  
 ```
+
+
+## control flow
+```
+awk -F "|" '{ if ($6>8000) printf "%s\t%d\n", $2, $6}' emp.lst
+
+awk -F"|" '{ if($6>8000 && $3=="director") printf "%s\t %s\n", $2, $6}' emp.lst
+
+awk -F"|" '{ if($2~/[cC]ho[wu]dh?ury|sa[xk]s?ena/) printf "%s\t%s\n", $2, $3}' emp.lst
+
+
+awk 'BEGIN{ 
+    a=10
+    b=20
+if(a>b)
+    print "a is greater"
+ else
+ print "b is greater" }'
+    
+
+
+
+```
+
+
+
+## looping with for
+```
+awk 'BEGIN{ for(i=1;i<=5;i++) printf "%d\t", i }'
+
+awk 'BEGIN{ 
+    for(i=1;i<=5;i++)
+printf "%d\t", i }'
+
+```
