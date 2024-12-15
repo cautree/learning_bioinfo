@@ -137,7 +137,7 @@ awk -F"|" 'length($2)<12' emp.lst
 ```
 
 
-## index (s1,s2)
+## index(s1,s2)
 It determines the position of a string s2 within a larger string s1
 
 ```
@@ -148,5 +148,17 @@ It determines the position of a string s2 within a larger string s1
 #awk 'BEGIN{  x=index("abcde", "b") print x} ' 
 
 awk 'BEGIN{  x=index("abcde", "b"); print x} ' 
+
+```
+## substr(string, start_position, length)
+```
+## this works
+awk 'BEGIN{ x=substr("hello how are you?", 7,3); print x} '
+
+## this works also
+
+awk 'BEGIN{
+    x=substr("hello how are you?", 7,3)
+print x}'
 
 ```
