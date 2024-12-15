@@ -1,5 +1,3 @@
-#!/usr/bin/awk
-
 BEGIN {    printf "SlNo \t Name \t\t Salary\n"
 } 
 $6>7500{
