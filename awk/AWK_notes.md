@@ -20,6 +20,9 @@ awk -F "|" '/director/ { printf "%3d %-20s %-12s %d\n", NR, $2, $3, $6}' emp.lst
 
 ## sort inside awk
 awk -F "|" '/director/ { printf "%-20s %-12s\n", $2, $3 | "sort"}' emp.lst
+
+
+awk -F "|" '/director/ { printf "%-20s %-12s\n", $2, $3 > "nlist"}' emp.lst
 ```
 
 
