@@ -162,3 +162,15 @@ awk 'BEGIN{
 print x}'
 
 ```
+
+
+## split(string, arr, delimiter)
+Splits string stg into array arr using ch as delimiter and returns number of fields
+```
+awk 'BEGIN{ x=substr("hello how are you?", 7,3) ; print x}'
+
+## this works also
+awk 'BEGIN{ x=substr("hello how are you?", 7,3) 
+ print x}'
+ 
+```
