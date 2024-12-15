@@ -96,6 +96,7 @@ awk '$6<4000 {print FILENAME, $0}' emp.lst
 ```
 
 awk -f avgSal.awk emp.lst
+##printf "%50s\n" right-justifies a string within a field that is 50 characters wide
 
 ##avgSal.awk
 
