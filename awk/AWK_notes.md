@@ -92,3 +92,9 @@ awk '$6<4000 {print FILENAME, $0}' emp.lst
 
 ```
 
+## Array
+```
+
+
+```
+
