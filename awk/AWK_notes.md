@@ -214,3 +214,14 @@ END {for (desig in count)
 print desig, count[desig]}' emp.lst
 
 ```
+
+## looping with while
+```
+
+awk 'BEGIN{ while(k<5) 
+{ printf "%d\t", k 
+  k++
+}
+} '
+
+```
