@@ -25,5 +25,13 @@ awk -F "|" '/director/ { printf "%-20s %-12s\n", $2, $3 | "sort"}' emp.lst
 awk -F "|" '/director/ { printf "%-20s %-12s\n", $2, $3 > "nlist"}' emp.lst
 ```
 
+## VARIABLES AND EXPRESSIONS
+
+```
+## awk doesn’t contain data types like int, char, float etc. 
+## Every expression can be interpreted as either a string or a number.
+
+
+```
 
 
