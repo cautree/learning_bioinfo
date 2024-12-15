@@ -1,0 +1,6 @@
+Script started on Sun Dec 15 14:45:05 2024
+[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) sm985@PHS030347 bash % [K[?2004heecho $PATH[?2004l
+/Users/yanyanliu/.sdkman/candidates/java/current/bin:/Users/yanyanliu/mambaforge/bin/python3:/Users/yanyanliu/mambaforge/bin:/Users/yanyanliu/mambaforge/condabin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) sm985@PHS030347 bash % [K[?2004heexit[?2004l
+
+Script done on Sun Dec 15 14:45:43 2024
