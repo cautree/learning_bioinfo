@@ -127,3 +127,25 @@ END {
 
 ```
 
+
+
+## awk functions
+```
+awk -F"|" 'length($2)<12' emp.lst
+
+```
+
+
+## index (s1,s2)
+It determines the position of a string s2 within a larger string s1
+
+```
+# error
+# awk: syntax error at source line 1
+# context is
+#        BEGIN{  x=index("abcde", "b") >>>  print <<<  x}
+#awk 'BEGIN{  x=index("abcde", "b") print x} ' 
+
+awk 'BEGIN{  x=index("abcde", "b"); print x} ' 
+
+```
