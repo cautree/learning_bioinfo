@@ -87,5 +87,18 @@ chmod a+x test          #assign(+) x to a(all)
 chmod +x test           #assign(+) x to all
 chmod go-r test         #remove r permission from group & others
 chmod a-x, go+r test    #remove the execute permission from all and then to assign read permission to group and others
+chmod o+wx test         #assign(+) w(write) and x(execuate) to others
 
+```
+
+
+## absolute permissions
+```
+# Read permission – 4
+# Write permission – 2
+# Execute permission – 1
+
+chmod 666 test  #Assigning read and write(4+2=6) permissions to all –
+chmod 644 test  #remove the write permission from group and others
+chmod 761 test  #assign all permissions to owner, read and write permissions to group and only execute permission to others 
 ```
