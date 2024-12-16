@@ -232,3 +232,13 @@ find   /Users/yanyan/Documents/GitHub/software/learning_bioinfo/bash -name "*.sh
 ## action: -print
 
 ```
+
+
+## pr: paginating files
+```
+pr emp.list
+pr -t -3 emp.list
+pr -t -d -3 emp.list
+pr -t -n emp.lst
+
+```
