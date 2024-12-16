@@ -3,7 +3,8 @@
 sum=0
 for x in $* 
 do
-     sum=`expr $sum + $x`
+    # sum=`expr $sum + $x`
+     sum=$(( $sum+$x ))
 done
 
 echo "Sum = $sum"
