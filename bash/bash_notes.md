@@ -162,3 +162,12 @@ chmod -R 755 .           ## apply on hidden files also
 chmod -R a+x *           ## laves out hidden files
 
 ```
+
+
+## change file ownership
+
+```
+chgrp yanyan test 
+#chgrp: yanyan: illegal group nam
+
+```
