@@ -152,3 +152,13 @@ chmod 666 test  #Assigning read and write(4+2=6) permissions to all –
 chmod 644 test  #remove the write permission from group and others
 chmod 761 test  #assign all permissions to owner, read and write permissions to group and only execute permission to others 
 ```
+
+
+## use chmod recursively (-R)
+```
+chmod –R a+x ShellPgms   ## apply execute permission from all on all the files in ShellPgms directory
+
+chmod -R 755 .           ## apply on hidden files also
+chmod -R a+x *           ## laves out hidden files
+
+```
