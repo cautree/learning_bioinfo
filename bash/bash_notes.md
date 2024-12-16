@@ -221,3 +221,14 @@ rw-rw-rw- (octal 666) for ordinary files
 rwxrwxrwx (octal 777) for directories
 
 ```
+
+## find to locate files
+find path_list selection_criteria action
+
+```
+find   /Users/yanyan/Documents/GitHub/software/learning_bioinfo/bash -name "*.sh" -print
+## path_list: /Users/yanyan/Documents/GitHub/software/learning_bioinfo/bash
+## selection_criteria: -name "*.sh"
+## action: -print
+
+```
