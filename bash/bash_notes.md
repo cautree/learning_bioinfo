@@ -171,3 +171,10 @@ chgrp yanyan test
 #chgrp: yanyan: illegal group nam
 
 ```
+
+## -i option in ls: inode
+Every file is associated with a table that contains various attributes of a it, except its name and contents. This table is called as inode (index node) and accessed by the inode number.
+```
+ls –il test # the first number is the inode
+
+```
