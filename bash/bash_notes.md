@@ -196,3 +196,28 @@ ls -li test test_link
 ln test test_link2
 ls -li test test_link test_link2
 ```
+
+
+## ls -R recursive listing
+```
+ls -R 
+
+```
+
+## symbolic links
+```
+ln -s test test.sym
+ls -li test test.sym
+
+```
+
+## unmask: default file and directory permission
+
+When you create files and directories, the permissions assigned to them depend on the
+default setting of the system. The UNIX system has the following default permissions for all
+files and directories –
+```
+rw-rw-rw- (octal 666) for ordinary files
+rwxrwxrwx (octal 777) for directories
+
+```
