@@ -63,3 +63,16 @@ sh sum.sh 10 20 30
 
 
 ```
+
+## set and shift
+```
+set 13 45 32
+echo “Argument one:$1, Argument 2:$2, Argument 3:$3”
+echo “There are $# number of arguments”
+
+
+set `date`
+echo $1 $2 $3
+shift 2   #shifting two positions at a time
+
+```
