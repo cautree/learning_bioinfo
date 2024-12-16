@@ -1,5 +1,55 @@
 # bash notes
 
+## conditional parameter substituion:  ${<var>: <opt> <stg>}
+var is a variable to be evaluated
+opt canbeanyoneofthesymbols+,-,=or?
+stg is a string
+
+## the + option, did not work on mac
+```
+#Assign a variable x with 10 and test for parameter substitution as shown
+### do not know why this does not work
+x=10
+echo ${x: + "x is defined"}
+echo ${y: + “y is defined”}
+found=`ls`
+echo ${found: + “This directory is not empty”}
+
+```
+
+## The – Option
+if the var do not contains a defined value and it is null, then it evaluates to stg.
+```
+echo ${x: - 10}  #10
+echo $x          #10
+
+```
+
+## The = option
+This option goes one step ahead of – option, where it assigns the value to the variable. If we use = option inside the parameter substitution, then explicit assignment is not required.
+
+```
+echo ${x:=10}
+echo $x
+
+## forever loops
+x=1
+while [ $x -le 10 ]; do echo $x;done
+
+```
+
+
+## the ? option, does not work in mac
+It evaluates the parameter if the variable is assigned and not null. Otherwise, it echoes a string and kills the shell.
+```
+fname: ? “No file name entered”
+
+```
+
+
+
+
+
 ## date
 
 ```
