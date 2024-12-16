@@ -178,3 +178,15 @@ Every file is associated with a table that contains various attributes of a it, 
 ls –il test # the first number is the inode
 
 ```
+
+
+## hardlinks
+Multiple names (links) provided to one single file are all having same inode number. The link count is displayed when ls –l is used
+A link can be created to a file using ln command. 
+```
+ln test test_link
+ls -li test test_link
+
+#27469449 -rw-r--r--@ 2 sm985  staff  0 Dec 15 22:20 test
+#27469449 -rw-r--r--@ 2 sm985  staff  0 Dec 15 22:20 test_link
+```
