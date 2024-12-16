@@ -187,6 +187,12 @@ A link can be created to a file using ln command.
 ln test test_link
 ls -li test test_link
 
+## number 2 is the link count
 #27469449 -rw-r--r--@ 2 sm985  staff  0 Dec 15 22:20 test
 #27469449 -rw-r--r--@ 2 sm985  staff  0 Dec 15 22:20 test_link
+
+
+## now the link count is three
+ln test test_link2
+ls -li test test_link test_link2
 ```
