@@ -76,3 +76,16 @@ echo $1 $2 $3
 shift 2   #shifting two positions at a time
 
 ```
+
+
+## file relative permissions
+```
+#category viz. owner, group owner and others (or world)
+chmod u+x test          #assign(+) x(execute) to u(user)
+chmod ugo+x test        #assign(+) x to u(user, group, others)
+chmod a+x test          #assign(+) x to a(all)
+chmod +x test           #assign(+) x to all
+chmod go-r test         #remove r permission from group & others
+chmod a-x, go+r test    #remove the execute permission from all and then to assign read permission to group and others
+
+```
