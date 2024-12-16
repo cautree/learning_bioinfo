@@ -242,3 +242,14 @@ pr -t -d -3 emp.list
 pr -t -n emp.lst
 
 ```
+
+
+## cut
+
+```
+cut -c 6-22,24-32 emp.list
+cut -d \| -f 2,3 emp.list
+cut -d "|" -f 1,4- emp.lst
+
+
+```
