@@ -37,3 +37,17 @@ nextflow run nf-core/phaseimpute -r dev -profile docker \
 --input ../test_nf_impute/samplesheet/sample_bam.csv \
 --chunks ../test_nf_impute/chunks.csv
 
+
+## downsample to 1x, can only be integer
+```
+nextflow run nf-core/phaseimpute \
+    --input samplesheet_sim/sample_bam.csv  \
+    --steps simulate \
+    --depth 1 \
+    --outdir depth_2_simulated \
+    --fasta reference_genome/chr22.fa \
+    -profile docker -r dev \
+    -resume -bg
+    
+```
+
