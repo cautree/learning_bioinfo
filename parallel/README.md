@@ -1,0 +1,1 @@
+[](https://medium.com/analytics-vidhya/simple-tutorial-to-install-use-gnu-parallel-79251120d618)
