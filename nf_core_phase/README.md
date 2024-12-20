@@ -51,3 +51,17 @@ nextflow run nf-core/phaseimpute \
     
 ```
 
+
+## validation
+```
+nextflow run nf-core/phaseimpute \
+    --input samplesheet_input.csv \
+    --input_truth samplesheet_truth.csv \
+    --posfile posfile.csv \
+    --steps validate \
+    --outdir validation_results \
+    --genome GRCh38 \
+    -profile docker \
+    -r dev 
+
+```
