@@ -114,3 +114,31 @@ echo "chr22 1000GP.chr22.noNA12878.sites.vcf.gz HG001_GRCh38_1_22_v4.2.1_benchma
 
 
 ```
+
+
+##############################################
+# write a bash file for many files
+#############################################
+#!/bin/bash
+#for num in {1..176}; do
+#echo "chr22 ../test/1000GP.chr22.noNA12878.sites.vcf.gz ../test/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz" >> concordance_a.txt
+#done
+#ls vcf | grep vcf.gz | grep -v csi | sed 's|^|vcf/|'  > concordance_b.txt
+#paste concordance_a.txt concordance_b.txt > concordance.txt
+#cat concordance_b.txt  | cut -d. -f1 | cut -d/ -f2 | sed 's|^|,|' > name
+#paste concordance.txt name > info
+#cat info | tr '\t' ' ' > a
+#mv a info
+while read line; do 
+part1=$(echo $line | cut -d, -f1)
+echo ${part1} > input_concordance.txt
+part2=$(echo $line | cut -d, -f2)
+echo ${part2}
+/home/ec2-user/software/GLIMPSE2/GLIMPSE2_concordance_static \
+--gt-val \
+--input input_concordance.txt \
+--ac-bins 1 5 10 20 50 100 200 500 1000 2000 5000 10000  20000 50000 100000 140119 \
+--threads 2 \
+--output ${part2}.concordance_c20_rp140
+
+done < info
