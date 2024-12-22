@@ -55,7 +55,7 @@ nextflow run nf-core/phaseimpute \
 ## genome prep
 
 ```
-#create posfile
+#create posfile, this does not work
 
 nextflow run nf-core/phaseimpute \
 --input samplesheet_input_2_samples.csv \
@@ -69,7 +69,7 @@ nextflow run nf-core/phaseimpute \
 ```
 
 
-## validation
+## validation, this does not work
 ```
 nextflow run nf-core/phaseimpute \
     --input samplesheet_input.csv \
@@ -80,5 +80,37 @@ nextflow run nf-core/phaseimpute \
     --genome GRCh38 \
     -profile docker \
     -r dev 
+
+```
+
+
+## validation, this works
+
+```
+
+https://odelaneau.github.io/GLIMPSE/docs/documentation/concordance/
+/home/ec2-user/software/GLIMPSE2/GLIMPSE2_concordance_static
+
+use the glimpse2_static file
+
+
+
+#ERROR: No sample in common between datasets
+bcftools query -l HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz
+bcftools query -l C1003C03depth1x.vcf.gz
+bcftools reheader -s samples.txt -o a.vcf.gz C1003C03depth1x.vcf.gz
+mv a.vcf.gz C1003C03depth1x.vcf.gz
+bcftools index C1003C03depth1x.vcf.gz
+
+
+echo "chr22 1000GP.chr22.noNA12878.sites.vcf.gz HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz C1003C03depth1x.vcf.gz" > concordance.txt
+
+/home/ec2-user/software/GLIMPSE2/GLIMPSE2_concordance_static \
+--gt-val \
+--ac-bins 1 5 10 20 50 100 200 500 1000 2000 5000 10000  20000 50000 100000 140119 \
+--threads 2 \
+--input concordance.txt \
+--output concordance_c20_rp140
+
 
 ```
