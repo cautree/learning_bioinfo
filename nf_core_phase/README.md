@@ -52,6 +52,23 @@ nextflow run nf-core/phaseimpute \
 ```
 
 
+## genome prep
+
+```
+#create posfile
+
+nextflow run nf-core/phaseimpute \
+--input samplesheet_input_2_samples.csv \
+--panel panel.csv \
+-resume -bg \
+--steps panelprep --outdir panel_prep_results \
+--genome GRCh38 -profile docker \
+-r dev \
+--compute_freq
+
+```
+
+
 ## validation
 ```
 nextflow run nf-core/phaseimpute \
