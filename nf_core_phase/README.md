@@ -147,7 +147,7 @@ done < info
 
 
 
-
+https://git.wur.nl/derks047/skimseq_imputation/-/blob/master/compare/glimpse2/results/1.concordance.rsquare.grp.txt
 
 #####################################
 #steps to run concordance using the glimpse2 static file
