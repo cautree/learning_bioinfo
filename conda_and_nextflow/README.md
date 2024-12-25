@@ -8,3 +8,8 @@ Using AWS access and secret keys in your pipeline configuration.
 
 Using IAM roles to grant access to S3 storage on AWS EC2 instances.
 
+
+
+new nf training materials
+
+https://training.nextflow.io/basic_training/containers/#create-and-use-conda-like-environments-using-micromamba
