@@ -225,3 +225,21 @@ awk 'BEGIN{ while(k<5)
 } '
 
 ```
+
+## gsub in awk
+```
+#cat my_file
+#manager_salary -11
+#clerk_salary 8
+
+awk ' { gsub( "-([0-9]+)", "(" substr($2,2) ")" ); print}' my_file 
+#
+#manager_salary (11)
+#clerk_salary 8
+
+## correct
+awk ' { gsub( "-([0-9]+)",  substr($2,2)  ); print}' my_file
+##
+#manager_salary 11
+#clerk_salary 8
+```
