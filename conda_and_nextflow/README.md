@@ -22,3 +22,11 @@ conda  info --envs
 conda remove -p "/Users/yy/opt/miniconda3/envs/voi"  --all
 
 ```
+
+
+## To use conda, you need to initiate conda and open a new terminal by running bash:
+
+```
+conda init
+bash
+```
