@@ -13,3 +13,12 @@ Using IAM roles to grant access to S3 storage on AWS EC2 instances.
 new nf training materials
 
 https://training.nextflow.io/basic_training/containers/#create-and-use-conda-like-environments-using-micromamba
+
+
+## remove conca env by name and path
+```
+conda  info --envs
+## remove by path
+conda remove -p "/Users/yy/opt/miniconda3/envs/voi"  --all
+
+```
