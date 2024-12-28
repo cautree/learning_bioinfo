@@ -13,7 +13,7 @@ workflow {
 
 ```
 
-### view 
+### 2 view 
 
 ```
 
@@ -27,5 +27,22 @@ workflow {
 }
 
 
+
+```
+
+### 3 splitCsv
+```
+workflow {
+   Channel.fromPath("data/samplesheet.csv")
+   | splitCsv ( header: true)
+   | map { row -> 
+         metaMap = [id:row.id, type:row.type, repeat: row.repeat]
+         [metaMap, [file(row.fastq1), file(row.fastq2)]]
+
+   }
+   | view
+
+
+}
 
 ```
