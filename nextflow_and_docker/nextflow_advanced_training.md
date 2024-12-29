@@ -47,6 +47,34 @@ workflow {
 
 ```
 
+### 4 multiMap
+
+```
+process MultiInput {
+    input:
+    val(smallNum)
+    val(bigNum)
+
+    script:
+    "echo -n small is $smallNum and big is $bigNum"
+}
+
+workflow {
+   Channel.from(1,2,3,4,5)
+   | multiMap {
+     small: it
+     large: it *10
+
+   } 
+   | MultiInput
+
+
+
+}
+
+
+
+```
 
 
 
