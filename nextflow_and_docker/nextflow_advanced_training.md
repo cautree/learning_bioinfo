@@ -98,12 +98,27 @@ workflow {
 
 
 
-### other notes
+## other notes
 
 ```
 ## shows the contents in the scripts
 debug true
 
 ## if not using debug true, then you can use .command.log to find the log
+
+```
+
+## metadata propagation
+```
+workflow {
+  Channel.fromFilePairs("data/reads/*/*_R{1,2}.fastq.gz")
+  | map { id, reads -> 
+  (sample, replicate, type) = id.tokenize("_")
+  meta = [sample:sample, replicate:replicate, type:type]
+  [meta, reads]
+  
+  }
+  | view
+}
 
 ```
