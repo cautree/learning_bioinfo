@@ -112,10 +112,12 @@ debug true
 
 ### 1 
 ```
+//replicate = replicate - ~/^rep/  is removing the "rep" character so rep1 will become 1
 workflow {
   Channel.fromFilePairs("data/reads/*/*_R{1,2}.fastq.gz")
   | map { id, reads -> 
   (sample, replicate, type) = id.tokenize("_")
+  replicate = replicate - ~/^rep/
   meta = [sample:sample, replicate:replicate, type:type]
   [meta, reads]
   
