@@ -46,3 +46,16 @@ workflow {
 }
 
 ```
+
+
+
+
+### other notes
+
+```
+## shows the contents in the scripts
+debug true
+
+## if not using debug true, then you can use .command.log to find the log
+
+```
