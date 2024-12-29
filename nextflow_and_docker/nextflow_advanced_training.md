@@ -109,6 +109,8 @@ debug true
 ```
 
 ## metadata propagation
+
+### 1 
 ```
 workflow {
   Channel.fromFilePairs("data/reads/*/*_R{1,2}.fastq.gz")
@@ -120,5 +122,22 @@ workflow {
   }
   | view
 }
+
+```
+### 2
+```
+
+workflow {
+  Channel.fromFilePairs("data/reads/*/*_R{1,2}.fastq.gz")
+  | map { id, reads -> 
+  meta = [['sample', 'replicate', 'type'] , id.tokenize("_")]
+         .transpose()
+         .collectEntries()
+  [meta, reads]
+  
+  }
+  | view
+}
+
 
 ```
