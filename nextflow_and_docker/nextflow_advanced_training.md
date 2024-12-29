@@ -72,6 +72,26 @@ workflow {
 
 }
 
+```
+
+### 5 groupTuple
+
+### 6 transpose, tranpose is the opposite of groupTuple
+```
+workflow {
+ Channel.fromPath("data/samplesheet.csv")
+ | splitCsv(header: true)
+ | map ( row -> 
+    meta = [ id:row.id, type: row.type]
+    [meta, row.repeat, [row.fastq1, row.fastq2]]
+ 
+ )
+ | groupTuple
+ | transpose 
+ | view
+
+
+}
 
 
 ```
