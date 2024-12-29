@@ -143,3 +143,12 @@ workflow {
 
 
 ```
+
+### other notes
+```
+## trim strings
+demo = "one two three"
+assertEquals( demo - "two", "one three")
+
+
+```
