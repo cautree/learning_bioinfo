@@ -150,5 +150,11 @@ workflow {
 demo = "one two three"
 assertEquals( demo - "two", "one three")
 
+## spread dot notation
+map { id, reads -> 
+     reads.collect {it.getParent()}}
+map { id, reads -> 
+     reads*.getParent()
+     }
 
 ```
