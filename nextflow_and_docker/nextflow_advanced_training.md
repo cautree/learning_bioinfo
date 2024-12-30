@@ -178,6 +178,38 @@ workflow {
 }
 ```
 
+### 5 final meta 
+
+```
+workflow {
+   Channel.fromFilePairs("data/reads/*/*_R{12}.fastq.gz")
+   | map { id, reads ->
+       ( treatmentFwd, treatmentRev) = reads*.parent*.name*.minus(~/^treatment/)
+    (sample, replicate, type) = id.tokenize("_")
+    replicate -= ~/*rep/
+    meta = [
+       sample:sample,
+       replicate:replicate,
+       type:type,
+       treatmentFwd:treatmentFwd,
+       treatmentRev:treatmentRev
+    ]
+    [meta, reads]
+
+   
+   }
+
+
+
+
+}
+
+
+
+
+
+
+```
 
 
 ### other notes
