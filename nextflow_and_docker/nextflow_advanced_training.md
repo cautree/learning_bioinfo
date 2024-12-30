@@ -170,7 +170,7 @@ workflow {
   Channel.fromFilePairs("data/reads/*/*_R{1,2},fastq.gz")
   | map { id, reads -> 
     reads.collect{ it.getParent()}.collect { it.getName()}.collect{ it.minus(~/treatment/ )}
-    reads*.parent*.name*.minus(~/treatment/)
+    reads*.parent*.name*.minus(~/^treatment/)
 
   }
   | view
