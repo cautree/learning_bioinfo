@@ -144,6 +144,30 @@ workflow {
 
 ```
 
+### 3, there are four lines that are the same
+```
+workflow {
+  Channel.fromFilePairs("data/reads/*/*_R{1,2},fastq.gz")
+  | map { id, reads -> 
+    reads.collect{ it.getParent()}.collect { it.getName()}
+    reads.collect { it.parent}.collect { it.name }
+    reads*.getParent()*.getName()
+    reads*.parent*.name
+
+  }
+  | view
+
+
+
+}
+
+
+
+```
+
+
+
+
 ### other notes
 ```
 ## trim strings
