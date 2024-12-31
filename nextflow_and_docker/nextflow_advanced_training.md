@@ -220,7 +220,33 @@ MapReads ( samples, reference )
 }
 ```
 
+### 1.1 use groupTuple and transpose to add counts in individual group
 
+```
+
+workflow {
+   Channel.fromPath("data/samplesheet.csv")
+   | splitCsv( header: true)
+   | map { row ->
+     meta = row.subMap('id', 'repeat','type')
+     [ meta , [
+        file(row.fastq1, checkIfExists: true),
+        file(row.fastq2, checkIfExist: true) ]
+     ] 
+     
+   }
+   | map { meta, reads -> [meta.subMap('id', 'type'), meta.repeat, reads]}
+   | groupTuple
+   | map { meta, repeats, reads -> [ meta + [repeatcount:repeats.size()], repeats, reads]}
+   | transpose
+   | map { meta, repeat, reads -> [meta + [repeat:repeat], reads]}
+   | set { samples}
+
+   } 
+
+
+
+```
 
 
 
