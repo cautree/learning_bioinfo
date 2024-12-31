@@ -252,4 +252,19 @@ workflow {
 reference = Channel.fromPath("data/genome.fasta").first()
 
 
+
+## use subMap to remove some info from the meta
+
+workflow {
+//lose one meta info repeat for groupTuple 
+MapReads ( samples, reference )
+| map ( meta, bam -> [meta.subMap('id','type'), bam])
+| view
+
+
+
+
+}
+
+
 ```
