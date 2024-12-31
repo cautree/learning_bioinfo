@@ -203,7 +203,7 @@ workflow {
 
 
 }
-
+```
 
 ## Grouping and Splitting
 
@@ -222,7 +222,14 @@ MapReads ( samples, reference )
 
 
 
-```
+
+
+
+
+
+
+
+
 
 
 ### other notes
