@@ -207,7 +207,18 @@ workflow {
 
 ## Grouping and Splitting
 
+### 1 groupTuple 
+```
+workflow {
+//lose one meta info repeat for groupTuple 
+MapReads ( samples, reference )
+| map ( meta, bam -> [meta.subMap('id','type'), bam])
+| groupTuple 
+| view
 
+
+}
+```
 
 
 
