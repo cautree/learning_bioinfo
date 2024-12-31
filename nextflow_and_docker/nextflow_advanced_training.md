@@ -248,7 +248,8 @@ workflow {
    }
 
 
-
+## use .first() to turn into a value channel
+reference = Channel.fromPath("data/genome.fasta").first()
 
 }
 
