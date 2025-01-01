@@ -46,6 +46,13 @@ plink --vcf $VCF --double-id --allow-extra-chr \
 
 ## plot PCA
 ```
+
+value_df = read.table("nextseq.1x.eigenval")
+total = sum(value_df$V1)
+pc1 = 100*(value_df$V1[[1]]/total)
+pc2 = 100*(value_df$V1[[2]]/total)
+
+
 ret_pca=read.table("nextseq.1x.eigenvec")
 ret_pca
 ret_pca = ret_pca %>% 
@@ -54,7 +61,9 @@ ret_pca = ret_pca %>%
 
 ret_pca %>% 
   ggplot(aes(V3, V4, colour = group)) +
-  geom_point()
+  geom_point() +
+  xlab("PC1:83.7% variance explained") +
+  ylab("PC2:3.3% variance explained")
 
 ```
 
