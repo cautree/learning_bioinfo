@@ -65,6 +65,36 @@ ret_pca %>%
   xlab("PC1:83.7% variance explained") +
   ylab("PC2:3.3% variance explained")
 
+
+
+
+
+
+  #Variance Explained by a PC = (Eigenvalue of PC) / (Sum of all Eigenvalues) 
+value_df = read.table("nextseq.05x.1x.2x.eigenval")
+total = sum(value_df$V1)
+pc1 = 100*(value_df$V1[[1]]/total)
+pc2 = 100*(value_df$V1[[2]]/total)
+
+ret_pca=read.table("nextseq.05x.1x.2x.eigenvec")
+ret_pca
+ret_pca = ret_pca %>% 
+  dplyr::mutate( group = ifelse( grepl("C(01|02|03|04)", V2), "HG001", "HG005")) %>% 
+  dplyr::mutate( group = as.factor(group)) %>% 
+  dplyr::mutate( depth = stringr::str_extract_all( V2, "th[0-9]{1,}", simplify=T)) %>% 
+  dplyr::mutate( depth = as.character(depth)) %>% 
+  dplyr::mutate( depth = stringr::str_replace_all( depth, "th", "")) %>% 
+  dplyr::mutate( depth = ifelse( depth=="05", "0.5", depth)) %>% 
+  dplyr::mutate( sample = stringr::str_extract_all( V2, "C(01|02|03|04|05|06|07|08)", simplify=T)) %>% 
+  dplyr::mutate(sample = as.character(sample))
+
+ret_pca %>% 
+  ggplot(aes(V3, V4, colour = group, shape=depth, label= sample )) +
+  geom_point() +
+  xlab("PC1:64.3% variance explained") +
+  ylab("PC2:2.6% variance explained") +
+  geom_label_repel()
+
 ```
 
 
