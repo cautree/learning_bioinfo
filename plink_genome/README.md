@@ -44,7 +44,19 @@ plink --vcf $VCF --double-id --allow-extra-chr \
 --make-bed --pca --out pacbio
 ```
 
+## plot PCA
+```
+ret_pca=read.table("nextseq.1x.eigenvec")
+ret_pca
+ret_pca = ret_pca %>% 
+  dplyr::mutate( group = ifelse( grepl("C(01|02|03|04)", V2), "HG001", "HG005")) %>% 
+  dplyr::mutate( group = as.factor(group))
 
+ret_pca %>% 
+  ggplot(aes(V3, V4, colour = group)) +
+  geom_point()
+
+```
 
 
 ##this is for get the relatedness using plink genome
