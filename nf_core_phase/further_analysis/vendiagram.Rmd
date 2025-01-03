@@ -4,13 +4,27 @@ library(dplyr)
 ```
 
 
+## get genotype from VCF files
+```{bash}
+#https://www.biostars.org/p/312304/#312306
+
+ls  | grep -v csi | grep -v txt | grep gz > file
+while read line;
+do 
+sample_id=$(basename $line .gz)
+bcftools query -f '%CHROM %POS  %REF  %ALT [ %TGT]\n' $line > temp
+cat temp | awk '{print $5 }' | cut -c1 > A1
+cat temp | awk '{print $5 }' | cut -c3 > A2
+paste A1 A2 | tr '\t' "|" > A2A1
+paste temp A2A1 A1 A2  > ${sample_id}.txt
+rm A1 A2 A2A1 temp
+done < file
+
+```
 
 
 
-
-
-
-##
+## for C01,C03,C04
 ```{r}
 
 list.files("vcf/1x")
@@ -23,21 +37,19 @@ df_C01 = readr::read_table(C01,  col_names = F)
 ## has an alternative allele
 df_C01s = df_C01 %>% 
   dplyr::filter( X4 == X7 | X4==X8 )
-non_alternative = nrow(df_C01) - nrow(df_C01s) #882030
-  
 
 
 df_C03 = readr::read_table(C03,  col_names = F)
 ## has an alternative allele
 df_C03s = df_C03 %>% 
   dplyr::filter( X4 == X7 | X4==X8 )
-non_alternative = nrow(df_C03) - nrow(df_C03s) #881912
+
 
 df_C04 = readr::read_table(C04,  col_names = F)
 ## has an alternative allele
 df_C04s = df_C04 %>% 
   dplyr::filter( X4 == X7 | X4==X8 )
-non_alternative = nrow(df_C04) - nrow(df_C04s) #882030
+
 
 #######################
 ###C01 and C03
@@ -57,7 +69,6 @@ C01_only = setdiff( df_C01s$X2, df_C04s$X2)
 C04_only = setdiff( df_C04s$X2, df_C01s$X2)
 
 
-
 #######################
 ###C03 and C04
 #######################
@@ -72,9 +83,7 @@ C04_only = setdiff( df_C04s$X2, df_C03s$X2)
 #C01 C03 C04
 ######################
 
-intersect(intersect(C01_C03, C01_C04 ), C03_C04) 
-
-
+all_three = intersect(intersect(C01_C03, C01_C04 ), C03_C04)  ##44824
 
 
 ```
@@ -82,15 +91,68 @@ intersect(intersect(C01_C03, C01_C04 ), C03_C04)
 
 
 
-##
+
+
+## for C05,C07,C08
 ```{r}
 
-df_C01
+list.files("vcf/1x")
 
-df_C01_s = df_C01 %>% 
-  tidyr::separate( X10, sep=":", c("genotype", "other"), remove =F)
-  
-df_C01_s
+C05 = "vcf/1x/C1003C05depth1x.vcf.txt"
+C07 = "vcf/1x/C1003C07depth1x.vcf.txt"
+C08 = "vcf/1x/C1003C08depth1x.vcf.txt"
+
+df_C05 = readr::read_table(C05,  col_names = F)
+## has an alternative allele
+df_C05s = df_C05 %>% 
+  dplyr::filter( X4 == X7 | X4==X8 )
+
+
+df_C07 = readr::read_table(C07,  col_names = F)
+## has an alternative allele
+df_C07s = df_C07 %>% 
+  dplyr::filter( X4 == X7 | X4==X8 )
+
+
+df_C08 = readr::read_table(C08,  col_names = F)
+## has an alternative allele
+df_C08s = df_C08 %>% 
+  dplyr::filter( X4 == X7 | X4==X8 )
+
+
+#######################
+###C05 and C07
+#######################
+## altenative allele with same position
+C05_C07 = intersect( df_C05s$X2, df_C07s$X2)
+C05_only = setdiff( df_C05s$X2, df_C07s$X2)
+C07_only = setdiff( df_C07s$X2, df_C05s$X2)
+
+
+#######################
+###C05 and C08
+#######################
+## altenative allele with same position
+C05_C08 = intersect( df_C05s$X2, df_C08s$X2)
+C05_only = setdiff( df_C05s$X2, df_C08s$X2)
+C08_only = setdiff( df_C08s$X2, df_C05s$X2)
+
+
+#######################
+###C07 and C08
+#######################
+## altenative allele with same position
+C07_C08 = intersect( df_C07s$X2, df_C08s$X2)
+C07_only = setdiff( df_C07s$X2, df_C08s$X2)
+C08_only = setdiff( df_C08s$X2, df_C07s$X2)
+
+
+
+######################
+#C05 C07 C08
+######################
+
+all_three = intersect(intersect(C05_C07, C05_C08 ), C07_C08)  ##44824
 
 
 ```
