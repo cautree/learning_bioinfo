@@ -1,0 +1,119 @@
+library
+```{r}
+library(dplyr)
+```
+
+
+
+
+
+
+
+
+##
+```{r}
+
+list.files("vcf/1x")
+
+C01 = "vcf/1x/C1003C01depth1x.vcf.txt"
+C03 = "vcf/1x/C1003C03depth1x.vcf.txt"
+C04 = "vcf/1x/C1003C04depth1x.vcf.txt"
+
+df_C01 = readr::read_table(C01,  col_names = F)
+## has an alternative allele
+df_C01s = df_C01 %>% 
+  dplyr::filter( X4 == X7 | X4==X8 )
+non_alternative = nrow(df_C01) - nrow(df_C01s) #882030
+  
+
+
+df_C03 = readr::read_table(C03,  col_names = F)
+## has an alternative allele
+df_C03s = df_C03 %>% 
+  dplyr::filter( X4 == X7 | X4==X8 )
+non_alternative = nrow(df_C03) - nrow(df_C03s) #881912
+
+df_C04 = readr::read_table(C04,  col_names = F)
+## has an alternative allele
+df_C04s = df_C04 %>% 
+  dplyr::filter( X4 == X7 | X4==X8 )
+non_alternative = nrow(df_C04) - nrow(df_C04s) #882030
+
+#######################
+###C01 and C03
+#######################
+## altenative allele with same position
+C01_C03 = intersect( df_C01s$X2, df_C03s$X2)
+C01_only = setdiff( df_C01s$X2, df_C03s$X2)
+C03_only = setdiff( df_C03s$X2, df_C01s$X2)
+
+
+#######################
+###C01 and C04
+#######################
+## altenative allele with same position
+C01_C04 = intersect( df_C01s$X2, df_C04s$X2)
+C01_only = setdiff( df_C01s$X2, df_C04s$X2)
+C04_only = setdiff( df_C04s$X2, df_C01s$X2)
+
+
+
+#######################
+###C03 and C04
+#######################
+## altenative allele with same position
+C03_C04 = intersect( df_C03s$X2, df_C04s$X2)
+C03_only = setdiff( df_C03s$X2, df_C04s$X2)
+C04_only = setdiff( df_C04s$X2, df_C03s$X2)
+
+
+
+######################
+#C01 C03 C04
+######################
+
+intersect(intersect(C01_C03, C01_C04 ), C03_C04) 
+
+
+
+
+```
+
+
+
+
+##
+```{r}
+
+df_C01
+
+df_C01_s = df_C01 %>% 
+  tidyr::separate( X10, sep=":", c("genotype", "other"), remove =F)
+  
+df_C01_s
+
+
+```
+
+
+
+
+
+
+
+
+
+
+##
+```{r}
+
+list.files("~/Documents/task_run_seqwell_pipeline/20241213_NextSeq2000_large_downsample_wgs_impute/concordance/concordance_summary_table")
+
+df = readr::read_csv( "~/Documents/task_run_seqwell_pipeline/20241213_NextSeq2000_large_downsample_wgs_impute/concordance/concordance_summary_table/na12878_imputation_summary_report.csv" )
+
+df_s = df %>% 
+  dplyr::filter( grepl("(C01|C02|C03|C04)", sample)) %>% 
+  dplyr::filter( depth == "depth1x")
+
+
+```
