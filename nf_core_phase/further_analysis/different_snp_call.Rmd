@@ -1,0 +1,63 @@
+
+
+library
+```{r}
+library(dplyr)
+```
+
+
+
+##
+```{r}
+
+list.files("vcf/1x")
+
+C01 = "vcf/1x/C1003C01depth1x.vcf"
+
+df_C01 = readr::read_tsv(C01,  col_names = F)
+df_C01
+df_C01_s = df_C01 %>% 
+  tidyr::separate( X10,  sep= ":",c("genotype", "other") )
+
+res = as.data.frame(table(df_C01_s$genotype))
+rownames(res) = res$Var1
+res$Var1 = NULL
+as.data.frame(t(res))
+
+```
+
+## function
+```{r}
+
+get_pct_call = function(path ){
+  
+  df = readr::read_tsv(path,  col_names = F)
+
+  df_s = df %>% 
+    tidyr::separate( X10,  sep= ":",c("genotype", "other") ) 
+    
+  res = as.data.frame(table(df_s$genotype))
+  rownames(res) = res$Var1
+  res$Var1 = NULL
+  results = as.data.frame(t(res))
+  
+  results = results %>% 
+    dplyr::mutate( sample = path) %>% 
+    dplyr::mutate( sample = stringr::str_extract_all( sample, "C0[1-8]", simplify =T)) %>% 
+    dplyr::mutate( sample = as.character( sample))
+  
+  return(results)
+  
+  
+}
+
+
+pathlist = list.files( "vcf/1x", pattern = "vcf$", full.names = T )
+
+df = purrr::map_dfr( pathlist, get_pct_call)
+
+rownames(df) = NULL
+
+readr::write_csv( df, "pct_calls/different_calls_for_samples.csv")
+
+```
