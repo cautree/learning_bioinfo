@@ -5,6 +5,7 @@ git config --global user.name "cautree"
 git config --global user.name "YanyanL"
 git config --global user.email "aaa@gmail.com"
 git config --global color.ui true
+git config --global core.editor "nano"
 
 ssh-keygen -t ed25519 -C "aaas@gmail.com"
 
@@ -71,3 +72,9 @@ git push
 
 
 ```
+
+## get back to specific commit
+```
+git reset --hard 4a155e5
+```
+
