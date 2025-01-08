@@ -130,3 +130,6 @@ Config file specified using the -c <config-file> option
 Parameters specified in a params file (-params-file option)
 
 Parameters specified on the command line (--something value)
+
+## double qutes output filename
+Very important to remember: you have to use double quotes around the output filename expression (NOT single quotes) or it will fail.
