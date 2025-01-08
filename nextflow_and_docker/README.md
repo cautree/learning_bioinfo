@@ -133,3 +133,12 @@ Parameters specified on the command line (--something value)
 
 ## double qutes output filename
 Very important to remember: you have to use double quotes around the output filename expression (NOT single quotes) or it will fail.
+
+
+## ANSI logging
+By default, the ANSI logging system writes the logging from multiple calls to the same process on the same line. Fortunately, we can disable that behavior.
+
+Run the command again with the -ansi-log false option
+```
+nextflow run hello-world.nf -ansi-log false
+```
