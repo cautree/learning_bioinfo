@@ -107,3 +107,8 @@ java -Xmx40G -jar  /home/ec2-user/software/snpEff/snpEff.jar -v  GRCh38.86 22101
 ##
 
 https://stackoverflow.com/questions/65398109/nextflow-in-cmd-process-is-expanded
+
+
+## pipeline-level parameter vs nextflow-level parameter
+
+It's helpful to distinguish Nextflow-level parameters from pipeline-level parameters. For parameters that apply to a pipeline, we use a double hyphen (--), whereas we use a single hyphen (-) for parameters that modify a specific Nextflow setting, e.g. the -resume feature we used earlier.
