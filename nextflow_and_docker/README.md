@@ -112,3 +112,21 @@ https://stackoverflow.com/questions/65398109/nextflow-in-cmd-process-is-expanded
 ## pipeline-level parameter vs nextflow-level parameter
 
 It's helpful to distinguish Nextflow-level parameters from pipeline-level parameters. For parameters that apply to a pipeline, we use a double hyphen (--), whereas we use a single hyphen (-) for parameters that modify a specific Nextflow setting, e.g. the -resume feature we used earlier.
+
+## configuration order
+
+(from lowest to highest priority):
+
+Parameters defined in pipeline scripts (e.g. main.nf)
+
+The config file $HOME/.nextflow/config
+
+The config file nextflow.config in the project directory
+
+The config file nextflow.config in the launch directory
+
+Config file specified using the -c <config-file> option
+
+Parameters specified in a params file (-params-file option)
+
+Parameters specified on the command line (--something value)
