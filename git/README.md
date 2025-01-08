@@ -42,13 +42,13 @@ git clone git@gitlab.com:seqwell/nextflow-demux.git
 cd nextflow-demux
 
 
-git branch 'dev-2024'
-git checkout 'dev-2024'
+git branch 'dev-2025'
+git checkout 'dev-2025'
 git status
 git add .
-git commit -m 'from dev-2024'
+git commit -m 'from dev-2025'
 
-git push --set-upstream origin 'dev-2024'
+git push --set-upstream origin 'dev-2025'
 
 ```
 
