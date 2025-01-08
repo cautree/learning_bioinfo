@@ -13,3 +13,6 @@ The nextflow.config in our current working directory contains docker.enabled = t
 ##  tree -a 
 tree -a work/8c/738ac55b80e7b6170aa84a68412454
 -a makes sure all files are printed including hidden files
+
+## code: capture the namespace context for a code fragment
+code work/8c/738ac55b80e7b6170aa84a68412454/.command.run
