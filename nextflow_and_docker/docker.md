@@ -16,3 +16,35 @@ tree -a work/8c/738ac55b80e7b6170aa84a68412454
 
 ## code: capture the namespace context for a code fragment
 code work/8c/738ac55b80e7b6170aa84a68412454/.command.run
+
+
+## create a container in seqera
+
+https://seqera.io/containers/
+
+### in conda.yml file
+```
+channels:
+- conda-forge
+- bioconda
+dependencies:
+- bioconda::nextflow=24.10.3
+
+```
+
+
+### in Dockerfile
+```
+FROM mambaorg/micromamba:1.5.10-noble
+COPY --chown=$MAMBA_USER:$MAMBA_USER conda.yml /tmp/conda.yml
+RUN micromamba install -y -n base -f /tmp/conda.yml \
+    && micromamba install -y -n base conda-forge::procps-ng \
+    && micromamba env export --name base --explicit > environment.lock \
+    && echo ">> CONDA_LOCK_START" \
+    && cat environment.lock \
+    && echo "<< CONDA_LOCK_END" \
+    && micromamba clean -a -y
+USER root
+ENV PATH="$MAMBA_ROOT_PREFIX/bin:$PATH"
+
+```
