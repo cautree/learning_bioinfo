@@ -57,3 +57,26 @@ docker run -it -v ./data:/data community.wave.seqera.io/library/samtools:1.20--b
 samtools index /data/bam/reads_mother.bam
 
 ```
+
+## Call variants with GATK HaplotypeCaller, run tools in docker container interactively
+
+The GATK documentation gives us the command line to run to perform variant calling on a BAM file.
+
+We need to provide the BAM input file (-I) as well as the reference genome (-R), a name for the output file (-O) and a list of genomic intervals to analyze (-L).
+
+However, we don't need to specify the path to the index file; the tool will automatically look for it in the same directory, based on the established naming and co-location convention. The same applies to the reference genome's accessory files (index and sequence dictionary files, *.fai and *.dict).
+
+```
+docker pull community.wave.seqera.io/library/gatk4:4.5.0.0--730ee8817e436867
+
+docker run -it -v ./data:/data community.wave.seqera.io/library/gatk4:4.5.0.0--730ee8817e436867
+
+
+gatk HaplotypeCaller \
+        -R /data/ref/ref.fasta \
+        -I /data/bam/reads_mother.bam \
+        -O reads_mother.vcf \
+        -L /data/ref/intervals.bed
+
+
+```
