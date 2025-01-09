@@ -48,3 +48,12 @@ USER root
 ENV PATH="$MAMBA_ROOT_PREFIX/bin:$PATH"
 
 ```
+
+
+## run tools in docker container interactively
+```
+docker pull community.wave.seqera.io/library/samtools:1.20--b5dfbd93de237464
+docker run -it -v ./data:/data community.wave.seqera.io/library/samtools:1.20--b5dfbd93de237464
+samtools index /data/bam/reads_mother.bam
+
+```
