@@ -1,0 +1,6 @@
+channels:
+- conda-forge
+- bioconda
+dependencies:
+- bioconda::mosdepth=0.3.10
+- conda-forge::awscli=2.22.31
