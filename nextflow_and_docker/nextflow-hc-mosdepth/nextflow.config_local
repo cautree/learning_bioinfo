@@ -4,77 +4,71 @@ aws {
     region = 'us-east-1'
 }
 
-
+docker {
+    enabled = true
+}
 
 
 process {
     withName: downsample {
       memory = '60.0G'
       cpus = 16
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/seqtk'
   }
    
     withName: downsample_bbtools {
       memory = '60.0G'
       cpus = 16
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bbmerge'
-      
+      queue = "batch-nextflow-queue-500Gb"
  }
   
     withName: bwa {
       memory = '60.0G'
       cpus = 16
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
   }
   
   withName: index_mdbam {
       memory = '30.0G'
       cpus = 8
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
   }
   
     withName: markDuplicates {
       memory = '60.0G'
       cpus = 16
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/picard'
   }
     withName: picardMetrics {
       memory = '60.0G'
       cpus = 16
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/picard'
   }
     withName: summarize {
       memory = '16.0G'
       cpus = 16
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
+      
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/python-pandas'
   }
     withName: counts {
       memory = '4.0G'
       cpus = 4
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
   }
   
   withName: summarizeArtifacts {
       memory = '4.0G'
       cpus = 4
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/python-pandas'
   }
   
@@ -82,8 +76,7 @@ process {
   withName: MOSDEPTH {
       memory = '30.0G'
       cpus = 8
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = 'cautree/mosdepth:latest'
   }
   
@@ -91,8 +84,7 @@ process {
    withName: fastqc {
       memory = '16.0G'
       cpus = 8
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = 'quay.io/fhcrc-microbiome/fastqc:latest'
   }
   
@@ -100,8 +92,7 @@ process {
      withName: MULTIQC {
       memory = '8.0G'
       cpus = 4
-      executor = 'awsbatch'
-      queue = 'batch-nextflow-queue-500Gb'
+      executor = 'local'
       container = 'cautree/multiqc:latest'
      
      }

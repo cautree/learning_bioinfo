@@ -13,9 +13,8 @@ targets=s3://seqwell-codexis/intervals/twist_hg38_exome_v2.0.2_probes_sorted_val
 
 /software/nextflow-align/nextflow run \
 hybrid.nf \
- -c nextflow.config \
--work-dir s3://seqwell-dev/work/${run}/work/ \
---plate $plates \
+ -c nextflow.config_local \
+ --plate $plates \
 --targets $targets \
 --run $run \
  --outfile ${run}_${analysis} \

@@ -104,7 +104,7 @@ process downsample_bbtools {
 process bwa {
 
 //    publishDir path: 'bam', pattern: '*.bam'
-     publishDir path: "s3://$path_s3/$params.run/$params.analysis/bam"
+     publishDir path: "s3://$path_s3/$params.run/$params.analysis/bam" , mode: "copy"
 
      input:
      tuple val(pair_id), path(read1), path(read2) from sample_fq

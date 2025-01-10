@@ -10,6 +10,7 @@ hybrid=false
 
 /software/nextflow-align/nextflow run \
 align.nf \
+-work-dir s3://seqwell-dev/work/$run/work \
  -c nextflow.config \
  --plate $plates \
 --hybrid  $hybrid \
