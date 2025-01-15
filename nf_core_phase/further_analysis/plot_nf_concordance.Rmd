@@ -1,0 +1,510 @@
+
+
+library
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+
+
+##
+```{r}
+
+list.files("../nf_concordence_out/")
+
+read_file = function (x){
+  
+  df = readr::read_table(x) 
+  names(df) = c("group", "SNP_position_count", "MAF_mean", "genotyping_rate", "r_squared")
+  
+  df = df %>% 
+    dplyr::mutate( sample = x) %>% 
+    dplyr::mutate( sample = stringr::str_extract_all( sample, "[GH][0-9]{2}depth[0-9]{1,}x", simplify = T)) %>% 
+    dplyr::mutate( sample = as.character(sample)) %>% 
+    dplyr::mutate( well = stringr::str_extract_all( sample, "[GH][0-9]{2}", simplify = T)) %>% 
+    dplyr::mutate( well = as.character(well)) %>% 
+    dplyr::mutate( depth = stringr::str_extract_all( sample, "depth[0-9]{1,}x", simplify = T)) %>% 
+    dplyr::mutate( depth = as.character(depth)) %>% 
+    dplyr::mutate( depth = stringr::str_replace_all(depth, "(x|depth)", "" )) %>% 
+    dplyr::mutate( depth = stringr::str_replace_all(depth, "01", "0.1" )) %>% 
+    dplyr::mutate( depth = stringr::str_replace_all(depth, "02", "0.2" )) %>% 
+    dplyr::mutate( depth = stringr::str_replace_all(depth, "05", "0.5" )) %>% 
+    dplyr::mutate( depth = stringr::str_replace_all(depth, "08", "0.8" )) %>% 
+    dplyr::mutate( depth = stringr::str_replace_all(depth, "15", "1.5" )) 
+  return(df)
+  
+}
+
+path_all = list.files("../nf_concordence_out/", full.names = T)
+
+df_res = purrr::map_dfr( path_all, read_file)
+
+```
+
+
+
+##
+```{r}
+
+df_res
+
+table(df_res$depth)
+
+
+
+```
+
+
+
+## depth 1.5, 5ng
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("[GH]11", well)) %>% 
+  dplyr::mutate( depth_ = case_when(
+    depth == 0.1 ~ 1 , 
+    depth == 0.2 ~ 2 , 
+    depth == 0.5 ~ 3 , 
+    depth == 0.8 ~ 4 , 
+    depth == 1 ~ 5 , 
+    depth == 1.5 ~ 6 , 
+    depth == 2 ~ 7 , 
+  )) %>% 
+  dplyr::filter( depth==1.5)
+
+df_rep1
+
+df_rep1 %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.8,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black") 
+
+
+```
+
+
+
+
+
+
+## depth 1.5, 10ng
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("[GH]09", well)) %>% 
+  dplyr::mutate( depth_ = case_when(
+    depth == 0.1 ~ 1 , 
+    depth == 0.2 ~ 2 , 
+    depth == 0.5 ~ 3 , 
+    depth == 0.8 ~ 4 , 
+    depth == 1 ~ 5 , 
+    depth == 1.5 ~ 6 , 
+    depth == 2 ~ 7 , 
+  )) %>% 
+  dplyr::filter( depth==1.5)
+
+df_rep1
+
+df_rep1 %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.8,1)
+
+
+
+```
+
+
+
+
+
+## depth 1.5, 10ng
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("[GH]01", well)) %>% 
+  dplyr::mutate( depth_ = case_when(
+    depth == 0.1 ~ 1 , 
+    depth == 0.2 ~ 2 , 
+    depth == 0.5 ~ 3 , 
+    depth == 0.8 ~ 4 , 
+    depth == 1 ~ 5 , 
+    depth == 1.5 ~ 6 , 
+    depth == 2 ~ 7 , 
+  )) %>% 
+  dplyr::filter( depth==1.5)
+
+df_rep1
+
+df_rep1 %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.8,1)
+
+
+
+```
+
+
+
+
+
+## manual, depth =1
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==1)
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  dplyr::mutate( r_squared_txt = as.character(r_squared)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black") 
+
+```
+
+
+
+
+## mechanic depth =1
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==1)
+
+table(df_rep1$well)
+table(df_rep1$depth)
+
+
+
+df_rep1
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+```
+
+
+
+
+
+
+
+## manual, depth =0.1
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.1)
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  dplyr::mutate( r_squared_txt = as.character(r_squared)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.65,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black") 
+
+```
+
+
+
+
+## mechanic depth =0.1
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.1)
+
+table(df_rep1$well)
+table(df_rep1$depth)
+
+
+
+df_rep1
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.65,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+```
+
+
+
+
+
+
+
+
+## manual, depth =0.2
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.2)
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  dplyr::mutate( r_squared_txt = as.character(r_squared)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black") 
+
+```
+
+
+
+
+## mechanic depth =0.2
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.2)
+
+table(df_rep1$well)
+table(df_rep1$depth)
+
+
+
+df_rep1
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+```
+
+
+
+
+
+
+
+## manual, depth =0.8
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.8)
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  dplyr::mutate( r_squared_txt = as.character(r_squared)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black") 
+
+```
+
+
+
+
+## mechanic depth =0.8
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.8)
+
+table(df_rep1$well)
+table(df_rep1$depth)
+
+
+
+df_rep1
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+```
+
+
+
+
+
+
+## manual, depth =0.5
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.8)
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  dplyr::mutate( r_squared_txt = as.character(r_squared)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black") 
+
+```
+
+
+
+
+## mechanic depth =0.5
+```{r}
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H(01|03|05|07|09|11)", well)) %>% 
+  dplyr::filter( depth==0.8)
+
+table(df_rep1$well)
+table(df_rep1$depth)
+
+
+
+df_rep1
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = well)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+```
+
+
+
+
+## manual input 10ng
+```{r}
+
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G09", well))
+
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = depth)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+
+```
+
+
+## mechanic input 10ng
+```{r}
+
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H09", well))
+
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = depth)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+
+```
+
+
+
+
+
+## manual input 20ng
+```{r}
+
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("G07", well))
+
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = depth)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+
+```
+
+
+## mechanic input 20ng
+```{r}
+
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H07", well))
+
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = depth)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+
+```
+
+
+
+## mechanic input 20ng
+```{r}
+
+
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl("H08", well))
+
+
+df_rep1 %>% 
+  dplyr::mutate( r_squared = round(r_squared,3)) %>% 
+  ggplot(aes( group, r_squared, colour = depth)) +
+  geom_point() +
+  geom_line() +
+  ylim(0.85,1) +
+  geom_text(aes(y = r_squared, label= r_squared), hjust= 0.5, vjust = -2, size= 2.0, color= "black")
+
+
+```
