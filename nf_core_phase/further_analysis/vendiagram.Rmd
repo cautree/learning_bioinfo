@@ -3,7 +3,7 @@ library
 library(dplyr)
 ```
 
-
+select 02, 06, 12 for 5ug, 25ug and 50ug
 ## get genotype from VCF files
 ```{bash}
 #https://www.biostars.org/p/312304/#312306
@@ -24,14 +24,14 @@ done < file
 
 
 
-## for C01,C03,C04
+## for G02, G06, G12
 ```{r}
 
-list.files("vcf/1x")
+list.files("vcf/05x/selected/")
 
-C01 = "vcf/1x/C1003C01depth1x.vcf.txt"
-C03 = "vcf/1x/C1003C03depth1x.vcf.txt"
-C04 = "vcf/1x/C1003C04depth1x.vcf.txt"
+C01 = "vcf/05x/selected/G02depth05x.vcf.txt"
+C03 = "vcf/05x/selected/G06depth05x.vcf.txt"
+C04 = "vcf/05x/selected/G12depth05x.vcf.txt"
 
 df_C01 = readr::read_table(C01,  col_names = F)
 ## has an alternative allele
@@ -56,8 +56,8 @@ df_C04s = df_C04 %>%
 #######################
 ## altenative allele with same position
 C01_C03 = intersect( df_C01s$X2, df_C03s$X2)
-C01_only = setdiff( df_C01s$X2, df_C03s$X2)
-C03_only = setdiff( df_C03s$X2, df_C01s$X2)
+C01_only_C01C03 = setdiff( df_C01s$X2, df_C03s$X2)
+C03_only_C01C03 = setdiff( df_C03s$X2, df_C01s$X2)
 
 
 #######################
@@ -65,8 +65,8 @@ C03_only = setdiff( df_C03s$X2, df_C01s$X2)
 #######################
 ## altenative allele with same position
 C01_C04 = intersect( df_C01s$X2, df_C04s$X2)
-C01_only = setdiff( df_C01s$X2, df_C04s$X2)
-C04_only = setdiff( df_C04s$X2, df_C01s$X2)
+C01_only_C01C04 = setdiff( df_C01s$X2, df_C04s$X2)
+C04_only_C01C04 = setdiff( df_C04s$X2, df_C01s$X2)
 
 
 #######################
@@ -74,8 +74,8 @@ C04_only = setdiff( df_C04s$X2, df_C01s$X2)
 #######################
 ## altenative allele with same position
 C03_C04 = intersect( df_C03s$X2, df_C04s$X2)
-C03_only = setdiff( df_C03s$X2, df_C04s$X2)
-C04_only = setdiff( df_C04s$X2, df_C03s$X2)
+C03_only_C03C04 = setdiff( df_C03s$X2, df_C04s$X2)
+C04_only_C03C04 = setdiff( df_C04s$X2, df_C03s$X2)
 
 
 
@@ -86,6 +86,21 @@ C04_only = setdiff( df_C04s$X2, df_C03s$X2)
 all_three = intersect(intersect(C01_C03, C01_C04 ), C03_C04)  ##44824
 
 
+
+position3 = length(C01_C03) - length(all_three)
+position5 = length(C01_C04) - length(all_three)
+position6 = length(C03_C04) - length(all_three)
+
+
+position1 = nrow(df_C01s) - length(all_three) - position3 - position5
+position2 = nrow(df_C03s) - length(all_three) - position3 - position6
+position4 = nrow(df_C04s) - length(all_three) - position5 - position6
+
+position7 = length(all_three)
+
+to_python = c( position1, position2, position3, position4, position5, position6, position7)
+to_python
+
 ```
 
 
@@ -93,14 +108,14 @@ all_three = intersect(intersect(C01_C03, C01_C04 ), C03_C04)  ##44824
 
 
 
-## for C05,C07,C08
+## for H02, H06, H12
 ```{r}
 
-list.files("vcf/1x")
+list.files("vcf/05x/selected/", pattern = "G")
 
-C05 = "vcf/1x/C1003C05depth1x.vcf.txt"
-C07 = "vcf/1x/C1003C07depth1x.vcf.txt"
-C08 = "vcf/1x/C1003C08depth1x.vcf.txt"
+C05 = "vcf/05x/selected/H02depth05x.vcf.txt"
+C07 = "vcf/05x/selected/H06depth05x.vcf.txt"
+C08 = "vcf/05x/selected/H12depth05x.vcf.txt"
 
 df_C05 = readr::read_table(C05,  col_names = F)
 ## has an alternative allele
@@ -125,8 +140,8 @@ df_C08s = df_C08 %>%
 #######################
 ## altenative allele with same position
 C05_C07 = intersect( df_C05s$X2, df_C07s$X2)
-C05_only = setdiff( df_C05s$X2, df_C07s$X2)
-C07_only = setdiff( df_C07s$X2, df_C05s$X2)
+C05_only_C05C07 = setdiff( df_C05s$X2, df_C07s$X2)
+C07_only_C05C07 = setdiff( df_C07s$X2, df_C05s$X2)
 
 
 #######################
@@ -134,8 +149,8 @@ C07_only = setdiff( df_C07s$X2, df_C05s$X2)
 #######################
 ## altenative allele with same position
 C05_C08 = intersect( df_C05s$X2, df_C08s$X2)
-C05_only = setdiff( df_C05s$X2, df_C08s$X2)
-C08_only = setdiff( df_C08s$X2, df_C05s$X2)
+C05_only_C05C08 = setdiff( df_C05s$X2, df_C08s$X2)
+C08_only_C05C08 = setdiff( df_C08s$X2, df_C05s$X2)
 
 
 #######################
@@ -143,8 +158,8 @@ C08_only = setdiff( df_C08s$X2, df_C05s$X2)
 #######################
 ## altenative allele with same position
 C07_C08 = intersect( df_C07s$X2, df_C08s$X2)
-C07_only = setdiff( df_C07s$X2, df_C08s$X2)
-C08_only = setdiff( df_C08s$X2, df_C07s$X2)
+C07_only_C07C08 = setdiff( df_C07s$X2, df_C08s$X2)
+C08_only_C07C08 = setdiff( df_C08s$X2, df_C07s$X2)
 
 
 
@@ -153,6 +168,22 @@ C08_only = setdiff( df_C08s$X2, df_C07s$X2)
 ######################
 
 all_three = intersect(intersect(C05_C07, C05_C08 ), C07_C08)  ##44824
+
+
+
+position3 = length(C05_C07) - length(all_three)
+position5 = length(C05_C08) - length(all_three)
+position6 = length(C07_C08) - length(all_three)
+
+
+position1 = nrow(df_C05s) - length(all_three) - position3 - position5
+position2 = nrow(df_C07s) - length(all_three) - position3 - position6
+position4 = nrow(df_C08s) - length(all_three) - position5 - position6
+
+position7 = length(all_three)
+
+to_python = c( position1, position2, position3, position4, position5, position6, position7)
+to_python
 
 
 ```
