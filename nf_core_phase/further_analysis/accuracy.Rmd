@@ -35,7 +35,8 @@ read_file = function (x){
     dplyr::mutate( TN = 929834 -TP - FP - FN) %>% 
     dplyr::mutate( ACCURACY = 100*(TP+TN)/929834 ) %>% 
     dplyr::select( sample, depth, type,  everything()) %>% 
-    dplyr::mutate( ACCURACY = round(ACCURACY,2))
+    dplyr::mutate( ACCURACY = round(ACCURACY,2)) %>% 
+    dplyr::mutate( F1 = 2*TP/(2*TP+FP+FN))
   return(df)
   
 }
@@ -44,7 +45,7 @@ path_all = list.files("../GATK_concordance_out/", full.names = T)
 
 df_res = purrr::map_dfr( path_all, read_file)
 
-
+readr::write_csv( df_res, "reports/GATK_concordance_with_F1.csv")
 
 ```
 
@@ -62,7 +63,7 @@ df_res
 
 ##
 ```{r}
-
+cols = c("#a7c7ea", "#2e486a")
 well_group_list_1= c("G01", "G02", "G03", "G04", "G05","G06","G07","G08","G09","G10", "G11" , "G12")
 well_group_list_2= c("H01", "H02", "H03", "H04", "H05","H06","H07","H08","H09","H10", "H11" , "H12")
 
@@ -94,17 +95,63 @@ df_rep2 %>%
   facet_grid( REP_group ~ input) +
 #  geom_text(aes(y = ACCURACY, label= real_label), hjust= 0.5, vjust = -2, size= 2.0, color= "black") +
   xlab("x_depth") +
-  scale_x_continuous(breaks=seq(1,6,1),labels=my_labels) 
-
+  scale_x_continuous(breaks=seq(1,6,1),labels=my_labels) +
+  scale_fill_manual(values=cols)
 
 ggsave("figures/ACCURACY.jpg", width =15, height=12)
 
 
 
+```
 
 
 
+##
+```{r}
 
+
+cols = c("#a7c7ea", "#2e486a")
+well_group_list_1= c("G01", "G02", "G03", "G04", "G05","G06","G07","G08","G09","G10", "G11" , "G12")
+well_group_list_2= c("H01", "H02", "H03", "H04", "H05","H06","H07","H08","H09","H10", "H11" , "H12")
+
+input_list_1 = c("50ng", "50ng", "40ng", "40ng", "25ng","25ng","20ng","20ng","10ng","10ng","5ng","5ng")
+input_list_2 = c("50ng", "50ng", "40ng", "40ng", "25ng","25ng","20ng","20ng","10ng","10ng","5ng","5ng")
+
+well_group = c(well_group_list_1, well_group_list_2)
+input_list = c(input_list_1, input_list_1)
+info_df = data.frame( well =well_group, input = input_list, stringsAsFactors = F )
+
+my_labels = c("0.1x", "0.2x", "0.5x", "0.8x", "1x", "1.5x")
+depth_df = data.frame( depth= c(0.1, 0.2, 0.5, 0.8, 1, 1.5),
+                       depth_group = c(1,2,3,4,5,6),
+                       stringsAsFactors = F)
+
+df_rep2 = df_res %>% 
+  dplyr::left_join(info_df, by ="well") %>% 
+  dplyr::left_join( depth_df, by = "depth") %>% 
+  dplyr::filter( depth !=2 ) %>% 
+ # dplyr::mutate( real_label = ifelse( grepl("Manual", method),ACCURACY, "" )) %>% 
+  dplyr::mutate( real_label = F1 ) %>% 
+  dplyr::mutate( REP_group = ifelse( grepl("(01|03|05|07|09|11)", well), "Rep1", "Rep2")) %>% 
+  dplyr::mutate( input = factor(input, levels = c("5ng", "10ng", "20ng", "25ng", "40ng","50ng"), ordered = T ))
+
+
+df_rep2 %>% 
+  ggplot(aes( depth_group, F1, fill = method )) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid( REP_group ~ input) +
+  xlab("x_depth") +
+  scale_x_continuous(breaks=seq(1,6,1),labels=my_labels) +
+  scale_fill_manual(values=cols) +
+  coord_cartesian(ylim=c(0.8,0.91)) +
+  scale_y_continuous( breaks = seq(0.8, 0.91, by = 0.01))
+
+
+ggsave("figures/ACCURACY_F1.jpg", width =15, height=12)
 
 
 ```
+
+
+
+
