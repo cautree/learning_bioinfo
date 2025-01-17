@@ -11,6 +11,8 @@ library(ggplot2)
 ##
 ```{r}
 
+cols = c("#305220", "#8dc640")
+
 list.files("../nf_concordence_out/")
 
 read_file = function (x){
@@ -44,6 +46,8 @@ path_all = list.files("../nf_concordence_out/", full.names = T)
 
 df_res = purrr::map_dfr( path_all, read_file)
 
+readr::write_csv( df_res, "reports/nf_concordance_out_JAX.csv")
+
 ```
 
 
@@ -55,7 +59,11 @@ df_res
 
 table(df_res$depth)
 
+table(df_res$sample)
 
+df_res_s = df_res %>% 
+  dplyr::filter( sample %in% c("G01depth01x", "G02depth01x")) %>% 
+  dplyr::filter( group ==1)
 
 ```
 
@@ -95,18 +103,48 @@ df_rep1 %>%
 ?ggsave()
 ggsave("figures/test.jpg", width =8, height=6)
 ```
+
+
+
+
+## depth 1.5, 5ng, test2
+```{r}
+well_group="[GH]12"
+df_rep1 = df_res %>% 
+  dplyr::filter( grepl(well_group, well)) %>% 
+  dplyr::filter( depth !="2x") %>% 
+  dplyr::mutate( real_label = ifelse( grepl("G", well),r_squared, "" ))
+
+df_rep1
+
+my_labels = c("0-0.01","0.01-0.02","0.02-0.05","0.05-0.1", "0.1-0.2","0.2-0.3", "0.3-0.4", "0.4-0.5")
+my_labels = c("0.01","0.02","0.05","0.1", "0.2","0.3", "0.4", "0.5")
+# df_rep1 %>% 
+#   ggplot(aes( group, r_squared, colour = method, label = real_label )) +
+#   geom_point() +
+#   geom_line() +
+#   ylim(0.7,1.05) +
+#   facet_wrap(~ depth) + 
+#   ggrepel::geom_label_repel()+
+#   scale_x_continuous(breaks=seq(0,7,1),labels=my_labels) 
+
+df_rep1 %>% 
+  ggplot(aes( group, r_squared, colour = method )) +
+  geom_point() +
+  geom_line() +
+  ylim(0.7,1.05) + 
+  facet_wrap(~ depth) + 
+  geom_text(aes(y = r_squared, label= real_label), hjust= 0.5, vjust = -2, size= 2.0, color= "black") +
+  scale_x_continuous(breaks=seq(0,7,1),labels=my_labels) +
+  xlab("MAF")
+
+?ggsave()
+ggsave("figures/test2.jpg", width =8, height=6)
+```
 50ng
-50ng
-40ng
-40ng
-25ng
-25ng
-20ng
-20ng
-10ng
-10ng
-5ng
-5ng
+
+
+
 
 ### at different input
 ```{r}
@@ -119,9 +157,11 @@ my_labels = c("0.01","0.02","0.05","0.1", "0.2","0.3", "0.4", "0.5")
 get_plot_1 = function(x, y){
   
   df_rep1 = df_res %>% 
-  dplyr::filter( grepl(well_group, well)) %>% 
+  dplyr::filter( grepl(x, well)) %>% 
   dplyr::filter( depth !="2x") %>% 
   dplyr::mutate( real_label = ifelse( grepl("G", well),r_squared, "" ))
+  
+  readr::write_csv( df_rep1, paste0("reports/individual_reports/", x, ".csv") )
 
 df_rep1 %>% 
   ggplot(aes( group, r_squared, colour = method )) +
@@ -132,13 +172,14 @@ df_rep1 %>%
   geom_text(aes(y = r_squared, label= real_label), hjust= 0.5, vjust = -2, size= 2.0, color= "black") +
   scale_x_continuous(breaks=seq(0,7,1),labels=my_labels) +
   xlab("MAF") +
-  ggtitle(y)
+  ggtitle(y) +
+  scale_color_manual(values=cols)
 
 ggsave(paste0("figures/",x, "_" , y,  "_rsquared_at_different_MAF.jpg"), width =8, height=6)
   
 }
 
-purrr::walk2( well_group_list, input_list,get_plot_1  )
+purrr::walk2( well_group_list, input_list, get_plot_1  )
 
 
 ```
