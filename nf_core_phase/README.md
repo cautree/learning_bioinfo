@@ -193,3 +193,9 @@ echo ${part2}
 --output ${part2}.concordance_MA_bins
 done < info
 ```
+
+
+## igenome
+
+https://support.illumina.com/sequencing/sequencing_software/igenome.html
+https://nf-co.re/docs/usage/reference_genomes
