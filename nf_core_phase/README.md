@@ -199,3 +199,5 @@ done < info
 
 https://support.illumina.com/sequencing/sequencing_software/igenome.html
 https://nf-co.re/docs/usage/reference_genomes
+
+https://ewels.github.io/AWS-iGenomes/
