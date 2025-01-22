@@ -151,3 +151,9 @@ samtools view -h subsample_bc1001.hifi.bam | grep -vf clean_problematic_reads_re
 ## bbtools reformat below error shoud be ignored
 [W::bgzf_read_block] EOF marker is absent. The input is probably truncated
 https://www.biostars.org/p/9527286/
+
+
+## markduplcate big memory issue
+
+https://github.com/broadinstitute/picard/issues/1773
+https://www.biostars.org/p/172474/
