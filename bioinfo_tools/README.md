@@ -157,3 +157,6 @@ https://www.biostars.org/p/9527286/
 
 https://github.com/broadinstitute/picard/issues/1773
 https://www.biostars.org/p/172474/
+
+## samtools markdup having the same issue
+https://github.com/samtools/samtools/issues/1008
