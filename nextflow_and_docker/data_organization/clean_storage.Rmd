@@ -1,0 +1,42 @@
+## clean the data for storage
+
+
+## 1. list the runs in basespace
+nextflow run BS_list_runs.nf 
+
+## 2. get the list of files that need to be cold storaged,  that is move from basespace to s3
+```{r}
+
+bs_run_list="all_runs_names/run.list.csv"
+service_run_list="meta/Services sequencing runs 2024AUG01-2024OCT16.xls"
+mfg_run_list="meta/Mfg sequencing runs 2024AUG01-2024OCT15.xlsx"
+
+df_run_bs = readr::read_csv(bs_run_list)
+
+df_run_bs
+
+df_rm_service = readxl::read_excel(service_run_list)
+df_rm_mfg = readxl::read_excel(mfg_run_list)
+
+df_rm = dplyr::bind_rows(df_rm_service, df_rm_mfg )
+
+df_rm = df_rm %>% 
+  dplyr::rename( ExperimentName = Name )
+
+to_keep_run_name = data.frame(setdiff( df_run_bs$ExperimentName, df_rm$ExperimentName ))
+
+readr::write_tsv( to_keep_run_name, "2024aug-oct-keep.csv", col_names = F )
+
+```
+
+
+
+## 3  move the data from basespace to s3, run on a ec2 instance
+bash nextflow_bs_s3.sh
+
+## 4 delete the bs data by date, do a dry run first, run on an ec2 instance
+/software/nextflow-align/nextflow run bs_rm_by_age.nf  -dsl1
+
+bs list projects --older-than=83d --terse 
+
+
