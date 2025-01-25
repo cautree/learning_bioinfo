@@ -9,34 +9,86 @@ nextflow run BS_list_runs.nf
 
 bs_run_list="all_runs_names/run.list.csv"
 service_run_list="meta/Services sequencing runs 2024AUG01-2024OCT16.xls"
+service_run_list2="meta/Services runs June20-July31.xls"
 mfg_run_list="meta/Mfg sequencing runs 2024AUG01-2024OCT15.xlsx"
+list_2024_04_202406= "~/Documents/projects/basespace_copy/various/delete_s3_data_for_run/sequencing runs 2024.xlsx"
 
 df_run_bs = readr::read_csv(bs_run_list)
 
 df_run_bs
 
 df_rm_service = readxl::read_excel(service_run_list)
+df_rm_service2 = readxl::read_excel(service_run_list2)
 df_rm_mfg = readxl::read_excel(mfg_run_list)
+df_more = readxl::read_excel(list_2024_04_202406) %>% 
+  dplyr::select( - Name) %>% 
+  dplyr::rename(Name = ExperimentName )
 
-df_rm = dplyr::bind_rows(df_rm_service, df_rm_mfg )
+df_rm = dplyr::bind_rows(df_rm_service, df_rm_service2, df_rm_mfg, df_more )
 
 df_rm = df_rm %>% 
   dplyr::rename( ExperimentName = Name )
 
+df_rm_to_save = df_rm %>% 
+  dplyr::select( ExperimentName) %>% 
+  dplyr::mutate( ExperimentName = stringr::str_replace_all(ExperimentName, "_[0-9]{4}$", "") )
+df_rm_to_save
+
+readr::write_csv( df_rm_to_save, "2024-april-oct-rm_s3.csv", col_names = F)
+
+
+
+
+
 to_keep_run_name = data.frame(setdiff( df_run_bs$ExperimentName, df_rm$ExperimentName ))
 
 readr::write_tsv( to_keep_run_name, "2024aug-oct-keep.csv", col_names = F )
+
+
 
 ```
 
 
 
 ## 3  move the data from basespace to s3, run on a ec2 instance
+```{bash}
 bash nextflow_bs_s3.sh
+```
+
+
 
 ## 4 delete the bs data by date, do a dry run first, run on an ec2 instance
+it is dangerous to remove them without checking the list if the older-than did not provide a number, it is going to remove all
+```{bash}
 /software/nextflow-align/nextflow run bs_rm_by_age.nf  -dsl1
-
 bs list projects --older-than=83d --terse 
+```
 
+
+
+## 5 optional mv the data to a different s3 path or delete data for some run
+```{bash}
+nohup bash mv_in_s3.sh &
+nohup bash rm_in_s3.sh &
+```
+
+
+## 6 cold storage the basespace data
+```{bash}
+nohup bash cold_storage_bs_simple.sh &
+```
+
+
+## 7 remove data in s3 prior to 6 month mark, that is before July 07/31/2024
+```{bash}
+nohup bash rm_service_optional_s3_analysis_fq.sh
+```
+
+
+## 8 cold store fq file before July 07/31/2024
+```{bash}
+
+
+
+```
 
