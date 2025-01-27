@@ -170,6 +170,7 @@ scale up the cups by the how many samples you have
 process {
     withName: 'FASTQC' {
         cpus = { reads.size() }
+        tag = { "Total size: ${reads*.size().sum() as MemoryUnit}" }
     }
 }
 
