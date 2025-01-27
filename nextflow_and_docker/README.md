@@ -131,6 +131,8 @@ Parameters specified in a params file (-params-file option)
 
 Parameters specified on the command line (--something value)
 
+A handy guide to understand configuration precedence is in order of 'distance from the command-line invocation'. Parameters specified directly on the CLI --example foo are "closer" to the run than configuration specified in the remote repository.
+
 ## double qutes output filename
 Very important to remember: you have to use double quotes around the output filename expression (NOT single quotes) or it will fail.
 
