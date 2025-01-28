@@ -42,3 +42,16 @@ The config file named nextflow.config in the current directory
 The config file named nextflow.config in the pipeline project directory
 The config file $HOME/.nextflow/config
 Values defined within the pipeline script itself (e.g., main.nf)
+
+
+
+
+## more on nextflow
+Use the list command to view your cached pipelines:
+```
+nextflow list
+```
+View your pulled pipelines in the nextflow assets folder:
+```
+ls $HOME/.nextflow/assets/
+```
