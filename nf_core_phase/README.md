@@ -205,3 +205,7 @@ https://ewels.github.io/AWS-iGenomes/
 ## reference panel for non hg38
 
 https://gong_lab.hzau.edu.cn/gonglab#!/
+
+
+## nf-core test data
+https://github.com/nf-core/test-datasets/tree/phaseimpute/dog_data
