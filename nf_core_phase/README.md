@@ -201,3 +201,7 @@ https://support.illumina.com/sequencing/sequencing_software/igenome.html
 https://nf-co.re/docs/usage/reference_genomes
 
 https://ewels.github.io/AWS-iGenomes/
+
+## reference panel for non hg38
+
+https://gong_lab.hzau.edu.cn/gonglab#!/
