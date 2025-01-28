@@ -179,3 +179,6 @@ process {
 ## how to use -c
 
 Do not use -c <file> to specify parameters as this will result in errors. Custom config files specified with -c must only be used for tuning process resource specifications, other infrastructural tweaks (such as output directories), or module arguments (args).
+
+## ext.args 
+While some tool arguments are included as a part of a module. To make nf-core modules sharable across pipelines, most tool arguments are defined in the conf/modules.conf file in the pipeline code under the ext.args entry.
