@@ -175,3 +175,7 @@ process {
 }
 
 ```
+
+## how to use -c
+
+Do not use -c <file> to specify parameters as this will result in errors. Custom config files specified with -c must only be used for tuning process resource specifications, other infrastructural tweaks (such as output directories), or module arguments (args).
