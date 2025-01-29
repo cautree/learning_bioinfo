@@ -182,3 +182,16 @@ Do not use -c <file> to specify parameters as this will result in errors. Custom
 
 ## ext.args 
 While some tool arguments are included as a part of a module. To make nf-core modules sharable across pipelines, most tool arguments are defined in the conf/modules.conf file in the pipeline code under the ext.args entry.
+```
+singularity {
+    enabled    = true
+    autoMounts = true
+}
+
+process {
+    withName: 'MULTIQC' {
+            ext.args   = { "--title \"my_custom_title\"" }
+        }
+}
+
+```
