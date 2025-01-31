@@ -1,0 +1,87 @@
+
+library
+```{r}
+library(dplyr)
+library(stringdist)
+```
+
+
+## prepare i5 barcode
+```{r}
+
+df_1 = readxl::read_excel("Guide-seq2_barcodes.xlsx", sheet = 1, col_names = F)
+df_1
+  names(df_1)[3] = "barcode"
+
+
+df_1_barcode = df_1 %>% 
+  dplyr::select( barcode)
+
+readr::write_tsv( df_1_barcode, "i7_barcode.txt", col_names = F)
+
+```
+
+
+## prepare i7 barcode
+```{r}
+
+df_2 = readxl::read_excel("Guide-seq2_barcodes.xlsx", sheet = 2, col_names = F)
+df_2
+  names(df_2)[2] = "barcode"
+
+df_2_barcode = df_2 %>% 
+  dplyr::select( barcode)
+
+readr::write_tsv( df_2_barcode, "i5_barcode.txt", col_names = F)
+
+```
+
+
+## run code in README.md
+
+
+## read in the output after running README.md 
+```{r}
+
+df_i5 = readr::read_table( "i5_barcode_24.txt", col_names = F)
+names(df_i5) = "i5"
+
+df_i7 = readr::read_table( "i7_barcode_96.txt", col_names = F)
+names(df_i7) = "i7"
+
+df = dplyr::bind_cols( df_i5, df_i7)
+
+##bp 1-8
+##bp 2-9 
+##bp 3-10 
+df_barcode = df %>% 
+  dplyr::mutate( i5_1_8 = stringr::str_sub(i5, 1, 8)) %>% 
+  dplyr::mutate( i5_2_9 = stringr::str_sub(i5, 2, 9)) %>% 
+  dplyr::mutate( i5_3_10 = stringr::str_sub(i5, 3, 10))
+
+head(df_barcode)
+
+```
+
+
+
+## get the hamming distance
+```{r}
+
+df_dis = df_barcode %>% 
+  dplyr::mutate( dis_1_8 = stringdist(i7, i5_1_8, method = "hamming") ) %>% 
+  dplyr::mutate( dis_2_9 = stringdist(i7, i5_2_9, method = "hamming") ) %>% 
+  dplyr::mutate( dis_3_10 = stringdist(i7, i5_3_10, method = "hamming") )
+
+table(df_dis$dis_1_8)
+table(df_dis$dis_2_9)
+table(df_dis$dis_3_10)
+
+df_dis$MinHammingDistance <- apply(df_dis[,c(6:8)], 1, min, na.rm = TRUE)
+df_dis
+
+table(df_dis$MinHammingDistance)
+
+readr::write_csv( df_dis, "report/i5_i7_barcode_hamming_distance.csv")
+
+```
