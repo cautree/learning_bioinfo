@@ -17,7 +17,14 @@ df_1
 df_1_barcode = df_1 %>% 
   dplyr::select( barcode)
 
-readr::write_tsv( df_1_barcode, "i7_barcode.txt", col_names = F)
+length(unique(df_1_barcode$barcode))
+
+table(df_1_barcode$barcode)
+
+length(unique(df_1_barcode[c(1:12),]$barcode))
+
+df_1_barcode_s = df_1_barcode[c(1:12),]
+readr::write_tsv( df_1_barcode_s, "i7_barcode.txt", col_names = F)
 
 ```
 
@@ -32,6 +39,8 @@ df_2
 df_2_barcode = df_2 %>% 
   dplyr::select( barcode)
 
+length(unique(df_2_barcode$barcode))
+
 readr::write_tsv( df_2_barcode, "i5_barcode.txt", col_names = F)
 
 ```
@@ -40,10 +49,15 @@ readr::write_tsv( df_2_barcode, "i5_barcode.txt", col_names = F)
 ## run code in README.md
 
 
+
+###########################################
+# for i5 <-> i7
+###########################################
+
 ## read in the output after running README.md 
 ```{r}
 
-df_i5 = readr::read_table( "i5_barcode_24.txt", col_names = F)
+df_i5 = readr::read_table( "i5_barcode_12.txt", col_names = F)
 names(df_i5) = "i5"
 
 df_i7 = readr::read_table( "i7_barcode_96.txt", col_names = F)
@@ -84,4 +98,106 @@ table(df_dis$MinHammingDistance)
 
 readr::write_csv( df_dis, "report/i5_i7_barcode_hamming_distance.csv")
 
+df_dis
+
+```
+
+
+
+## collision, hamming_distance == 1
+```{r}
+
+df_report_1 = df_dis %>% 
+  dplyr::filter( MinHammingDistance ==1) %>% 
+  dplyr::mutate( compare_group = "i5_vs_i7")
+
+
+```
+
+
+
+
+
+
+
+###########################################
+# for i5 RC <-> i7
+###########################################
+
+## read in the output after running README.md 
+```{r}
+
+df_i5_RC = readr::read_table( "i5_RC_barcode_12.txt", col_names = F)
+names(df_i5_RC) = "i5"
+
+df_RC = dplyr::bind_cols( df_i5_RC, df_i7)
+
+##bp 1-8
+##bp 2-9 
+##bp 3-10 
+df_barcode_RC = df_RC %>% 
+  dplyr::mutate( i5_1_8 = stringr::str_sub(i5, 1, 8)) %>% 
+  dplyr::mutate( i5_2_9 = stringr::str_sub(i5, 2, 9)) %>% 
+  dplyr::mutate( i5_3_10 = stringr::str_sub(i5, 3, 10))
+
+head(df_barcode_RC)
+
+```
+
+
+
+## get the hamming distance
+```{r}
+
+df_dis_RC = df_barcode_RC %>% 
+  dplyr::mutate( dis_1_8 = stringdist(i7, i5_1_8, method = "hamming") ) %>% 
+  dplyr::mutate( dis_2_9 = stringdist(i7, i5_2_9, method = "hamming") ) %>% 
+  dplyr::mutate( dis_3_10 = stringdist(i7, i5_3_10, method = "hamming") )
+
+table(df_dis_RC$dis_1_8)
+table(df_dis_RC$dis_2_9)
+table(df_dis_RC$dis_3_10)
+
+df_dis_RC$MinHammingDistance <- apply(df_dis_RC[,c(6:8)], 1, min, na.rm = TRUE)
+df_dis_RC
+
+table(df_dis_RC$MinHammingDistance)
+
+readr::write_csv( df_dis_RC, "report/i5_i7_RC_barcode_hamming_distance.csv")
+
+df_dis_RC
+
+```
+
+
+
+## collision, hamming_distance == 1
+```{r}
+
+df_report_1_RC = df_dis_RC %>% 
+  dplyr::filter( MinHammingDistance ==1) %>% 
+  dplyr::mutate( compare_group = "i5_RC_vs_i7")
+
+
+```
+
+
+
+
+#########################################
+# combine i5 <-> i7 and i5 RC <-> i7
+#########################################
+
+
+```{r}
+
+df_report_all = dplyr::bind_rows( df_report_1,  df_report_1_RC)
+
+df_report_all = df_report_all %>% 
+  dplyr::select( compare_group, everything()) %>% 
+  dplyr::rename( i5_or_i5_RC = i5)
+
+df_report_all
+
+readr::write_csv( df_report_all, "report/barcode_collision_report.csv")
 ```
