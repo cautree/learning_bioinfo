@@ -1,0 +1,57 @@
+
+
+library
+```{r}
+library(dplyr)
+```
+
+
+
+```{r}
+
+df_seqwell = readr::read_csv("blastn_results/seqwell_compare.csv")
+
+df_seqwell = df_seqwell %>% 
+  dplyr::rename( pct_identity = pident,
+                 matched_contig_length = length,
+                 reference_start = qstart,
+                 reference_end = qend,
+                 assembled_fasta_start = sstart,
+                 assembled_fasta_end = send,
+                 sample_plasmid_name = filename
+                 ) %>% 
+  dplyr::select( sample_plasmid_name, everything()) %>% 
+  dplyr::select( -sseqid) %>% 
+  dplyr::rename( contig_name = qseqid)
+
+readr::write_csv( df_seqwell, "blastn_results/reports/seqwell_assembly_and_ref_blastn_report.csv")
+
+
+```
+
+
+
+
+
+```{r}
+
+df_plasmidsaurus = readr::read_csv("blastn_results/Plasmidsaurus_compare.csv")
+
+df_plasmidsaurus = df_plasmidsaurus %>% 
+  dplyr::rename( pct_identity = pident,
+                 matched_contig_length = length,
+                 reference_start = qstart,
+                 reference_end = qend,
+                 assembled_fasta_start = sstart,
+                 assembled_fasta_end = send,
+                 sample_plasmid_name = filename
+                 ) %>% 
+  dplyr::select( sample_plasmid_name, everything()) %>% 
+  dplyr::select( -sseqid) %>% 
+  dplyr::rename( contig_name = qseqid)
+
+readr::write_csv( df_seqwell, "blastn_results/reports/plasmidsaurus_assembly_and_ref_blastn_report.csv")
+
+
+```
+
