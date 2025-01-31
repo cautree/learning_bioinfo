@@ -5,6 +5,7 @@ library(dplyr)
 library(stringdist)
 ```
 
+https://github.com/petervangalen/BarcodeSimilarity/blob/master/BarcodeSimilarity.R
 
 ## prepare i5 barcode
 ```{r}
