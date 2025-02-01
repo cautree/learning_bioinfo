@@ -5,7 +5,6 @@ library(dplyr)
 library(stringdist)
 ```
 
-https://github.com/petervangalen/BarcodeSimilarity/blob/master/BarcodeSimilarity.R
 
 ## prepare i5 barcode
 ```{r}
@@ -129,7 +128,7 @@ df_report_1 = df_dis %>%
 ```{r}
 
 df_i5_RC = readr::read_table( "i5_RC_barcode_12.txt", col_names = F)
-names(df_i5_RC) = "i5"
+names(df_i5_RC) = "i5_RC"
 
 df_RC = dplyr::bind_cols( df_i5_RC, df_i7)
 
@@ -137,9 +136,9 @@ df_RC = dplyr::bind_cols( df_i5_RC, df_i7)
 ##bp 2-9 
 ##bp 3-10 
 df_barcode_RC = df_RC %>% 
-  dplyr::mutate( i5_1_8 = stringr::str_sub(i5, 1, 8)) %>% 
-  dplyr::mutate( i5_2_9 = stringr::str_sub(i5, 2, 9)) %>% 
-  dplyr::mutate( i5_3_10 = stringr::str_sub(i5, 3, 10))
+  dplyr::mutate( i5_RC_1_8 = stringr::str_sub(i5_RC, 1, 8)) %>% 
+  dplyr::mutate( i5_RC_2_9 = stringr::str_sub(i5_RC, 2, 9)) %>% 
+  dplyr::mutate( i5_RC_3_10 = stringr::str_sub(i5_RC, 3, 10))
 
 head(df_barcode_RC)
 
@@ -151,9 +150,9 @@ head(df_barcode_RC)
 ```{r}
 
 df_dis_RC = df_barcode_RC %>% 
-  dplyr::mutate( dis_1_8 = stringdist(i7, i5_1_8, method = "hamming") ) %>% 
-  dplyr::mutate( dis_2_9 = stringdist(i7, i5_2_9, method = "hamming") ) %>% 
-  dplyr::mutate( dis_3_10 = stringdist(i7, i5_3_10, method = "hamming") )
+  dplyr::mutate( dis_1_8 = stringdist(i7, i5_RC_1_8, method = "hamming") ) %>% 
+  dplyr::mutate( dis_2_9 = stringdist(i7, i5_RC_2_9, method = "hamming") ) %>% 
+  dplyr::mutate( dis_3_10 = stringdist(i7, i5_RC_3_10, method = "hamming") )
 
 table(df_dis_RC$dis_1_8)
 table(df_dis_RC$dis_2_9)
@@ -164,7 +163,7 @@ df_dis_RC
 
 table(df_dis_RC$MinHammingDistance)
 
-readr::write_csv( df_dis_RC, "report/i5_i7_RC_barcode_hamming_distance.csv")
+readr::write_csv( df_dis_RC, "report/i5_RC_i7barcode_hamming_distance.csv")
 
 df_dis_RC
 
@@ -191,7 +190,7 @@ df_report_1_RC = df_dis_RC %>%
 
 
 ```{r}
-
+names(df_report_1_RC) = stringr::str_replace_all( names(df_report_1_RC), "_RC", "")
 df_report_all = dplyr::bind_rows( df_report_1,  df_report_1_RC)
 
 df_report_all = df_report_all %>% 
