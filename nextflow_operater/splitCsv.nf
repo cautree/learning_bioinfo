@@ -8,6 +8,19 @@ workflow {
             file(row.fastq2, checkIfExists: true)]]
     }
     | view
+
+
+
+      Channel.fromPath("data/samplesheet.csv")
+    | splitCsv( header:true )
+    | map { row ->
+        meta = row.subMap('id', 'repeat', 'type')
+        [meta, [
+            file(row.fastq1, checkIfExists: true),
+            file(row.fastq2, checkIfExists: true)]]
+    }
+    | view
+
 }
 
 
