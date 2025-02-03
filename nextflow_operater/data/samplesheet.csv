@@ -1,3 +1,4 @@
 id,repeat,type,fastq1,fastq2
 sampleA,1,normal,data/reads/treatmentA/sampleA_rep1_normal_R1.fastq.gz,data/reads/treatmentA/sampleA_rep1_normal_R2.fastq.gz
+sampleA,1,tumor,data/reads/treatmentA/sampleA_rep1_tumor_R1.fastq.gz,data/reads/treatmentA/sampleA_rep1_tumor_R2.fastq.gz
 sampleA,1,normal,data/reads/treatmentB/sampleA_rep1_normal_R1.fastq.gz,data/reads/treatmentB/sampleA_rep1_normal_R2.fastq.gz
