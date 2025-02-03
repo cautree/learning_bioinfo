@@ -12,6 +12,13 @@ workflow {
     reads*.getParent()
      }
     | view
+
+Channel.fromFilePairs("data/reads/*/*_R{1,2}.fastq.gz")
+    | map { id, reads ->
+    reads*.parent*.name
+     }
+    | view
+
 }
 
 
