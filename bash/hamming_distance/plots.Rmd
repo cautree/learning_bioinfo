@@ -1,0 +1,83 @@
+
+library
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+
+## read seqwell data
+```{r}
+
+df_seqwell = readr::read_csv( "~/Documents/projects/application_projects/Plasmidsaurus_20250129/blastn_results/reports/seqwell_assembly_and_ref_blastn_report.csv")
+
+df_Plasmidsaurus = readr::read_csv( "~/Documents/projects/application_projects/Plasmidsaurus_20250129/blastn_results/reports/plasmidsaurus_assembly_and_ref_blastn_report.csv")
+
+df_seqwell
+
+df_Plasmidsaurus
+
+df_seqwell = df_seqwell %>% 
+  dplyr::filter( sample_plasmid_name == vector_inserted_gene)
+
+df_Plasmidsaurus = df_Plasmidsaurus %>% 
+  dplyr::filter( sample_plasmid_name == vector_inserted_gene)
+
+readr::write_csv(df_seqwell, "intermediate/seqwell.csv" )
+readr::write_csv(df_Plasmidsaurus, "intermediate/plasmidsaurus.csv" )
+
+```
+
+
+
+
+## plots
+```{r}
+
+##get reference
+df_plasmid_length = readr::read_table("blastn_results/plasmid_length.txt", col_names = F)
+
+names(df_plasmid_length)[c(1,4)] = c("vector_inserted_gene", "matched_inserted_gene_length")
+df_plasmid_length
+df_plasmid_length = df_plasmid_length %>% 
+  dplyr::mutate( vector_inserted_gene = stringr::str_replace_all(vector_inserted_gene, ".single-line.fasta", "") ) %>% 
+  dplyr::select( vector_inserted_gene, matched_inserted_gene_length) %>% 
+  dplyr::mutate( matched_inserted_gene_length = matched_inserted_gene_length -1 ) %>% 
+  dplyr::mutate( group = "reference")
+
+
+
+df_seq = readr::read_csv( "intermediate/seqwell_len.csv") %>% 
+  dplyr::mutate( group ="seqwell")
+
+names(df_seq)
+
+df_saurus = readr::read_csv( "intermediate/plasmidsaurus_len.csv") %>% 
+  dplyr::mutate( group ="plasmidsaurus")
+
+df_plot = dplyr::bind_rows( df_seq, df_saurus, df_plasmid_length) 
+table(df_plot$group)
+
+df_plot$group = factor(df_plot$group, levels = c("seqwell", "plasmidsaurus", "reference"), ordered = T )
+
+
+names(df_plot)
+df_plot
+df_plot %>% 
+  ggplot( aes(vector_inserted_gene, matched_inserted_gene_length, fill = group)) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_text( aes(vector_inserted_gene, matched_inserted_gene_length, label=sprintf("%2.0f",matched_inserted_gene_length), group = group), hjust=-0.1, position = position_dodge(width = .9), size=2) +
+  coord_flip() +
+  ggtitle( "compare seqwell plasmidsaurus plasmid assembly") +
+  scale_fill_manual(values=c("#8dc640", "#5297d1" ,"#502d73"), guide = guide_legend(reverse = TRUE))
+
+
+#
+
+
+ggsave("figures/compare_seqwell_plasmidsaurus_plasmid_assembly.jpg")
+  
+
+```
+
