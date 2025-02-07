@@ -1,0 +1,143 @@
+
+##plot by coverage by GC
+
+library
+```{r}
+
+library(dplyr)
+
+
+```
+
+
+## get the contig of the largest: test
+```{r}
+
+list.files("res/cov")
+
+file = "res/cov/Bacillus_cereus_A2001_F06.bedcov.txt"
+
+df = readr::read_table( file, col_names = F)
+
+
+names(df) = c("contig", "start", "end", "cov")
+
+df_s = df %>% 
+  tidyr::nest( - contig) %>% 
+  dplyr::mutate( data2 = purrr::map(.$data, function(x){
+    n = nrow(x)
+    x = x %>% 
+      dplyr::mutate( kb_length = n)
+    return(x)
+  })) %>% 
+  dplyr::select( contig, data2) %>% 
+  tidyr::unnest()
+
+table(df_s$kb_lengh, useNA = "ifany")
+
+n_max = max(df_s$kb_length, na.rm = T)
+
+df_ss = df_s %>% 
+  dplyr::filter( kb_length == n_max )
+
+```
+
+
+## get the contig of the largest: function
+```{r}
+
+get_cov_data = function(file_path){
+  
+  
+  df = readr::read_table( file_path, col_names = F)
+  
+  sample_ID = stringr::str_replace( basename(file_path), ".bedcov.txt", "" )
+  
+  names(df) = c("contig", "start", "end", "cov")
+  
+  df_s = df %>% 
+    tidyr::nest( - contig) %>% 
+    dplyr::mutate( data2 = purrr::map(.$data, function(x){
+      n = nrow(x)
+      x = x %>% 
+        dplyr::mutate( kb_length = n)
+      return(x)
+    })) %>% 
+    dplyr::select( contig, data2) %>% 
+    tidyr::unnest()
+  
+  table(df_s$kb_lengh, useNA = "ifany")
+  
+  n_max = max(df_s$kb_length, na.rm = T)
+  
+  df_ss = df_s %>% 
+    dplyr::filter( kb_length == n_max ) %>% 
+    dplyr::mutate( sample_ID = sample_ID)  %>% 
+    dplyr::select( -kb_length)
+  
+  return(df_ss)
+  
+  
+}
+
+file_path = list.files( "res/cov", full.names = T)
+
+df_cov = purrr::map_dfr( file_path, get_cov_data )
+
+table(df_cov$contig)
+
+df_cov
+```
+
+
+## get the GC from reference
+```{r}
+
+read_GC = function(path){
+  
+  df = readr::read_table( path)
+  
+  names(df)[c(1,2,3, 5)] = c("contig", "start", "end", "GC_content")
+  df_s = df %>% 
+    dplyr::select( contig, start, end, GC_content ) %>% 
+    tidyr::nest( - contig) %>% 
+    dplyr::mutate( data2 = purrr::map(.$data, function(x){
+      n = nrow(x)
+      x = x %>% 
+        dplyr::mutate( kb_length = n)
+      return(x)
+    })) %>% 
+    dplyr::select( contig, data2) %>% 
+    tidyr::unnest()
+  
+  table(df_s$kb_lengh, useNA = "ifany")
+  
+  n_max = max(df_s$kb_length, na.rm = T)
+  
+  df_ss = df_s %>% 
+    dplyr::filter( kb_length == n_max ) %>% 
+    dplyr::select( -kb_length)
+  
+  return(df_ss)
+  
+}
+
+gc_file_list = list.files("res/GC/", full.names = TRUE)
+
+
+gc_df = purrr::map_dfr( gc_file_list, read_GC)
+
+table(gc_df$contig)
+table(df_cov$contig)
+
+
+```
+
+
+##
+```{r}
+
+df_gc_cov = gc_df %>% 
+  dplyr::left_join( df_cov, by = c("contig", "start", "end"))
+
+```
