@@ -72,10 +72,11 @@ bedtools makewindows -b ${ref_bed} -w 1000 > ${ref_name}.1000.bed
 
 process get_ref_bed_1000bp_window_GC {
 
+publishDir path: "GC", mode: "copy"
 
 input:
-tuple val(ref_name), path(ref_1000_bed)
-tuple val(ref_name), path(ref_fa)
+tuple val(ref_name), path(ref_1000_bed), path(ref_fa)
+
 
 output:
 tuple val(ref_name), path("*.1000.GC.tsv")
@@ -149,7 +150,9 @@ bam_and_index_ch = bam_ch
 index = index_fa( ref_ch)
 bed = get_ref_bed( index)
 bed_1000 = get_ref_bed_1000bp_window (bed)
-get_ref_bed_1000bp_window_GC( bed_1000, ref_ch )
+
+bed_1000_ref = bed_1000.join(ref_ch )
+get_ref_bed_1000bp_window_GC( bed_1000_ref )
 
 ref_ch.view()
 bed_1000.view()
