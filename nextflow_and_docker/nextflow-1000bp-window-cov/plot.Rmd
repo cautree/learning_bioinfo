@@ -5,6 +5,9 @@ library
 ```{r}
 
 library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(zoo)
 
 
 ```
@@ -138,6 +141,120 @@ table(df_cov$contig)
 ```{r}
 
 df_gc_cov = gc_df %>% 
-  dplyr::left_join( df_cov, by = c("contig", "start", "end"))
+  dplyr::left_join( df_cov, by = c("contig", "start", "end")) 
+
+ df_gc_cov$rolling_cov <- rollmean(df_gc_cov$cov, 5, fill = NA, align = "right")
+
+df_gc_cov
+```
+
+
+## plot test
+```{r}
+
+sample_id= "Bacillus_cereus_A2001_F06"
+
+df_plot_s = df_gc_cov %>% 
+  dplyr::filter( sample_ID == sample_id) 
+
+avg_cov = mean(df_plot_s$rolling_cov, na.rm = T)
+df_plot_ss = df_plot_s %>% 
+  dplyr::mutate( coverage = rolling_cov/avg_cov)
+
+
+reds=colorRampPalette(c("red", "white"))
+blues=colorRampPalette(c("white", "blue"))
+
+
+
+
+df_plot_ss %>% 
+  dplyr::mutate( row = 1:nrow(.)) %>% 
+  ggplot(aes(row, coverage, color = GC_content)) +
+  geom_bar(stat = "identity") +
+  scale_color_gradientn(colors=c(reds(30), blues(60))) +
+  xlab("kb")
+
+
+df_plot_ss %>% 
+  dplyr::mutate( row = 1:nrow(.)) %>% 
+  ggplot(aes(row, coverage)) +
+  geom_area( fill = "blue")+
+  xlab("kb")
+  
+
+
+```
+
+
+
+## function to get the plot
+```{r}
+
+sample_id_list = unique(df_gc_cov$sample_ID)
+
+
+
+reds=colorRampPalette(c("red", "white"))
+blues=colorRampPalette(c("white", "blue"))
+
+get_plot = function(x ){
+  
+  sample_id= x
+  
+  df_plot_s = df_gc_cov %>% 
+    dplyr::filter( sample_ID == sample_id) 
+  
+  avg_cov = mean(df_plot_s$rolling_cov, na.rm = T)
+df_plot_ss = df_plot_s %>% 
+  dplyr::mutate( coverage = rolling_cov/avg_cov)
+
+  
+  df_plot_ss %>% 
+  dplyr::mutate( row = 1:nrow(.)) %>% 
+  ggplot(aes(row, coverage, color = GC_content)) +
+  geom_bar(stat = "identity") +
+  scale_color_gradientn(colors=c(reds(30), blues(60))) +
+  xlab("kb")
+  
+  ggsave( paste( "plots/", x, "_gc_cov.jpg") )
+  
+  
+}
+
+purrr::walk( sample_id_list, get_plot )
+
+
+```
+
+
+## geom_area plot
+```{r}
+
+
+get_plot_area = function(x ){
+  
+  sample_id= x
+  
+  df_plot_s = df_gc_cov %>% 
+    dplyr::filter( sample_ID == sample_id) 
+  
+  avg_cov = mean(df_plot_s$rolling_cov, na.rm = T)
+  df_plot_ss = df_plot_s %>% 
+    dplyr::mutate( coverage = rolling_cov/avg_cov)
+  
+  
+  df_plot_ss %>% 
+    dplyr::mutate( row = 1:nrow(.)) %>% 
+    ggplot(aes(row, coverage)) +
+    geom_area( fill = "blue")+
+    xlab("kb")
+  
+  ggsave( paste( "cov_area_plots/", x, "_gc_cov.jpg") )
+  
+  
+}
+
+purrr::walk( sample_id_list, get_plot_area )
 
 ```
