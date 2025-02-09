@@ -215,9 +215,10 @@ df_plot_ss = df_plot_s %>%
   ggplot(aes(row, coverage, color = GC_content)) +
   geom_bar(stat = "identity") +
   scale_color_gradientn(colors=c(reds(30), blues(60))) +
-  xlab("kb")
+  xlab("kb")  +
+  ggtitle(sample_id)
   
-  ggsave( paste( "plots/", x, "_gc_cov.jpg") )
+  ggsave( paste0( "plots/", x, "_gc_cov.jpg") )
   
   
 }
@@ -248,9 +249,10 @@ get_plot_area = function(x ){
     dplyr::mutate( row = 1:nrow(.)) %>% 
     ggplot(aes(row, coverage)) +
     geom_area( fill = "blue")+
-    xlab("kb")
+    xlab("kb") +
+    ggtitle(sample_id)
   
-  ggsave( paste( "cov_area_plots/", x, "_gc_cov.jpg") )
+  ggsave( paste0( "cov_area_plots/", x, "_gc_cov.jpg") )
   
   
 }
