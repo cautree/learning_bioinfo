@@ -1,0 +1,36 @@
+FROM rocker/r-base:latest
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    unzip \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -rf aws awscliv2.zip
+
+# Install remotes package instead of devtools
+RUN R -e "install.packages('remotes', repos='http://cran.r-project.org')"
+
+# Install required R packages
+RUN R -e "install.packages(c('dplyr', 'ggplot2', 'purrr'), repos='http://cran.r-project.org')"
+
+# Install plasmapR using remotes
+RUN R -e "remotes::install_github('bradyajohnston/plasmapr')"
+
+# Verify installation
+RUN R -e "library(plasmapR); library(dplyr); library(ggplot2); library(purrr)"
+
+# Set entrypoint
+CMD ["/bin/bash"]
