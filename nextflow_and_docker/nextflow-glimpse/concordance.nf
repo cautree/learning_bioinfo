@@ -183,8 +183,8 @@ workflow {
   ref_sites_ch = Channel.fromPath("s3://seqwell-ref/vcf/1000GP.chr22.noNA12878.sites.vcf.gz")
   
   ref_ch = Channel.fromPath("s3://seqwell-ref/vcf/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz*").collect()
-   
-  glimpse2_concordance(vcf_new_sample_name_all, ref_sites_ch, ref_ch)
+   ref_ch2 = Channel.fromPath("s3://seqwell-ref/vcf2/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz*").collect()
+  glimpse2_concordance(vcf_new_sample_name_all, ref_sites_ch, ref_ch2)
   
   vcf_c1_ch = get_c1_vcf(vcf_ch)
   
