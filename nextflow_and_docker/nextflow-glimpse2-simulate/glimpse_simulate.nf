@@ -59,7 +59,7 @@ process create_samplesheet {
   """
   ls | grep .bam | grep -v bai |sed 's|^|bam/||' > bam_file
   ls | grep .bai | sed 's|^|bam/||' > index_file
-  cat bam_file | cut -d. -f1-3 | sed 's|downsampled||' | cut -d/ -f2 | sed 's|_||g'  > pair_id
+  cat bam_file | cut -d. -f1-3 | sed 's|downsampled||' | cut -d/ -f2 | sed 's|_||g' | sed 's|.||g'  > pair_id
   
   echo "sample,file,index" >> ${params.run}.glimpse2.samplesheet.csv
   paste pair_id bam_file index_file | tr '\t' ','  >> ${params.run}.glimpse2.samplesheet.csv
