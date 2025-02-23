@@ -19,6 +19,7 @@ for file in *.tsv; do
     ' "$file" >> "$output_file"  # Append the result to the output CSV
 done
 
-# Change the file extension to .csv
-mv "$output_file" "${output_file%.csv}.csv"
+cat "$output_file" | tr '\t' ',' > "${output_file%.csv}.csv"
+
+
 
