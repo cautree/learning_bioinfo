@@ -1,0 +1,159 @@
+
+
+library
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+
+## 
+```{r}
+
+df = readr::read_csv("~/Documents/projects/application_projects/20250115_NextSeq2000_2575_coverage_assembly/cov_GC/reports/20250115_NextSeq2000_cov.csv")
+
+
+table(df$sample_ID)
+
+df = df %>% 
+  dplyr::mutate( reference = gsub( "(_[^_]*){2}$", "", sample_ID)) %>% 
+  dplyr::mutate( well = gsub(".*_([A-Z0-9]+_[A-Z0-9]+)$", "\\1", sample_ID)) %>% 
+  dplyr::group_by( well) %>% 
+  dplyr::mutate( cov_mean = mean(cov)) %>% 
+  dplyr::mutate( position = row_number()) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate( normalized_cov = cov/cov_mean) %>% 
+  dplyr::mutate ( protocal = ifelse( grepl("(08|09)", sample_ID), "EP_std", "other")) %>% 
+  dplyr::mutate ( protocal = ifelse( grepl("(06|07)", sample_ID), "EP_modified", protocal)) %>% 
+  dplyr::mutate ( protocal = ifelse( grepl("(10|11)", sample_ID), "EPHC", protocal)) 
+
+
+table(df$reference)
+
+table(df$contig)
+
+table(df$protocal)
+```
+
+
+```{r}
+
+df_test = df %>% 
+  dplyr::filter( reference == "Bacillus_cereus") %>% 
+  dplyr::group_by( well) %>% 
+  dplyr::mutate( cov_mean = mean(cov)) %>% 
+  dplyr::mutate( position = row_number()) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate( normalized_cov = cov/cov_mean)
+
+df_test_s = df_test %>% 
+  dplyr::filter( position == 1)
+df_test
+
+table(df_test$cov_mean)
+table(df_test$sample_ID)
+df_test %>% 
+  ggplot( )
+
+```
+
+
+
+##
+```{r}
+
+
+plot_by_reference = function( ref){
+  
+  df_s = df %>% 
+    dplyr::mutate( well = paste0( well, "_", protocal)) %>% 
+    dplyr::filter( reference == ref) %>% 
+    ggplot( aes( position, normalized_cov) ) +
+    geom_area( fill = "blue")+
+    facet_wrap( ~ well, scales = "free_y", nrow =6 ) +
+    ggtitle( ref) +
+    xlab("position in kb")
+  
+  ggsave( paste0("figures/", ref, ".jpg" ), plot =last_plot())
+  
+}
+
+
+reference_list = unique( df$reference) 
+
+reference_list
+
+purrr::walk( reference_list, plot_by_reference)
+
+```
+
+
+
+
+
+## get group 1 and group 2
+```{r}
+
+df
+
+df_by_group = df %>% 
+  dplyr::mutate( group = ifelse (grepl("(09|07|11)", sample_ID ),  "rep2", "rep1") )
+
+table(df_by_group$group)
+
+df_group_1 = df_by_group %>% 
+  dplyr::filter( group == "rep1")
+
+df_group_2 = df_by_group %>% 
+  dplyr::filter( group == "rep2")
+
+df_group_1
+
+df_group_1 %>% 
+    dplyr::mutate( well = paste0( well, "_", protocal)) %>% 
+    ggplot( aes( position, normalized_cov) ) +
+    geom_area( fill = "blue")+
+    facet_wrap(  reference ~ protocal , scales = "free_y", ncol = 3 ) +
+    xlab("position in kb")
+
+ggsave( "summary_figures/rep1_20250115_Nextseq2000_normalized_cov.jpg", width = 6, height = 20)
+
+
+
+
+
+df_group_1 %>% 
+    dplyr::mutate( well = paste0( well, "_", protocal)) %>% 
+    ggplot( aes( position, normalized_cov) ) +
+    geom_area( fill = "blue")+
+    facet_wrap(  reference ~ protocal , scales = "free_x", ncol = 3 ) +
+    xlab("position in kb")
+
+ggsave( "summary_figures/rep1_20250115_Nextseq2000_normalized_cov_v2.jpg", width = 6, height = 20)
+
+
+df_group_1 %>% 
+    dplyr::mutate( well = paste0( well, "_", protocal)) %>% 
+    ggplot( aes( position, normalized_cov) ) +
+    geom_area( fill = "blue")+
+    facet_wrap(  reference ~ protocal , scales = "free", ncol = 3 ) +
+    xlab("position in kb") +
+    theme(strip.text = element_text(size = 8))
+
+ggsave( "summary_figures/rep1_20250115_Nextseq2000_normalized_cov_v3.jpg", width = 6, height = 20)
+
+
+
+df_group_2 %>% 
+    dplyr::mutate( well = paste0( well, "_", protocal)) %>% 
+    ggplot( aes( position, normalized_cov) ) +
+    geom_area( fill = "blue")+
+    facet_wrap(  reference ~ protocal , scales = "free", ncol = 3 ) +
+    xlab("position in kb") +
+    theme(strip.text = element_text(size = 8))
+
+ggsave( "summary_figures/rep2_20250115_Nextseq2000_normalized_cov_v3.jpg", width = 6, height = 20)
+
+```
+
+
