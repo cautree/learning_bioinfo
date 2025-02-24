@@ -1,0 +1,216 @@
+
+
+library
+```{r}
+library(dplyr)
+```
+
+
+
+##
+```{r}
+
+df = readr::read_csv("~/Documents/projects/application_projects/20250115_NextSeq2000_2575_coverage_assembly/cov_GC/reports/20250115_NextSeq2000_cov_w_GC.csv")
+
+df = df %>% 
+  dplyr::mutate( reference = gsub( "(_[^_]*){2}$", "", sample_ID)) %>% 
+  dplyr::mutate( well = gsub(".*_([A-Z0-9]+_[A-Z0-9]+)$", "\\1", sample_ID)) %>% 
+  dplyr::group_by( well) %>% 
+  dplyr::mutate( cov_mean = mean(cov)) %>% 
+  dplyr::mutate( position = row_number()) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate( normalized_cov = cov/cov_mean) %>% 
+  dplyr::mutate ( protocal = ifelse( grepl("(08|09)", sample_ID), "EP_std", "other")) %>% 
+  dplyr::mutate ( protocal = ifelse( grepl("(06|07)", sample_ID), "EP_modified", protocal)) %>% 
+  dplyr::mutate ( protocal = ifelse( grepl("(10|11)", sample_ID), "EPHC", protocal)) 
+
+
+df
+
+table(df$reference)
+
+unique(df$reference)
+```
+
+
+Bacterium	GC Content (%)
+Bacillus cereus	35
+Bacillus subtilis	43
+Clostridioides difficile	28
+Enterobacter cloacae	55
+Escherichia coli K-12	51
+Pseudomonas aeruginosa	66
+Rhodobacter sphaeroides	69
+Staphylococcus epidermidis	32
+
+
+Bacterium	GC_Content (%)
+Bacillus_cereus	35
+Bacillus_subtilis	43
+Clostridioides_difficile	28
+Enterobacter_cloacae	55
+Escherichia_coli-K12_ATCC	51
+Pseudomonas_aeruginosa	66
+Rhodobacter_sphaeroides	69
+Staphylococcus_epidermidis	32
+
+
+
+```{r}
+
+df_ref_gc = readr::read_table("GC_reference.csv")
+names(df_ref_gc) = c("reference", "GC_content_genome")
+
+df = df %>% 
+  dplyr::left_join( df_ref_gc)
+  
+names(df)
+```
+
+
+
+```{r}
+
+df_by_group = df %>% 
+  dplyr::mutate( group = ifelse (grepl("(09|07|11)", sample_ID ),  "rep2", "rep1") ) %>% 
+  dplyr::group_by( sample_ID) %>% 
+  dplyr::mutate( avg_gc_content = mean(GC_content, na.rm =T)) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate( gc_diff = GC_content - avg_gc_content,
+                 well = paste0(well, "_", protocal))
+  
+
+table(df_by_group$avg_gc_content)
+  
+
+table(df_by_group$group)
+
+df_group_1 = df_by_group %>% 
+  dplyr::filter( group == "rep1")
+
+df_group_2 = df_by_group %>% 
+  dplyr::filter( group == "rep2")
+
+df_group_1
+```
+
+
+
+```{r}
+
+df_test_ref = df_group_1 %>%
+    dplyr::filter( reference ==  "Bacillus_cereus") 
+
+summary(df_test_ref$gc_diff)
+
+
+df_group_1 %>%
+    dplyr::filter(reference == "Bacillus_cereus") %>%
+    ggplot(aes(x = position, y = normalized_cov, fill = gc_diff)) +
+    geom_bar(stat = "identity") +  # Ensures the area follows the actual values
+    facet_wrap(~ protocal, scales = "free", ncol = 3) +
+    xlab("Position in kb") +
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = mean(df_group_1$gc_diff, na.rm = TRUE)) +
+    theme(strip.text = element_text(size = 8))
+
+
+
+
+
+```
+
+## for group 1
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+
+# Modify plot_by_genome to remove x-axis labels but keep x-axis ticks
+plot_by_genome = function(ref){
+  plot = df_group_1 %>%
+    dplyr::mutate( protocal = paste0( ref, " GC ",  GC_content_genome , ": ", protocal )) %>% 
+    dplyr::filter(reference == ref) %>%
+    ggplot(aes(x = position, y = normalized_cov, fill = gc_diff)) +
+    geom_bar(stat = "identity") +
+    facet_wrap(~ protocal, scales = "free", ncol = 3) +
+    xlab("Position in kb") +  # This will be removed later except for the last plot
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", 
+                         midpoint = mean(df_group_1$gc_diff, na.rm = TRUE)) +
+    theme(strip.text = element_text(size = 8), 
+          axis.title.x = element_blank())  # Remove only the x-axis label
+  
+  return(plot)
+}
+
+# List of genome references
+genomes <- c("Bacillus_cereus", "Bacillus_subtilis", "Clostridioides_difficile", 
+             "Enterobacter_cloacae", "Escherichia_coli-K12_ATCC", 
+             "Pseudomonas_aeruginosa", "Rhodobacter_sphaeroides", "Staphylococcus_epidermidis")
+
+# Generate plots
+plots <- lapply(genomes, plot_by_genome)
+
+# Add back x-axis label only for the last plot
+plots[[length(plots)]] <- plots[[length(plots)]] +
+  xlab("Position in kb")  # Restore the x-axis label for the last plot only
+
+# Arrange the plots
+combined_plot <- ggarrange(plotlist = plots, ncol = 1, nrow = 8, align = "v")
+
+# Save the figure
+ggsave("summary_figures/rep1_20250115_Nextseq2000_normalized_cov_GC.jpg", 
+       plot = combined_plot, width = 12, height = 16, dpi = 300)
+
+```
+
+
+
+
+
+
+
+## for group 2
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+
+# Modify plot_by_genome to remove x-axis labels but keep x-axis ticks
+plot_by_genome = function(ref){
+  plot = df_group_2 %>%
+    dplyr::mutate( protocal = paste0( ref, " GC ",  GC_content_genome , ": ", protocal )) %>% 
+    dplyr::filter(reference == ref) %>%
+    ggplot(aes(x = position, y = normalized_cov, fill = gc_diff)) +
+    geom_bar(stat = "identity") +
+    facet_wrap(~ protocal, scales = "free", ncol = 3) +
+    xlab("Position in kb") +  # This will be removed later except for the last plot
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", 
+                         midpoint = mean(df_group_1$gc_diff, na.rm = TRUE)) +
+    theme(strip.text = element_text(size = 8), 
+          axis.title.x = element_blank())  # Remove only the x-axis label
+  
+  return(plot)
+}
+
+
+
+# Generate plots
+plots <- lapply(genomes, plot_by_genome)
+
+# Add back x-axis label only for the last plot
+plots[[length(plots)]] <- plots[[length(plots)]] +
+  xlab("Position in kb")  # Restore the x-axis label for the last plot only
+
+# Arrange the plots
+combined_plot <- ggarrange(plotlist = plots, ncol = 1, nrow = 8, align = "v")
+
+# Save the figure
+ggsave("summary_figures/rep2_20250115_Nextseq2000_normalized_cov_GC.jpg", 
+       plot = combined_plot, width = 12, height = 16, dpi = 300)
+
+```
+
