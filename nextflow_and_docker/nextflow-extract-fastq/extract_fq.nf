@@ -14,10 +14,13 @@ process extract_reads {
     output:
     path "${pair_id}.fastq"
 
+ 
 
     script:
     """
-    samtools view -h $bam | awk 'substr(\$0,1,1) == "@" || (\$9 >= 18 && \$9 <= 150)' | \
+    
+    
+    samtools view -h -f 1 $bam | awk 'substr(\$0,1,1) == "@" || (\$9 >= 18 && \$9 <= 150)' | \
         samtools view -b - > filtered.bam
     
     samtools sort -n filtered.bam -o filtered_sorted.bam
