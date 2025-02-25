@@ -12,6 +12,8 @@ library(dplyr)
 
 df = readr::read_csv("~/Documents/projects/application_projects/20250115_NextSeq2000_2575_coverage_assembly/cov_GC/reports/20250115_NextSeq2000_cov_w_GC.csv")
 
+#Bacillus_cereus_A2001_F06
+
 df = df %>% 
   dplyr::mutate( reference = gsub( "(_[^_]*){2}$", "", sample_ID)) %>% 
   dplyr::mutate( well = gsub(".*_([A-Z0-9]+_[A-Z0-9]+)$", "\\1", sample_ID)) %>% 
