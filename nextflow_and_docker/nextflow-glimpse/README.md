@@ -75,4 +75,19 @@ glimpse:v2.0.0-27-g0919952_20221207
 
 
 
+## local, using static does not work
 
+REF=1000GP.chr22.noNA12878.bcf
+MAP=chr22.b38.gmap.gz
+while IFS="" read -r LINE || [ -n "$LINE" ];
+do
+  printf -v ID "%02d" $(echo $LINE | cut -d" " -f1)
+  IRG=$(echo $LINE | cut -d" " -f3)
+  ORG=$(echo $LINE | cut -d" " -f4)
+
+  GLIMPSE2_split_reference_static --reference ${REF} --map ${MAP} --input-region ${IRG} --output-region ${ORG} --output reference_panel/split/1000GP.chr22.noNA12878
+done < chunks.chr22.txt
+
+
+
+## use split_ref.nf nextflow
