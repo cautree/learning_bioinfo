@@ -3,14 +3,14 @@
 
 process glimpse_impute {
 
-  publishDir path: "impute", mode: 'copy'
+  publishDir path: "glimpse_impute", mode: 'copy'
 
   container "glimpse:v2.0.0-27-g0919952_20221207"
 
   input:
   tuple val(pair_id), path(bam), path(index)
   path(split_genome)
-  path(chunk_file)
+  each path(chunk_file)
 
   output:
   path("*")
@@ -31,7 +31,7 @@ process glimpse_impute {
     REGE=\$(echo \$IRG | cut -d":" -f 2 | cut -d"-" -f2)
 
     # Output file name using pair_id and chromosome info
-    OUT=${pair_id}
+    OUT="${pair_id}/${pair_id}"
 
     # Run GLIMPSE2 phase command with the extracted parameters
     GLIMPSE2_phase --bam-file $bam --reference \${REF}_\${CHR}_\${REGS}_\${REGE}.bin --output \${OUT}_\${CHR}_\${REGS}_\${REGE}.bcf
@@ -56,5 +56,5 @@ workflow {
   
   chunk_file_ch = Channel.fromPath("s3://seqwell-ref/glimpse2/split_genome_chr22/chunks.chr22.txt")
   
-  glimpse_impute(bam_ch, split_genome_ch, chunk_file_ch)
+  glimpse_impute(bam_index_file_ch, split_genome_ch, chunk_file_ch)
 }
