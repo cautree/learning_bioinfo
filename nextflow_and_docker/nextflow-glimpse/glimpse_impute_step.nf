@@ -43,12 +43,13 @@ process glimpse_impute {
 
 workflow {
   
-  bam_ch = Channel.fromPath("bam/*.bam")
-                  .map{ it -> tuple( it.baseName.tokenize(".")[0], it  )}
-  bam_index_ch = Channel.fromPath("bam/*.bam.bai")
-                  .map{ it -> tuple( it.baseName.tokenize(".")[0], it  )}
-                  
-          bam_index_file_ch = bam_ch.join(bam_index_ch)
+  bam_index_file_ch  =    Channel
+    .fromPath('bam/*.bam')
+    .map { bam_file -> 
+        def index_file = bam_file + '.bai'  // Assuming index follows BAM naming convention
+        def pair_id = bam_file.baseName.replace('.bam', '')  // Extract sample ID
+        tuple(pair_id, bam_file, index_file)
+    }
           bam_index_file_ch.view()
   
   split_genome_ch =Channel.fromPath("s3://seqwell-ref/glimpse2/split_genome_chr22/*.bin").collect()
