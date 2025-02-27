@@ -13,7 +13,7 @@ process glimpse_impute {
   each path(chunk_file)
 
   output:
-  path("*")
+  tuple val(pair_id), path("${pair_id}*vcf.gz*")
 
   script:
   """
@@ -31,11 +31,46 @@ process glimpse_impute {
     REGE=\$(echo \$IRG | cut -d":" -f 2 | cut -d"-" -f2)
 
     # Output file name using pair_id and chromosome info
-    OUT="${pair_id}/${pair_id}"
+    OUT=${pair_id}
 
     # Run GLIMPSE2 phase command with the extracted parameters
     GLIMPSE2_phase --bam-file $bam --reference \${REF}_\${CHR}_\${REGS}_\${REGE}.bin --output \${OUT}_\${CHR}_\${REGS}_\${REGE}.bcf
+    
+    bcftools view -Oz -o \${OUT}_\${CHR}_\${REGS}_\${REGE}.vcf.gz \${OUT}_\${CHR}_\${REGS}_\${REGE}.bcf  
+    
+    bcftools index --tbi \${OUT}_\${CHR}_\${REGS}_\${REGE}.vcf.gz
+    
   done < $chunk_file
+  """
+}
+
+
+process ligate {
+  
+  publishDir path: "glimpse_ligate", mode: 'copy'
+
+  container "glimpse:v2.0.0-27-g0919952_20221207"
+
+  input:
+  tuple val(pair_id), path(vcf)
+
+
+  output:
+  tuple val(pair_id), path("${pair_id}*ligated*")
+  
+  
+  """
+  
+  LST=list.chr22.txt
+  ls -1v | grep vcf.gz | grep -v tbi > \${LST}
+
+  OUT=${pair_id}_chr22_ligated.bcf
+  GLIMPSE2_ligate --input \${LST} --output \$OUT
+  
+  bcftools view -Oz -o ${pair_id}.ligated.vcf.gz \$OUT
+    
+  bcftools index --tbi ${pair_id}.ligated.vcf.gz
+  
   """
 }
 
