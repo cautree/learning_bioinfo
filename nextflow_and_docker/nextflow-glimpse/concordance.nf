@@ -1,4 +1,5 @@
 
+
 params.run = "20250117_NextSeq2000"
 
 process vcf_sample_name_change {
@@ -27,7 +28,7 @@ process vcf_sample_name_change {
 
 process glimpse2_concordance {
   
-  debug true
+//  debug true
   publishDir path: "glimpse2_concordance", mode: 'copy'
     
   input:
@@ -50,7 +51,7 @@ process glimpse2_concordance {
   ls |  grep vcf.gz | grep -v tbi |  grep -v chr22  > vcf_file.txt
 
   paste reference.txt vcf_file.txt > files
-  cat vcf_file.txt  | cut -d. -f2 | sed 's|^|,|' > name
+  cat vcf_file.txt  | cut -d. -f2- | sed 's|.downsampled.ligated.vcf.gz||' |  sed 's|.ligated.vcf.gz||' |  sed 's|^|,|' > name
   paste files name > info
 
   while read line; do 
@@ -75,7 +76,7 @@ process glimpse2_concordance {
 
 
 process get_c1_vcf {
-  
+  debug true
   input:
   path(vcf)
   
@@ -99,7 +100,7 @@ process get_c1_vcf {
   while read line; do
   bcftools sort -Oz \${line}.c1.vcf -o \${line}.c1.sorted.vcf.gz
   
-  bcftools index  \${line}.c1.sorted.vcf.gz
+  bcftools index -t  \${line}.c1.sorted.vcf.gz
   done < c1_file
   
   rm c1_file
@@ -110,33 +111,7 @@ process get_c1_vcf {
 }
 
 
-process gatk_index {
-  
-  input:
-  path(vcf)
-  
-  
-  output:
-  path("*tbi")
-  
-  
-  """
-  
-  ls | grep c1.sorted.vcf.gz | grep -v csi  > c1_file
-  while read line; do
-  
-  gatk IndexFeatureFile \
-   -I \${line}
- 
-  done < c1_file
-  
-  rm c1_file
-  
-  
-  """
-  
-  
-}
+
 
 
 
@@ -146,11 +121,12 @@ process gatk_index {
 
 
 process gatk_concordance {
+  debug true
   publishDir path: "gatk_concordance", mode: 'copy'  
   input:
   tuple path(ref1), path(ref2), path(ref3), path(ref4), path(ref5), path(ref6), path(ref7), path(ref8)
   tuple path(truth_vcf), path(truth_vcf_index), path(truth_vcf_index2) 
-  tuple val(pair_id), path(eval), path( eval_index ),  path( eval_index2)
+  tuple val(pair_id), path(eval), path( eval_index )
   
   
   output:
@@ -169,12 +145,45 @@ process gatk_concordance {
   
 }
 
+process collect_gatk_concordance {
+  
+  publishDir path: "gatk_concordance_summary", mode: 'copy' 
+  
+  input:
+  path( gatk_tsv)
+  
+  output:
+  path("*.csv")
+  
+  
+  """
+  bash summarize_gatk_concordance.sh ${params.run}
+  
+  """
+  
+}
 
-
+process collect_glimpse2_concordance {
+  
+  publishDir path: "glimpse2_concordance_summary", mode: 'copy' 
+  
+  input:
+  path( glimpse2_txt)
+  
+  output:
+  path("*.csv")
+  
+  
+  """
+  bash summarize_glimpse2_concordance.sh ${params.run}n
+  
+  """
+  
+}
 
 workflow {
   
-   vcf_ch = Channel.fromPath("s3://seqwell-analysis/20250117_NextSeq2000/glimpse2/impute/imputation/glimpse2/samples/*.vcf.gz*").collect()
+   vcf_ch = Channel.fromPath("s3://seqwell-analysis/20250117_NextSeq2000/glimpse2/impute/imputation/glimpse2/ligate/*.vcf.gz*").collect()
  // vcf_ch = Channel.fromPath("vcf/*.vcf.gz*").collect()  
 
   vcf_new_sample_name_all = vcf_sample_name_change(vcf_ch)
@@ -184,26 +193,25 @@ workflow {
   
   ref_ch = Channel.fromPath("s3://seqwell-ref/vcf/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz*").collect()
    ref_ch2 = Channel.fromPath("s3://seqwell-ref/vcf2/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz*").collect()
-  glimpse2_concordance(vcf_new_sample_name_all, ref_sites_ch, ref_ch2)
+ glimpse2_concordance_out =  glimpse2_concordance(vcf_new_sample_name_all, ref_sites_ch, ref_ch2)
   
   vcf_c1_ch = get_c1_vcf(vcf_ch)
-  
-  vcf_index_ch_0 = gatk_index(vcf_c1_ch)
-  vcf_index_ch = vcf_index_ch_0.collect().flatten()
-                 .map{ it -> tuple ( it.baseName.tokenize(".")[0], it)}
-  
-  
-  vcf_c1_index_ch = vcf_c1_ch.collect().flatten()
-                   .map{ it -> tuple ( it.baseName.tokenize(".")[0], it)}
-                   .groupTuple()
-                   .map{ it -> tuple ( it[0], it[1][0], it[1][1] )}
-                   .join( vcf_index_ch)
-
+    vcf_c1_ch.view()  
+    vcf_c1_index_ch = vcf_c1_ch.flatten()
+                    .map { it -> 
+        def pair_id = it.baseName.replace('.vcf.gz', '').replace('.vcf', '')
+       
+        tuple(pair_id,  it)
+    }
+    .groupTuple()
+     .map { it -> tuple( it[0], it[1][0], it[1][1])}
+  vcf_c1_index_ch.view()
    
    REFGEN_ch = Channel.fromPath("s3://seqwell-ref/chr22*").collect()
      REFGEN_ch.view()
    truth_vcf_ch = Channel.fromPath("s3://seqwell-ref/vcf/HG001_GRCh38_1_22_v4.2.1_benchmark.chr22.vcf.gz*").collect()
    truth_vcf_ch.view()
-   gatk_concordance( REFGEN_ch, truth_vcf_ch, vcf_c1_index_ch )
-
+   gatk_concordance_out =  gatk_concordance( REFGEN_ch, truth_vcf_ch, vcf_c1_index_ch )
+   collect_gatk_concordance(gatk_concordance_out.collect())
+   collect_glimpse2_concordance(glimpse2_concordance_out.collect())
 }

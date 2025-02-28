@@ -1,6 +1,4 @@
 
-
-
 process glimpse_impute {
 
   publishDir path: "glimpse_impute", mode: 'copy'
@@ -35,15 +33,14 @@ process glimpse_impute {
 
     # Run GLIMPSE2 phase command with the extracted parameters
     GLIMPSE2_phase --bam-file $bam --reference \${REF}_\${CHR}_\${REGS}_\${REGE}.bin --output \${OUT}_\${CHR}_\${REGS}_\${REGE}.bcf
+
+    bcftools view -Oz -o \${OUT}_\${CHR}_\${REGS}_\${REGE}.vcf.gz \${OUT}_\${CHR}_\${REGS}_\${REGE}.bcf 
     
-    bcftools view -Oz -o \${OUT}_\${CHR}_\${REGS}_\${REGE}.vcf.gz \${OUT}_\${CHR}_\${REGS}_\${REGE}.bcf  
-    
-    bcftools index --tbi \${OUT}_\${CHR}_\${REGS}_\${REGE}.vcf.gz
-    
+    bcftools index --tbi \${OUT}_\${CHR}_\${REGS}_\${REGE}.vcf.gz 
+
   done < $chunk_file
   """
 }
-
 
 process ligate {
   
@@ -62,11 +59,11 @@ process ligate {
   """
   
   LST=list.chr22.txt
-  ls -1v | grep vcf.gz | grep -v tbi > \${LST}
+  ls -1v | grep vcf.gz | grep -v tbi  > \${LST}
 
   OUT=${pair_id}_chr22_ligated.bcf
   GLIMPSE2_ligate --input \${LST} --output \$OUT
-  
+
   bcftools view -Oz -o ${pair_id}.ligated.vcf.gz \$OUT
     
   bcftools index --tbi ${pair_id}.ligated.vcf.gz
@@ -74,22 +71,22 @@ process ligate {
   """
 }
 
-
-
 workflow {
   
-  bam_index_file_ch  =    Channel
+bam_index_file_ch  =    Channel
     .fromPath('bam/*.bam')
     .map { bam_file -> 
         def index_file = bam_file + '.bai'  // Assuming index follows BAM naming convention
         def pair_id = bam_file.baseName.replace('.bam', '')  // Extract sample ID
         tuple(pair_id, bam_file, index_file)
     }
-          bam_index_file_ch.view()
-  
+          bam_index_file_ch.view() 
   split_genome_ch =Channel.fromPath("s3://seqwell-ref/glimpse2/split_genome_chr22/*.bin").collect()
   
   chunk_file_ch = Channel.fromPath("s3://seqwell-ref/glimpse2/split_genome_chr22/chunks.chr22.txt")
   
-  glimpse_impute(bam_index_file_ch, split_genome_ch, chunk_file_ch)
+  vcf = glimpse_impute(bam_index_file_ch, split_genome_ch, chunk_file_ch)
+
+  ligate(vcf)
 }
+
