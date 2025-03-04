@@ -6,7 +6,7 @@
 //params.reads = "s3://seqwell-users/jsmith/20191119_LP_meta/*_R{1,2}_001.fastq.gz"
 params.reads = "s3://seqwell-users/jsmith/20191119_LP_meta/*Zymo_ref_R{1,2}_001.fastq.gz"
 //params.db="$projectDir/k2-std-db/"
-params.db="$projectDir/PlusPF/"
+params.db="$projectDir/kraken2-bacteria-db/"
 params.downsample = 2000000
 
 process downsample {
