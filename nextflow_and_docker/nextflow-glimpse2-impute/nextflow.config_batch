@@ -1,0 +1,32 @@
+aws {
+    accessKey = 'f'
+    secretKey = 'f'
+    region = 'us-east-2'
+
+}
+
+docker {
+    enabled = true
+}
+
+aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
+
+process {
+
+    withName: glimpse_impute {
+      memory = '7.0G'
+      cpus = 2
+      executor = 'awsbatch'
+      queue = 'spot_low_priority_m5large'
+      container = 'glimpse:v2.0.0-27-g0919952_20221207'
+    }
+    
+    
+    withName: ligate {
+      memory = '7.0G'
+      cpus = 2
+      executor = 'awsbatch'
+      queue = 'spot_low_priority_m5large'
+      container = 'glimpse:v2.0.0-27-g0919952_20221207'
+    }
+}
