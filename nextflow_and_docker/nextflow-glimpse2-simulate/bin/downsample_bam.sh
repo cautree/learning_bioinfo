@@ -36,3 +36,4 @@ for target_coverage in ${TARGET_COVERAGES//,/ }; do
     samtools index "${SAMPLE_ID}.${target_coverage}x.downsampled.bam"
     echo "done index ${SAMPLE_ID}"
 done
+

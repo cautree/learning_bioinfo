@@ -1,3 +1,5 @@
+
+
 nextflow.enable.dsl=2
 
 process get_chr22 {
@@ -45,7 +47,7 @@ process simulate_bam {
 
 
 process create_samplesheet {
-  
+  debug true
   publishDir path: "s3://$path_s3/$params.run/$params.analysis/simulated_bam"
   publishDir "samplesheet", mode: 'copy'
   
@@ -57,14 +59,15 @@ process create_samplesheet {
   
   
   """
-  ls | grep .bam | grep -v bai |sed 's|^|bam/||' > bam_file
-  ls | grep .bai | sed 's|^|bam/||' > index_file
-  cat bam_file | cut -d. -f1-3 | sed 's|downsampled||' | cut -d/ -f2 | sed 's|_||g' | sed 's|.||g'  > pair_id
+
+  ls | grep .bam | grep -v bai | sed 's|^|s3://$path_s3/$params.run/$params.analysis/simulated_bam/|' > bam_file
+  ls | grep .bai | sed 's|^|s3://$path_s3/$params.run/$params.analysis/simulated_bam/|' > index_file
+  ls | grep .bam | grep -v bai  | cut -d. -f1-3 | sed 's|downsampled||' | sed 's/[[:punct:]]//g'  > pair_id
   
   echo "sample,file,index" >> ${params.run}.glimpse2.samplesheet.csv
-  paste pair_id bam_file index_file | tr '\t' ','  >> ${params.run}.glimpse2.samplesheet.csv
+  paste pair_id bam_file index_file | tr '\t' ','  >> ${params.run}.glimpse2.samplesheet.csv 
   
-  
+ 
   """
   
   
@@ -90,7 +93,7 @@ if(params.dev) {
 
 // Create a channel with BAM file paths (example paths, modify as needed)
 bam_ch = Channel.fromPath("s3://seqwell-analysis/" + params.run + "/" + params.analysis + "/bam/*.md.bam")
-   .filter { !it.name.endsWith('.bai') }
+   .filter { !it.name.endsWith('.bai') }   
    .map { bam -> 
     def sample_id = bam.baseName.tokenize(".")[0]
     tuple(sample_id, bam)
@@ -103,9 +106,8 @@ bam_ch = Channel.fromPath("s3://seqwell-analysis/" + params.run + "/" + params.a
 workflow {
   
   bam_index_chr22_ch = get_chr22( bam_ch)
-  
-  bam_index_chr22_ch.view()
 
+  bam_index_chr22_ch.view()
 // Expand BAM files to process each with multiple coverages
 expanded_ch = bam_index_chr22_ch
     .flatMap { sample_id, bam, index -> 
@@ -125,3 +127,4 @@ expanded_ch.view()
     create_samplesheet(bam_chr22_all)
     
 }
+
