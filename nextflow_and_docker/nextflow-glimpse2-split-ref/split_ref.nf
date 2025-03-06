@@ -33,9 +33,10 @@ done < $chunk
 }
 
 
+
 workflow {
   
-  ref_ch = channel.fromPath("s3://seqwell-ref/vcf/1000GP." + params.chr + ".noNA12878.sites.vcf.gz*").collect()
+  ref_ch = channel.fromPath("s3://seqwell-ref/glimpse2/reference_panel/1000GP." + params.chr + ".noNA12878.vcf.gz*").collect()
   map_ch = channel.fromPath("s3://seqwell-ref/glimpse2/gmap/" + params.chr + ".b38.gmap.gz")
   chunk_ch = channel.fromPath("s3://seqwell-ref/glimpse2/split_genome_" + params.chr + "/chunks." + params.chr +".txt")
   
