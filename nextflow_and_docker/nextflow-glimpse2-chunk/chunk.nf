@@ -1,8 +1,12 @@
-sites_ch = channel.fromPath("1000GP.chr22.noNA12878.sites.vcf.gz*").collect()
 
+
+params.chrom = "chr22"
+sites_ch = channel.fromPath("s3://seqwell-ref/vcf/1000GP." +  params.chrom + ".noNA12878.sites.vcf.gz*").collect()
 
 process GLIMPSE2_chunk {
-   publishDir path: "chunk",  mode: 'copy'  
+  
+  publishDir path: "chunk",  mode: 'copy'
+  
   container "glimpse:v2.0.0-27-g0919952_20221207"
   
   input:
@@ -15,9 +19,9 @@ process GLIMPSE2_chunk {
   
   GLIMPSE2_chunk \
 --input $sites \
---region chr22 \
+--region ${params.chrom} \
 --sequential  \
---output chunks.chr22.txt 
+--output chunks.${params.chrom}.txt
   
   
   """
