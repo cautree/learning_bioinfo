@@ -1,0 +1,118 @@
+
+
+## step 1 get the reference panel
+```{bash}
+
+wget -c http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20201028_3202_phased/CCDG_14151_B01_GRM_WGS_2020-08-05_chr22.filtered.shapeit2-duohmm-phased.vcf.gz{,.tbi
+
+CHR=22
+bcftools norm -m -any CCDG_14151_B01_GRM_WGS_2020-08-05_chr22.filtered.shapeit2-duohmm-phased.vcf.gz -Ou --threads 4 |
+bcftools view -m 2 -M 2 -v snps -s ^NA12878,NA12891,NA12892 --threads 4 -Ob -o reference_panel/1000GP.chr22.noNA12878.bcf
+bcftools index -f reference_panel/1000GP.chr22.noNA12878.bcf --threads 4
+rm CCDG_14151_B01_GRM_WGS_2020-08-05_chr22.filtered.shapeit2-duohmm-phased.vcf.gz*
+```
+
+## step 2 run get chr nextflow in seqwell main ec2 instance
+
+
+
+## step 3 simulate 
+
+### step 3a: create samplesheet
+
+```
+#!/bin/bash
+
+path=/home/ec2-user/glimpse2_nf_simulate/
+bam_folder_path=${path}/bam
+
+ls $bam_folder_path | grep bam | grep bai > index_list
+ls $bam_folder_path | grep bam |  grep -v bai > bam_list
+
+
+cat bam_list | sed -E 's/\.bam$//; s/[-_.]//g'  > sample_id
+
+while read index; do
+echo ${bam_folder_path}/$index >> index_column
+done < index_list
+
+while read bam; do
+echo ${bam_folder_path}/$bam >> bam_column
+done < bam_list
+
+
+
+echo sample,file,index > sample_bam_header
+paste sample_id bam_column index_column | tr '\t' ',' >sample_bam_content
+cat sample_bam_header sample_bam_content | grep -v bamlist > sample_bam.csv
+rm bam_column index_column sample_bam_header sample_bam_content bam_list index_list sample_id
+cat sample_bam.csv
+
+
+```
+
+
+### step 3a, run simultate in kraken ec2 instance
+conda info --envs
+source activate /home/ec2-user/anaconda3/envs/nextflow
+
+```
+chr=1
+
+nextflow run phaseimpute \
+    --input samplesheet_sim/sample_bam.csv  \
+    --steps simulate \
+    --depth 0.1 \
+    --outdir depth_simulated \
+    --fasta /home/ec2-user/glimpse2_nf_simulate/reference_genome/chr${chr}.fa \
+    -profile docker  \
+    -resume -bg
+```
+
+
+not sure if this loop will work
+```
+depths=(0.1 0.2 0.5 1 2)
+chr=22  # Define the chromosome variable
+
+for depth in "${depths[@]}"; do
+    nextflow run phaseimpute \
+        --input samplesheet_sim/sample_bam.csv \
+        --steps simulate \
+        --depth "$depth" \
+        --outdir depth_simulated \
+        --fasta /home/ec2-user/glimpse2_nf_simulate/reference_genome/chr${chr}.fa \
+        -profile docker \
+        -resume  # Removed -bg to enforce sequential execution
+done
+
+
+
+```
+
+
+
+### step 4 run impute in the 2xlarge instance
+chunks was created by chunks.nf
+
+```
+#!/usr/bin/bash
+
+
+run="20260303_novseq"
+samplesheet="sample_bam.csv"
+
+nextflow run nf-core/phaseimpute -r dev -profile docker \
+-c /home/ec2-user/glimpse2_nf_simulate/common/nextflow.config \
+--outdir  s3://seqwell-analysis/${run}/glimpse2/impute \
+-resume -bg \
+--genome "GRCh38" \
+--tools "glimpse2" \
+--panel /home/ec2-user/glimpse2_nf_simulate/common/panel.csv \
+--steps "impute" \
+--input samplesheet/${samplesheet} \
+--chunks /home/ec2-user/glimpse2_nf_simulate/common/chunks.csv
+
+
+```
+
