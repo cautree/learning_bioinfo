@@ -1,0 +1,74 @@
+process {
+    resourceLimits = [
+        cpus: 4,
+        memory: '15.GB',
+        time: '2.h'
+    ]
+
+    executor = 'awsbatch'
+    
+    
+    withName: '.*' {
+        memory = '15.GB'
+        queue = 'spot_low_priority'
+    }
+   
+}
+
+
+aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
+
+
+aws {
+    accessKey = 'F'
+    secretKey = 'F'
+    region = 'us-east-2'
+}
+
+params {
+    batch_size = 60
+}
+
+profiles {
+    singularity {
+        singularity.enabled = true
+        singularity.autoMounts = true
+    }
+    conda {
+        conda.enabled = true
+    }
+    mamba {
+        conda.enabled  = true
+        conda.useMamba = true
+    }
+    podman {
+        podman.enabled = true
+        podman.userEmulation = true
+        podman.runOptions = "--runtime crun --platform linux/x86_64 --systemd=always"
+    }
+    docker {
+        docker.enabled = true
+        docker.userEmulation = false
+        docker.fixOwnership = true
+        docker.runOptions = '--platform=linux/amd64 -u $(id -u):$(id -g)'
+    }
+    awsbatch {
+        process.executor = 'awsbatch'
+        aws.region = 'us-east-2'
+        docker.enabled = true  // Ensures AWS Batch still uses Docker containers
+    }
+}
+
+docker.registry = 'quay.io'
+podman.registry = 'quay.io'
+singularity.registry = 'quay.io'
+
+// Increase time available to build Conda environment
+conda { createTimeout = "120 min" }
+
+// Load test_data.config containing paths to test data
+// includeConfig 'test_data.config'
+
+manifest {
+    nextflowVersion = '!>=23.04.0'
+}
