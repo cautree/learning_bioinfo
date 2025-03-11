@@ -3,7 +3,7 @@
 run="test"
 samplesheet="sample_bam.csv"
 
-nextflow run nf-core/phaseimpute -r dev -profile docker \
+nextflow run phaseimpute  -profile docker \
 -c /home/ec2-user/common/nextflow.config \
 --outdir  output \
 -resume -bg \
