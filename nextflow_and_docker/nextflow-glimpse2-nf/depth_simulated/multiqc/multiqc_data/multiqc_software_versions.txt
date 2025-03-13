@@ -1,0 +1,11 @@
+Sample	samtools	grep	gawk	nf-core/phaseimpute	Nextflow
+BAM_CHR_EXTRACT	1.2	1.36			
+FILTER_CHR_DWN			5.3.0		
+FILTER_CHR_INP			5.3.0		
+GAWK			5.3.0		
+SAMTOOLS_COVERAGE_DWN	1.21				
+SAMTOOLS_COVERAGE_INP	1.21				
+SAMTOOLS_DEPTH	1.21				
+SAMTOOLS_FAIDX	1.21				
+SAMTOOLS_VIEW	1.21				
+Workflow				v1.0.0	24.10.5

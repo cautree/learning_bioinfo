@@ -1,0 +1,3 @@
+Sample	chr22
+24300FL050119S357L008chr22	{'startpos': 1, 'endpos': 50818468, 'numreads': 19100, 'covbases': 2189128, 'coverage': 4.30774, 'meandepth': 0.0532396, 'meanbaseq': 39.1, 'meanmapq': 49.1}
+24300FL050119S357L008chr22.truth	{'startpos': 1, 'endpos': 50818468, 'numreads': 463493, 'covbases': 27218270, 'coverage': 53.5598, 'meandepth': 1.29291, 'meanbaseq': 39.1, 'meanmapq': 49.1}

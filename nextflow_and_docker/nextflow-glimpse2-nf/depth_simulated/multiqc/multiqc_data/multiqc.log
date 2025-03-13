@@ -1,0 +1,9 @@
+[2025-03-13 02:14:15,675] multiqc.config                                     [INFO   ]  Loading config settings from: multiqc_config.yml
+[2025-03-13 02:14:16,022] multiqc.core.version_check                         [WARNING]  MultiQC Version v1.27.1 now available!
+[2025-03-13 02:14:16,023] multiqc.core.file_search                           [INFO   ]  Search path: /home/yanyan/temp/work/14/6f2f3db2d13d934c86f7d94b44433b
+[2025-03-13 02:14:16,183] multiqc.modules.samtools.samtools                  [INFO   ]  Found 2 coverage reports
+[2025-03-13 02:14:16,194] multiqc.modules.custom_content.custom_content      [WARNING]  HTML plot type found with more than one dataset in nf-core-phaseimpute-methods-description
+[2025-03-13 02:14:16,194] multiqc.modules.custom_content.custom_content      [INFO   ]  nf-core-phaseimpute-methods-description: Found 1 sample (html)
+[2025-03-13 02:14:16,194] multiqc.modules.custom_content.custom_content      [WARNING]  HTML plot type found with more than one dataset in nf-core-phaseimpute-summary
+[2025-03-13 02:14:16,195] multiqc.modules.custom_content.custom_content      [INFO   ]  nf-core-phaseimpute-summary: Found 1 sample (html)
+[2025-03-13 02:14:16,198] multiqc.core.write_results                         [INFO   ]  Rendering plots. Export plots to formats png, svg, pdf is requested, so it might take a while. To disable plot export, set `export_plots: false` in config, or remove the `--export-plots` command line flag

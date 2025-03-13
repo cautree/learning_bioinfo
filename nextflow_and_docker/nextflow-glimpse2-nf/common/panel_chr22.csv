@@ -1,0 +1,2 @@
+panel,chr,vcf,index
+1000GP,chr22,/home/yanyan/glimpse2-nf-analysis/common/1000GP_chr22_normalized.vcf.gz,/home/yanyan/glimpse2-nf-analysis/common/1000GP_chr22_normalized.vcf.gz.tbi

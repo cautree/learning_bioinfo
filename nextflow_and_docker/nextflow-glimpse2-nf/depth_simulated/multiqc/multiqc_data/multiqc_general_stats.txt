@@ -1,0 +1,3 @@
+Sample	samtools_coverage-numreads	samtools_coverage-covbases	samtools_coverage-coverage	samtools_coverage-meandepth	samtools_coverage-meanbaseq	samtools_coverage-meanmapq
+24300FL050119S357L008chr22	0.0191	2.1891279999999997	4.30774	0.0532396	39.1	49.1
+24300FL050119S357L008chr22.truth	0.463493	27.21827	53.5598	1.29291	39.1	49.1

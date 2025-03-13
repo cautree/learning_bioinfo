@@ -1,0 +1,3 @@
+Module	Section	Sample Name	Source
+Samtools	coverage	24300FL050119S357L008chr22.truth	/home/yanyan/temp/work/14/6f2f3db2d13d934c86f7d94b44433b/3/24300FL050119S357L008chr22.truth.txt
+Samtools	coverage	24300FL050119S357L008chr22	/home/yanyan/temp/work/14/6f2f3db2d13d934c86f7d94b44433b/4/24300FL050119S357L008chr22.txt
