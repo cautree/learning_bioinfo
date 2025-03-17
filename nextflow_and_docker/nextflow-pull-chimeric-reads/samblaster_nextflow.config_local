@@ -1,0 +1,59 @@
+aws {
+    accessKey = 'F'
+    secretKey = 'F'
+    region = 'us-east-2'
+}
+
+
+docker.enabled = true
+aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
+
+process {
+
+    // Process for the sort_bam task
+    withName: 'sort_bam' {
+        memory = '60GB'
+        cpus = 16
+        executor = 'local'
+        queue = 'spot_low_priority_m52xlarge'
+        container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
+    }
+
+
+     withName: count_reads {
+      memory = '60GB'
+        cpus = 16
+        executor = 'local'
+        queue = 'spot_low_priority_m52xlarge'
+        container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
+
+     }
+
+    // Process for the run_samblaster task
+    withName: 'run_samblaster' {
+        memory = '16GB'
+        cpus = 16
+        executor = 'local'
+        queue = 'spot_low_priority_m52xlarge'
+        container = 'cautree/samblaster_samtools:latest'             
+    }
+
+    // Process for the convert_sam_to_fastq task
+    withName: 'convert_sam_to_fastq' {
+        memory = '16GB'
+        cpus = 8
+        executor = 'local'
+        queue = 'spot_low_priority_m5large'
+        container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
+    }
+
+    // Process for the summarize task
+    withName: 'summarize' {
+        memory = '7GB'
+        cpus = 2
+        executor = 'local'
+        queue = 'spot_low_priority_m5large'
+        container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bwa-samtools'
+    }
+}
+

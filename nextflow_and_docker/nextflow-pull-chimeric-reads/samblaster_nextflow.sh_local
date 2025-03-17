@@ -1,0 +1,11 @@
+#!/bin/bash
+
+run=20241204_Admera_health
+analysis=hg38_40M
+
+
+nextflow run samblaster_local.nf \
+-c samblaster_nextflow.config_local \
+--run $run \
+--analysis $analysis \
+-resume -bg 
