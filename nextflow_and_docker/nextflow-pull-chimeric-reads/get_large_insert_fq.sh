@@ -14,7 +14,8 @@ samtools view -h ${bam} | awk -v threshold=1000 '{
     }
 }' | samtools view -Sb - > ${sample_id}_large_insert_filtered.bam
 
-
+#-0 /dev/null: Any single-end reads (those without a mate) are discarded.
+#-s /dev/null: Any unpaired reads (those that are part of a pair but have no valid mate) are discarded.
 samtools fastq -1 ${sample_id}_large_insert_R1.fastq \
                -2 ${sample_id}_large_insert_R2.fastq \
                -0 /dev/null \
