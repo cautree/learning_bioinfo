@@ -1,0 +1,12 @@
+#!/bin/bash
+
+chr=chr1
+
+
+/software/nextflow-align/nextflow run \
+main.nf \
+-c nextflow.config_batch \
+-work-dir s3://seqwell-users/yanyan/work-dir/work \
+--chr $chr \
+-bg -resume \
+-profile awsbatch

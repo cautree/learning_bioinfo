@@ -1,0 +1,87 @@
+profiles {
+    awsbatch {
+        aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
+
+        docker.enabled = true
+
+        process {
+        
+           queue = 'spot_low_priority_m5large'
+           executor = 'awsbatch' 
+           
+            withName:DOWNSAMPLE {
+                container = 'cautree/fq_assemble'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:GET_BAM_BY_CHR {
+                container = 'cautree/fq_assemble'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:BCF_REHEADER {
+                container = 'quay.io/biocontainers/bcftools:1.21--h3a4d415_1'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:GET_C1_BCF {
+                container = 'quay.io/biocontainers/bcftools:1.21--h3a4d415_1'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:GLIMPSE2_CHUNK {
+                container = 'quay.io/biocontainers/glimpse-bio:2.0.1--ha5d29c5_3'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:GLIMPSE2_SPLIT {
+                container = 'quay.io/biocontainers/glimpse-bio:2.0.1--ha5d29c5_3'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:GLIMPSE2_PHASE {
+                container = 'quay.io/biocontainers/glimpse-bio:2.0.1--ha5d29c5_3'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:GLIMPSE2_LIGATE {
+                container = 'quay.io/biocontainers/glimpse-bio:2.0.1--ha5d29c5_3'
+                memory = '4GB'
+                cpus = 2
+            }
+            withName:GLIMPSE2_CONCORDANCE {
+                container = 'quay.io/biocontainers/glimpse-bio:2.0.1--ha5d29c5_3'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName: GATK_CONCORDANCE {
+                memory = '7.0G'
+                cpus = 2
+                container = 'broadinstitute/gatk:latest'
+            } 
+            withName:COLLECT_GLIMPSE2_CONCORDANCE {
+                container = 'cautree/fq_assemble'
+                memory = '4GB'
+                cpus = 2
+            }
+            withName:COLLECT_GATK_CONCORDANCE {
+                container = 'cautree/fq_assemble'
+                memory = '4GB'
+                cpus = 2
+            }
+        }
+
+        
+        
+    }
+}
+
+// AWS Batch Configuration (if needed)
+aws {
+
+    accessKey = 'F'
+    secretKey = 'F'
+    region = 'us-east-2'
+   
+}
+
