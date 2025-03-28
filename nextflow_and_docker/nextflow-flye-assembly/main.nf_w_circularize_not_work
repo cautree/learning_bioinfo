@@ -1,0 +1,57 @@
+params.downsample=500
+params.run = "20250315"
+params.genome_size = 8000
+
+include { DOWNSAMPLE } from './modules/downsample.nf'
+include { FLYE_ASSEMBLE } from './modules/flye_assemble.nf'
+include { MINIMAP2 } from './modules/minimap2.nf'
+include { SUMMARIZE } from './modules/summarize.nf'
+
+include { CIRCULARIZE } from './modules/circularize.nf'
+include { BAM_READ_COUNT } from './modules/bam_read_count.nf'
+include { PLANNOTATE } from './modules/plannotate.nf'
+include { FIX_START } from './modules/fix_start.nf'
+include { ANALYZE_BAM_READ_COUNT } from './modules/analyze_bam_read_count.nf'
+include { PLASMIDMAP } from './modules/plasmidMap.nf'
+
+
+
+
+
+workflow {
+  
+    fq_ch = Channel.fromPath( "s3://seqwell-users/yanyan/minION/fastq/*.fastq.gz")
+                   .map{ it-> tuple(it.baseName.tokenize(".")[0] , it)}
+                   .take(2)
+  
+    downsampled_fq_ch = DOWNSAMPLE(fq_ch)
+  
+    flye_ch = FLYE_ASSEMBLE(downsampled_fq_ch)
+    
+    circularize_ch = CIRCULARIZE( flye_ch.flye_gfa )
+  
+    align_in = fq_ch.join(circularize_ch.assembled_fa)
+  
+    minimap2_ch = MINIMAP2(align_in)
+  
+    summary_ch = minimap2_ch.metrics.join(circularize_ch.circle_csv)
+  
+    bam_read_count_report = BAM_READ_COUNT(minimap2_ch.bam.join(circularize_ch.assembled_fa))
+    
+    metrics_out = minimap2_ch.metrics.mix(flye_ch.flye_txt)
+    
+    summary_output = SUMMARIZE(metrics_out)
+    
+    fix_start_out = FIX_START(flye_ch.flye_fasta)
+    
+    gbk = PLANNOTATE(fix_start_out)
+
+    PLASMIDMAP(gbk.collect())
+    
+    ANALYZE_BAM_READ_COUNT(bam_read_count_report)
+}
+
+
+//flye --nano-raw ${fq} -g ${params.genome_size}   --asm-coverage 50 --out-dir data  
+//flye --pacbio-hifi ${fq} -g ${params.genome_size}   --asm-coverage 50 --out-dir data  
+

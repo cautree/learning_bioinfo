@@ -1,0 +1,7 @@
+df_final <- df_final %>%
+  rowwise() %>%
+  mutate(
+    Matches = get(RefBase),  # Get the count of matching reads
+    Mismatches = TotalReads - Matches  # Compute mismatches
+  ) %>%
+  ungroup()
