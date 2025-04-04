@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+/software/nextflow-align/nextflow run \
+-c nextflow.config_loca \
+main.nf \
+-bg -resume

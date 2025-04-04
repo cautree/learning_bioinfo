@@ -1,0 +1,28 @@
+process {
+    withName: 'TOULLIGQC' {
+        container = 'genomicpariscentre/toulligqc:latest'  
+        executor = 'local'  
+        queue = 'spot_low_priority_m5large'  
+        cpus = 2  
+        memory = '7GB'  
+    }
+
+    withName: 'MULTIQC' {
+        container = 'quay.io/biocontainers/multiqc:1.25.1--pyhdfd78af_0' 
+        executor = 'local'  
+        queue = 'spot_low_priority_m5large'  
+        cpus = 2  
+        memory = '7GB'  
+        }
+   }
+
+aws {
+    accessKey = 'F'
+    secretKey = 'F'
+    region = 'us-east-2'
+}
+
+aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
+docker {
+    enabled = true
+}
