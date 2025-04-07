@@ -1,0 +1,104 @@
+ aws {
+            accessKey = 'F'
+            secretKey = 'F'
+            region = 'us-east-2'
+        }
+        
+        process {
+             ext.getenv = { null }
+            withName:LENGTH_FILTER {
+                container = '512431263418.dkr.ecr.us-east-1.amazonaws.com/bbmerge'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+             withName:QUAST {
+                container = 'staphb/quast:5.3.0'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:DOWNSAMPLE {
+                container = 'cautree/seqtk'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:FLYE_ASSEMBLE {
+                container = 'cautree/flye:latest'
+                memory = '15GB'
+                cpus = 4
+                executor = 'local'
+                queue = 'spot_low_priority_m52xlarge'
+                
+            }
+            withName:MINIMAP2 {
+                container = 'cautree/minimap2'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+           withName:BAM_READ_COUNT {
+                container = 'cautree/fq_assemble'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:PLANNOTATE {
+                container = 'cautree/fq_assemble'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:FIX_START {
+                container = 'cautree/fq_assemble'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:CIRCLATOR_MINIMUS2 {
+                container = 'cautree/circlator'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:SUMMARIZE {
+                container = 'cautree/python'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:ANALYZE_BAM_READ_COUNT {
+                container = 'rocker/tidyverse:latest'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:PLASMIDMAP {
+                container = 'rocker/tidyverse:latest'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+            }
+            withName:PLASMIDID {
+                container = 'buisciii/plasmidid:1.6.5'
+                executor = 'local'
+                queue = 'spot_low_priority_m5large'
+                memory = '7GB'
+                cpus = 2
+                
+            } 
+         }
+
+    docker.enabled = true
+    aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
+    

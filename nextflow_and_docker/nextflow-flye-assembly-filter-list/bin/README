@@ -1,0 +1,74 @@
+
+R code to change the first table to the second, dplyr r 
+
+# A tibble: 67,600 × 5
+   Position RefBase TotalReads BaseCallType Count                                                             
+      <dbl> <chr>        <dbl> <chr>        <chr>                                                             
+ 1        1 T             8000 A            A:0:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 2        1 T             8000 C            C:0:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 3        1 T             8000 G            G:0:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 4        1 T             8000 T            T:8000:59.92:38.43:59.92:4075:3925:0.00:0.00:0.00:0:0.00:0.00:0.00
+ 5        1 T             8000 N            N:0:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 6        2 T             8001 A            A:1:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 7        2 T             8001 C            C:1:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 8        2 T             8001 G            G:1:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+ 9        2 T             8001 T            T:7998:59.92:39.85:59.92:4076:3925:0.00:0.00:0.00:0:0.00:0.00:0.00
+10        2 T             8001 N            N:0:0.00:0.00:0.00:0:0:0.00:0.00:0.00:0:0.00:0.00:0.00            
+# ℹ 67,590 more rows
+# ℹ Use `print(n = ...)` to see more rows
+
+turn table like this 
+
+ 1        1 T             8000 A            0           
+ 2        1 T             8000 C            0           
+ 3        1 T             8000 G            0           
+ 4        1 T             8000 T            8000
+ 5        1 T             8000 N            0           
+ 6        2 T             8001 A            1           
+ 7        2 T             8001 C            1           
+ 8        2 T             8001 G            1           
+ 9        2 T             8001 T            7999
+10        2 T             8001 N            0 
+
+
+to 
+
+Position,RefBase,A,C,G,T,N,TotalReads,Matches,Mismatches
+1,T,0,0,0,8000,0,8000,8000,0
+2,T,1,1,1,8000,0,8001,7998,3
+
+
+using dplyr
+
+turn this table 
+
+Position RefBase TotalReads BaseCallType Count
+      <dbl> <chr>        <dbl> <chr>        <dbl>
+ 1        1 T             8000 A                0
+ 2        1 T             8000 C                0
+ 3        1 T             8000 G                0
+ 4        1 T             8000 T             8000
+ 5        1 T             8000 N                0
+ 6        2 T             8001 A                0
+ 7        2 T             8001 C                0
+ 8        2 T             8001 G                0
+ 9        2 T             8001 T             8001
+10        2 T             8001 N                0
+
+to 
+
+Position RefBase TotalReads BaseCallType A C G T N
+ 1        1 T             8000 T                0 0 0 8000 0
+ 2        1 T             8000 T                0 0 0 8001 0
+ 
+ 
+Breakfast: 1 boiled egg, 3/4 cup rice and black bean soup
+
+Snack: a handful of peanuts and 10 grapes
+
+Lunch: 1/2 cup of rice + 1/2 cup boiled chickpea + 1/2 cup of coocked zuccuni + 2 sliced of cooked ham
+
+Snack: a banana
+
+Dinner: 1/2 cup of rice + 1/2 cup boiled chickpea + 1/2 cup of coocked celery + 2 shrimp tail
+ 
